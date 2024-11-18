@@ -4,13 +4,16 @@ import { faVideo } from "@fortawesome/free-solid-svg-icons";
 import { faPeopleGroup } from "@fortawesome/free-solid-svg-icons";
 import { faNewspaper } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router-dom";
-
+import NEXDIG_LOGO from "assets/logo.svg";
 export const Header = () => {
   return (
     <div className="fixed bg-white h-[60px] shadow w-full flex items-center space-x-[30px] px-[30px] py-[10px] text-sm tracking-wide z-50 text-gray-800 font-medium">
       <div className="flex-1">
         <Link to="/">
-          <button>NEXDIG</button>
+          <div className="flex items-center">
+            <img src={NEXDIG_LOGO} alt="nexdig" className="h-[20px]" />
+            <div className="ml-[5px]">| NEXDIG</div>
+          </div>
         </Link>
       </div>
       <Link to="/people">
