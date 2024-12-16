@@ -1,19 +1,29 @@
+import React from 'react';
+import News from './news'; // Make sure the import path is correct
+
 export const Home = () => {
   return (
     <div className="flex flex-col space-y-[30px] items-center">
-      {/* team image */}
+      {/* Team image */}
       <div className="bg-gray-100 w-full h-[500px] rounded"></div>
-      {/* lab overview */}
-      <div>
-        NEXTDIG is a cutting-edge research lab focused on advancing large
-        language models (LLMs) and database optimization. By leveraging
-        state-of-the-art artificial intelligence and data management techniques,
-        NEXTDIG explores innovative ways to enhance the performance,
-        scalability, and interpretability of LLMs while improving database
-        systems for efficient storage, retrieval, and processing of complex
-        datasets. The lab's interdisciplinary approach aims to drive
-        breakthroughs in AI and data engineering, fostering solutions that power
-        next-generation applications across industries.
+
+      {/* Main content container */}
+      <div className="flex w-full max-w-7xl space-x-8">
+        {/* Lab overview */}
+        <div className="flex-1">
+          The <b>Nex</b>t-generation <b>D</b>ata-<b>I</b>ntensive Systems <b>G</b>roup (NexDIG) lab,
+          led by{' '}
+          <a href="http://viterbi-web.usc.edu/~sabek/" className="clickable-link">
+            Ibrahim Sabek
+          </a>
+          , is a cutting-edge research lab focused on the next-generation data systems. We explore innovative
+          ways to enhance the performance, scalability, and interpretability of data systems. Our interdisciplinary
+          approach aims to drive breakthroughs in AI and data engineering, fostering solutions that power
+          next-generation applications across industries.
+        </div>
+
+        {/* News section */}
+        <News />
       </div>
     </div>
   );

@@ -10,8 +10,10 @@ export const People = () => {
         {
           name: "Ibrahim Sabek",
           description:
-            "Ibrahim Sabek is an Assistant Professor in the Thomas Lord Department of Computer Science, and by courtesy, in the Dornsife Spatial Sciences Institute at University of Southern California. Before that, he was a Postdoctoral Associate at the MIT Data Systems Group and an NSF/CRA Computing Innovation Fellow. ",
+            "Assistant Professor, Thomas Lord Department of Computer Science.",
           image: null,
+          // email: "sabek@ucs.edu",
+          website: "http://viterbi-web.usc.edu/~sabek/",
         },
       ],
     },
@@ -19,25 +21,33 @@ export const People = () => {
       header: "PhD Students",
       content: [
         {
-          name: "Hanwen Liu",
-          description: null,
+          name: "Shaolin Xie",
+          description: "Fall 2024 -",
           image: null,
+          // email: "sabek@ucs.edu",
+          website: null,
         },
+        {
+          name: "Hanwen Liu",
+          description: "Fall 2024 -",
+          image: null,
+          // email: "sabek@ucs.edu",
+          website: null,
+        }       
+      ],
+    },
+    {
+      header: "Master Students",
+      content: [
+
         {
           name: "Qihan Zhang",
-          description: null,
+          description: "Fall 2023 - ",
           image: null,
+          // email: "sabek@ucs.edu",
+          website: null,
         },
-        {
-          name: "Shaolin Xie",
-          description: null,
-          image: null,
-        },
-        {
-          name: "Shashank Giridhara",
-          description: null,
-          image: null,
-        },
+
       ],
     },
     {
@@ -46,8 +56,22 @@ export const People = () => {
         {
           name: "Nicolas Lee",
           description:
-            "Nicolas is an undergraduate student in Applied and Computational Mathematics.",
+            "Fall 2024 -",
           image: null,
+          email: "sabek@ucs.edu",
+          website: null,
+        },
+      ],
+    },
+    {
+      header: "Alumni",
+      content: [
+        {
+          name: "Shashank Giridhara",
+          description: "Now: Amazon Redshift",
+          image: null,
+          // email: "sabek@ucs.edu",
+          website: null,
         },
       ],
     },
@@ -55,7 +79,7 @@ export const People = () => {
 
   return (
     <div>
-      <Title content="People" />
+      <Title content="People" className="red-title"/>
       <div className="space-y-[30px]">
         {sections.map((section, index) => (
           <section key={index} className="space-y-[15px]">
@@ -77,8 +101,21 @@ export const People = () => {
                     )}
                   </div>
                   <div>
-                    <h2 className="font-semibold">{person.name}</h2>
+                    {person.website ? (
+                      <h2 className="font-semibold">
+                        <a href={person.website} target="_blank" rel="noopener noreferrer" className="clickable-link">
+                          {person.name}
+                        </a>
+                      </h2>
+                    ) : (
+                      <h2 className="font-semibold">{person.name}</h2>
+                    )}
                     <p>{person.description}</p>
+                    {/* <p>
+                      <a href={`mailto:${person.email}`} className="clickable-link">
+                        {person.email}
+                      </a>
+                    </p> */}
                   </div>
                 </div>
               ))}

@@ -14,7 +14,7 @@ export const Publications = () => {
   ];
   return (
     <div>
-      <Title content="Publications" />
+      <Title content="Publications" className="red-title"/>
       <div>
         {publications.map((publication, index) => (
           <div key={index} className="space-y-[5px]">

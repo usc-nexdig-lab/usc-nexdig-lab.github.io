@@ -5,6 +5,7 @@ import { People } from "views/people";
 import { Research } from "views/research";
 import { Publications } from "views/publications";
 import { NotFound } from "views/notFound";
+import Opportunities from "views/opportunities";
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
             <Route path="/research" element={<Research />} />
             <Route path="/publications" element={<Publications />} />
             <Route path="*" element={<NotFound />} />
+            <Route path="/opportunities" element={<Opportunities />} />
           </Routes>
         </div>
       </div>
