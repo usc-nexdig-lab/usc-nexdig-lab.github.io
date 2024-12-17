@@ -9,10 +9,8 @@ export const People = () => {
       content: [
         {
           name: "Ibrahim Sabek",
-          description:
-            "Assistant Professor, Thomas Lord Department of Computer Science.",
+          description: "Assistant Professor, Thomas Lord Department of Computer Science.",
           image: null,
-          // email: "sabek@ucs.edu",
           website: "http://viterbi-web.usc.edu/~sabek/",
         },
       ],
@@ -24,30 +22,25 @@ export const People = () => {
           name: "Shaolin Xie",
           description: "Fall 2024 -",
           image: null,
-          // email: "sabek@ucs.edu",
           website: null,
         },
         {
           name: "Hanwen Liu",
           description: "Fall 2024 -",
           image: null,
-          // email: "sabek@ucs.edu",
           website: null,
-        }       
+        },
       ],
     },
     {
       header: "Master Students",
       content: [
-
         {
           name: "Qihan Zhang",
-          description: "Fall 2023 - ",
+          description: "Fall 2023 -",
           image: null,
-          // email: "sabek@ucs.edu",
           website: null,
         },
-
       ],
     },
     {
@@ -55,8 +48,7 @@ export const People = () => {
       content: [
         {
           name: "Nicolas Lee",
-          description:
-            "Fall 2024 -",
+          description: "Fall 2024 -",
           image: null,
           email: "sabek@ucs.edu",
           website: null,
@@ -70,7 +62,6 @@ export const People = () => {
           name: "Shashank Giridhara",
           description: "Now: Amazon Redshift",
           image: null,
-          // email: "sabek@ucs.edu",
           website: null,
         },
       ],
@@ -79,18 +70,18 @@ export const People = () => {
 
   return (
     <div>
-      <Title content="People" className="red-title"/>
+      <Title content="People" className="red-title" />
       <div className="space-y-[30px]">
         {sections.map((section, index) => (
           <section key={index} className="space-y-[15px]">
             <h2 className="font-semibold">{section.header}</h2>
-            <div className="space-y-[15px]">
+            <div className="flex flex-wrap gap-[20px]">
               {section.content.map((person, index) => (
                 <div
                   key={index}
-                  className="flex overflow-hidden space-x-[15px]"
+                  className="flex w-[300px] space-x-[15px] items-start"
                 >
-                  <div className="">
+                  <div>
                     {person.image || (
                       <div className="bg-gray-100 w-[90px] h-[90px] pt-[5px] px-[5px] flex rounded">
                         <FontAwesomeIcon
@@ -111,11 +102,6 @@ export const People = () => {
                       <h2 className="font-semibold">{person.name}</h2>
                     )}
                     <p>{person.description}</p>
-                    {/* <p>
-                      <a href={`mailto:${person.email}`} className="clickable-link">
-                        {person.email}
-                      </a>
-                    </p> */}
                   </div>
                 </div>
               ))}
