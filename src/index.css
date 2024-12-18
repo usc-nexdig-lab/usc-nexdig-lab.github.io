@@ -116,3 +116,15 @@
     transition: width 0.3s ease;
   }
   
+
+  .research-header-link {
+    color: #990000;
+    text-decoration: none;
+    transition: color 0.3s ease;
+  }
+  
+  .research-header-link:hover {
+    text-decoration: underline;
+    color: #c90e0e; /* Optional: Slightly darker color on hover */
+  }
+  

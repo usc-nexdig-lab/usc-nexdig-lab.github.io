@@ -18,3 +18,9 @@ npm i
 ```shell
 npm start
 ```
+
+
+To update research project:
+- add project details to projectDetails.tsx
+- add project overview to research.tsx
+- Note: the id in research.tsx needs to match the id in projectDetails.tsx

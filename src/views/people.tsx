@@ -50,7 +50,6 @@ export const People = () => {
           name: "Nicolas Lee",
           description: "Fall 2024 -",
           image: null,
-          email: "sabek@ucs.edu",
           website: null,
         },
       ],
