@@ -5,13 +5,13 @@ export const Research = () => {
   const sections = [
     {
       id: "llm",
-      header: "Large Language Models (LLMs)",
+      header: "LLM empowered DB",
       content: "Our work in LLMs focuses on enhancing their adaptability, accuracy, and efficiency...",
       image: "/images/llm.jpg",
     },
     {
       id: "database",
-      header: "Database Optimization",
+      header: "Learned Query Optimizers",
       content: "We design database systems and optimization algorithms...",
       image: "/images/database.jpg",
     },
