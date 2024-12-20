@@ -10,7 +10,7 @@ export const People = () => {
         {
           name: "Ibrahim Sabek",
           description: "Assistant Professor, Thomas Lord Department of Computer Science.",
-          image: null,
+          image: "/people_photos/ibrahimsabek-photo.jpg", 
           website: "http://viterbi-web.usc.edu/~sabek/",
         },
       ],
@@ -81,7 +81,13 @@ export const People = () => {
                   className="flex w-[300px] space-x-[15px] items-start"
                 >
                   <div>
-                    {person.image || (
+                    {person.image ? (
+                      <img
+                        src={person.image}
+                        alt={person.name}
+                        className="w-[90px] h-[90px] object-cover rounded"
+                      />
+                    ) : (
                       <div className="bg-gray-100 w-[90px] h-[90px] pt-[5px] px-[5px] flex rounded">
                         <FontAwesomeIcon
                           icon={faUser}

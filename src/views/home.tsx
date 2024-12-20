@@ -5,7 +5,13 @@ export const Home = () => {
   return (
     <div className="flex flex-col space-y-[30px] items-center">
       {/* Team image */}
-      <div className="bg-gray-100 w-full h-[500px] rounded"></div>
+      <div className="w-full max-w-7xl">
+        <img
+          src="/people_photos/nexdig_logo_large.jpg"
+          alt="Team"
+          // className="w-full h-[500px] object-cover"
+        />
+      </div>
 
       {/* Main content container */}
       <div className="flex w-full max-w-7xl space-x-8">

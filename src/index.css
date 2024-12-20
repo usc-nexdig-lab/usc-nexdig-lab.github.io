@@ -25,10 +25,10 @@
 .news-section {
     width: 300px;
     padding: 20px;
-    background-color: #99000013;
+    background-color: #d8bdbd2f;
     /* border: 1px solid #e0e0åe0; */
     border-radius: 5px;
-    max-height: 30vh;        /* Limit the height of the news section */
+    max-height: 60vh;        /* Limit the height of the news section */
     overflow-y: auto;         /* Enable vertical scrolling */
   }
   

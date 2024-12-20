@@ -6,10 +6,24 @@ import { faBook } from "@fortawesome/free-solid-svg-icons";
 export const Publications = () => {
   const publications = [
     {
-      title: "Research Paper Title",
-      authors: "First Author, Second Author, Third Author",
-      source: "Journal Name",
-      link: "example_link",
+      title: "From Logs to Causal Inference: Diagnosing Large Systems",
+      authors: (
+        <>
+          M. Markakis, B. Youngmann, T. Gao, Z. Zhang, R. Shahout, P. B. Chen, C. Liu, <b>I. Sabek</b>, and M. Cafarella
+        </>
+      ),
+      source: "International Conference on Very Large Data Bases (VLDB), 2025",
+      link: "https://viterbi-web.usc.edu/~sabek/pdf/25_paper_logos.pdf",
+    },
+    {
+      title: "Optimizing Video Selection LIMIT Queries With Commonsense Knowledge",
+      authors: (
+        <>
+          Wenjia He, <b>Ibrahim Sabek</b>, Yuze Lou, and Michael Cafarella
+        </>
+      ),
+      source: "International Conference on Very Large Data Bases (VLDB), 2024",
+      link: "https://viterbi-web.usc.edu/~sabek/pdf/24_paper_paine.pdf",
     },
   ];
   return (
