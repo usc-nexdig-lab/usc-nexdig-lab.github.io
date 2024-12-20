@@ -1,7 +1,7 @@
 {
   "name": "nexdig-site",
   "version": "0.1.0",
-  "homepage": "https://usc-nexdig-lab.github.io/nexdig-lab-website",
+  "homepage": "https://nicolasmatthewlee.github.io/nexdig-site",
   "private": true,
   "dependencies": {
     "@fortawesome/free-regular-svg-icons": "^6.7.0",
