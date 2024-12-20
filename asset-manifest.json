@@ -1,0 +1,14 @@
+{
+  "files": {
+    "main.css": "/nexdig-lab-site/static/css/main.929de2b4.css",
+    "main.js": "/nexdig-lab-site/static/js/main.08e1760c.js",
+    "static/media/logo.svg": "/nexdig-lab-site/static/media/logo.58fbcdd624a96dd69022932ddcc5728c.svg",
+    "index.html": "/nexdig-lab-site/index.html",
+    "main.929de2b4.css.map": "/nexdig-lab-site/static/css/main.929de2b4.css.map",
+    "main.08e1760c.js.map": "/nexdig-lab-site/static/js/main.08e1760c.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.929de2b4.css",
+    "static/js/main.08e1760c.js"
+  ]
+}
