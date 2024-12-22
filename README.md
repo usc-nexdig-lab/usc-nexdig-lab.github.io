@@ -3,7 +3,7 @@
 1. clone repository
 
 ```shell
-git clone git@github.com:nicolasmatthewlee/nexdig-site.git
+git clone https://github.com/usc-nexdig-lab/usc-nexdig-lab.github.io.git
 ```
 
 2. install packages
@@ -19,8 +19,13 @@ npm i
 npm start
 ```
 
+after each push, deploy the changes to the website:
+```shell
+npm run deploy
+```
 
-To update research project:
+
+To update research projects:
 - add project details to projectDetails.tsx
 - add project overview to research.tsx
 - Note: the id in research.tsx needs to match the id in projectDetails.tsx
