@@ -24,14 +24,14 @@ export const Header = () => {
 
       <Link to="/" className={`nav-link ${isActive("/") ? "active" : ""}`}>
         <button className="flex items-center space-x-[5px]" onClick={() => handleIconClick("about")}>
-          <h1 className={`hidden sm:inline ${isActive("/") ? "text-blue-500" : ""}`}>about</h1>
+          <h1 className={`hidden sm:inline ${isActive("/") ? "text-blue-500" : ""}`}>ABOUT</h1>
         </button>
       </Link>
 
       <Link to="/people" className={`nav-link ${isActive("/people") ? "active" : ""}`}>
         <button className="flex items-center space-x-[5px]" onClick={() => handleIconClick("people")}>
           <FontAwesomeIcon icon={faPeopleGroup} className={`nav-icon ${isActive("/people") ? "text-blue-500" : ""} ${clickedIcon === "people" ? "clicked" : ""}`} />
-          <h1 className={`hidden sm:inline ${isActive("/people") ? "text-blue-500" : ""}`}>PEOPLE</h1>
+          <h1 className={`hidden sm:inline ${isActive("/people") ? "text-blue-500" : ""}`}>TEAM</h1>
         </button>
       </Link>
 

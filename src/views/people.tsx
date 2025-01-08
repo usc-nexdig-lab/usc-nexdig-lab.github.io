@@ -85,7 +85,7 @@ export const People = () => {
                       <img
                         src={person.image}
                         alt={person.name}
-                        className="w-[90px] h-[90px] object-cover rounded"
+                        className="w-[100px] h-[100px] object-cover rounded"
                       />
                     ) : (
                       <div className="bg-gray-100 w-[90px] h-[90px] pt-[5px] px-[5px] flex rounded">
