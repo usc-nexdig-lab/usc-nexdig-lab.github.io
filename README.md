@@ -19,13 +19,13 @@ npm i
 npm start
 ```
 
-after each push, deploy the changes to the website:
+4. after each push, deploy the changes to the website:
 ```shell
 npm run deploy
 ```
 after deployment, go to settings under the github repository -> Pages, and enter nexdig.usc.edu as the Custom Domain.
 
-To update research projects:
+5. To update research projects:
 - add project details to projectDetails.tsx
 - add project overview to research.tsx
 - Note: the id in research.tsx needs to match the id in projectDetails.tsx
