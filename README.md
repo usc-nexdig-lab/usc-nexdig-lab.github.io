@@ -33,7 +33,7 @@ after deployment, go to settings under the github repository -> Pages, and enter
 ## TODO
 - add CI/CD pipeline to automate deployment upon each push and default custom domain without needing to change it everytime
 - make main page pictures gallery-style slide show
-- fix left corner logo consiguration
+- fix left corner logo configuration
 - fix errors when directly accessing a certain page under our website. For example, directly searching for https://nexdig.usc.edu/people will give a 404 not found.
 
 
