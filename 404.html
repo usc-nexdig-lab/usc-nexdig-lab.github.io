@@ -3,11 +3,12 @@
   <head>
     <title>Redirecting...</title>
     <script type="text/javascript">
-      // Extract the original path from the current URL
-      var originalPath = window.location.pathname + window.location.search + window.location.hash;
-
-      // Redirect to the index.html with the original path preserved
-      window.location.replace(window.location.origin + "/index.html" + originalPath);
+      // Preserve the original path and prevent infinite redirects
+      if (!window.location.pathname.startsWith("/index.html")) {
+        // Redirect to the root URL with the original path preserved
+        var originalPath = window.location.pathname + window.location.search + window.location.hash;
+        window.location.replace(window.location.origin + originalPath);
+      }
     </script>
   </head>
   <body>
