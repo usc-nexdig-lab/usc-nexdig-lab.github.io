@@ -21,6 +21,8 @@ npm start
 
 4. after each push, deploy the changes to the website:
 ```shell
+npm run build
+npm run predeloy
 npm run deploy
 ```
 after deployment, go to settings under the github repository -> Pages, and enter nexdig.usc.edu as the Custom Domain.
