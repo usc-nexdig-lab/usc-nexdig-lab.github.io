@@ -1,7 +1,16 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <meta http-equiv="refresh" content="0; url=/" />
+    <title>Redirecting...</title>
+    <script type="text/javascript">
+      // Extract the original path from the current URL
+      var originalPath = window.location.pathname + window.location.search + window.location.hash;
+
+      // Redirect to the index.html with the original path preserved
+      window.location.replace(window.location.origin + "/index.html" + originalPath);
+    </script>
   </head>
-  <body></body>
+  <body>
+    <p>If you are not redirected automatically, <a href="/">click here</a>.</p>
+  </body>
 </html>
