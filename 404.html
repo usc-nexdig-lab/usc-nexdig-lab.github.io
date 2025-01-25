@@ -1,7 +1,12 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <meta http-equiv="refresh" content="0; url=./index.html" />
+    <script type="text/javascript">
+      // Redirect to index.html with the correct path
+      var path = window.location.pathname;
+      var newPath = window.location.origin + "/index.html" + "#!" + path;
+      window.location.replace(newPath);
+    </script>
   </head>
   <body></body>
 </html>
