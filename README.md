@@ -37,6 +37,7 @@ after deployment, go to settings under the github repository -> Pages, and enter
 - make main page pictures gallery-style slide show
 - fix left corner logo configuration
 - fix errors when directly accessing a subpage using URL or refresh a subpage. For example, directly searching for https://nexdig.usc.edu/people or refresh on this page will jump back to homepage. (used to jump to 404 not found page, but now I forced it to jump back to home pages using the 404.html)
+- fix picture rendering on People page. Want pictures to be reasonable size and have round shape.
 
 
 
