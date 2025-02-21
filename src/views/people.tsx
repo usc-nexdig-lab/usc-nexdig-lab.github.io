@@ -42,25 +42,60 @@ export const People = () => {
           image: null,
           website: null,
         },
-      ],
-    },
-    {
-      header: 'Undergraduate Students',
-      content: [
         {
-          name: 'Nicolas Lee',
+          name: 'Bowen Wang',
           description: 'Fall 2024 -',
           image: null,
           website: null,
         },
-      ],
+        {
+          name: 'Archana Manoj Bhatia',
+          description: 'Spring 2025 -',
+          image: null,
+          website: null,
+        },{
+          name: 'Abhishek Kumar',
+          description: 'Spring 2025 -',
+          image: null,
+          website: null,
+        },
+        {
+          name: 'Parinda Ashish Pranami',
+          description: 'Spring 2025 -',
+          image: null,
+          website: null,
+        },
+        {
+          name: 'Gaurvi Vishnoi',
+          description: 'Spring 2025 -',
+          image: null,
+          website: null,
+        },
+      ],     
     },
+    // {
+    //   header: 'Undergraduate Students',
+    //   content: [
+    //     {
+    //       name: 'Nicolas Lee',
+    //       description: 'Fall 2024 -',
+    //       image: null,
+    //       website: null,
+    //     },
+    //   ],
+    // },
     {
       header: 'Alumni',
       content: [
         {
           name: 'Shashank Giridhara',
           description: 'Now: Amazon Redshift',
+          image: null,
+          website: null,
+        },
+        {
+          name: 'Nicholas Lee',
+          description: 'Fall 2024',
           image: null,
           website: null,
         },
