@@ -4,23 +4,18 @@ import { Link } from "react-router-dom";
 export const Research = () => {
   const sections = [
     {
-      id: "llm",
-      header: "LLM empowered DB",
-      content: "Our work in LLMs focuses on enhancing their adaptability, accuracy, and efficiency...",
-      image: "/images/llm.jpg",
+      id: "limao",
+      header: "Knowledge-preserving Learned Query Optimizers",
+      content: "",
+      image: "",
     },
     {
-      id: "database",
-      header: "Learned Query Optimizers",
-      content: "We design database systems and optimization algorithms...",
-      image: "/images/database.jpg",
+      id: "reliable_LQO",
+      header: "Reliable Learned Query Optimizers",
+      content: "",
+      image: "",
     },
-    {
-      id: "cross-domain",
-      header: "Cross-Domain Innovation",
-      content: "By combining advancements in LLMs and database optimization...",
-      image: "/images/cross-domain.jpg",
-    },
+    
   ];
 
   return (

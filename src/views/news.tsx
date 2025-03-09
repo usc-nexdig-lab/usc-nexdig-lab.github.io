@@ -9,7 +9,7 @@ const newsItems = [
 const News = () => {
   return (
     <section className="news-section">
-      <h2 className="news-title">Lab News</h2>
+      <h2 className="news-title">News</h2>
       <ul className="news-list">
         {newsItems.map((news) => (
           <li key={news.id} className="news-item">

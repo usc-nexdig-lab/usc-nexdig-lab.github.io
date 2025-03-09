@@ -13,6 +13,8 @@ export const People = () => {
             'Assistant Professor, Thomas Lord Department of Computer Science.',
           image: '/people_photos/ibrahimsabek-photo.jpg',
           website: 'http://viterbi-web.usc.edu/~sabek/',
+          zoom: 'top',
+          zoomLevel: 1, 
         },
       ],
     },
@@ -22,14 +24,18 @@ export const People = () => {
         {
           name: 'Shaolin Xie',
           description: 'Fall 2024 -',
-          image: null,
-          website: null,
+          image: '/people_photos/shelly-photo.jpg',
+          website: 'https://www.linkedin.com/in/shaolin-xie-25577a23b/',
+          zoom: '',
+          zoomLevel: 1, 
         },
         {
           name: 'Hanwen Liu',
           description: 'Fall 2024 -',
-          image: null,
-          website: null,
+          image: '/people_photos/hanwen.png',
+          website: 'https://www.linkedin.com/in/liu-hanwen/',
+          zoom: 'center',
+          zoomLevel: 1.7, // Slight zoom
         },
       ],
     },
@@ -39,21 +45,26 @@ export const People = () => {
         {
           name: 'Qihan Zhang',
           description: 'Fall 2023 -',
-          image: null,
-          website: null,
+          image: '/people_photos/qihan-photo.jpg',
+          website: 'https://tsihan.github.io/',
+          zoom: 'center',
+          zoomLevel: 1.2,
         },
         {
           name: 'Bowen Wang',
           description: 'Fall 2024 -',
-          image: null,
-          website: null,
+          image: '/people_photos/bowen-photo.jpg',
+          website: 'https://www.linkedin.com/in/kyriewang',
+          zoom: 'center',
+          zoomLevel: 1.7,
         },
         {
           name: 'Archana Manoj Bhatia',
           description: 'Spring 2025 -',
           image: null,
           website: null,
-        },{
+        },
+        {
           name: 'Abhishek Kumar',
           description: 'Spring 2025 -',
           image: null,
@@ -62,8 +73,10 @@ export const People = () => {
         {
           name: 'Parinda Ashish Pranami',
           description: 'Spring 2025 -',
-          image: null,
-          website: null,
+          image: '/people_photos/Parinda-image.jpg',
+          website: 'https://www.linkedin.com/in/parindapranami/',
+          zoom: 'top',
+          zoomLevel: 1.2,
         },
         {
           name: 'Gaurvi Vishnoi',
@@ -71,19 +84,8 @@ export const People = () => {
           image: null,
           website: null,
         },
-      ],     
+      ],
     },
-    // {
-    //   header: 'Undergraduate Students',
-    //   content: [
-    //     {
-    //       name: 'Nicolas Lee',
-    //       description: 'Fall 2024 -',
-    //       image: null,
-    //       website: null,
-    //     },
-    //   ],
-    // },
     {
       header: 'Alumni',
       content: [
@@ -106,33 +108,28 @@ export const People = () => {
   return (
     <div>
       <Title content="People" className="red-title" />
-      <div className="space-y-8 ">
+      <div className="space-y-8">
         {sections.map((section, index) => (
           <section key={index} className="space-y-4">
             <h2 className="font-semibold text-xl">{section.header}</h2>
-            <div
-              className={`${
-                section.header === 'Faculty' ? 'flex w-full' : 'flex flex-wrap'
-              } gap-4 `}
-            >
+            <div className={`${section.header === 'Faculty' ? 'flex w-full' : 'flex flex-wrap'} gap-4`}>
               {section.content.map((person, index) => (
-                <div
-                  key={index}
-                  className={`flex items-start ${
-                    section.header === 'Faculty' ? 'w-full gap-8' : 'w-80'
-                  }`}
-                >
+                <div key={index} className={`flex items-start ${section.header === 'Faculty' ? 'w-full gap-8' : 'w-80'}`}>
                   <div>
                     {person.image ? (
-                      <div
-                        className={`flex-shrink-0 ${
-                          section.header === 'Faculty' ? 'w-64' : 'w-48'
-                        }`}
-                      >
+                      <div className="relative w-32 h-32 overflow-hidden rounded-lg">
                         <img
                           src={person.image}
                           alt={person.name}
-                          className="w-full object-cover rounded-lg" // Removed fixed height to maintain aspect ratio
+                          className="absolute w-full h-full object-cover transition-transform duration-300"
+                          style={{
+                            transform: `scale(${person.zoomLevel || 1})`, 
+                            objectPosition: person.zoom === 'top' ? '50% 0%' :
+                                            person.zoom === 'bottom' ? '50% 100%' :
+                                            person.zoom === 'left' ? '0% 50%' :
+                                            person.zoom === 'right' ? '100% 50%' :
+                                            '50% 50%', 
+                          }}
                         />
                       </div>
                     ) : (
