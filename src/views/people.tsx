@@ -61,14 +61,14 @@ export const People = () => {
         {
           name: 'Archana Manoj Bhatia',
           description: 'Spring 2025 -',
-          image: null,
-          website: null,
+          image: '/people_photos/archana-picture.png',
+          website: 'https://www.linkedin.com/in/archanab7/',
         },
         {
           name: 'Abhishek Kumar',
           description: 'Spring 2025 -',
-          image: null,
-          website: null,
+          image: '/people_photos/abhishek-picture.png',
+          website:'https://uscviterbiclass.slack.com/archives/D08CN9GRQHZ/p1741569127653059',
         },
         {
           name: 'Parinda Ashish Pranami',
@@ -81,8 +81,8 @@ export const People = () => {
         {
           name: 'Gaurvi Vishnoi',
           description: 'Spring 2025 -',
-          image: null,
-          website: null,
+          image: '/people_photos/gaurvi-picture.jpg',
+          website: 'https://www.linkedin.com/in/gaurvi-vishnoi/',
         },
       ],
     },
