@@ -32,32 +32,24 @@ export const People = () => {
         {
           name: 'Hanwen Liu',
           description: 'Fall 2024 -',
-          image: '/people_photos/hanwen.png',
+          image: '/people_photos/hanwen.jpeg',
           website: 'https://www.linkedin.com/in/liu-hanwen/',
           zoom: 'center',
-          zoomLevel: 1.7, // Slight zoom
+          zoomLevel: 1.5, // Slight zoom
         },
-      ],
-    },
-    {
-      header: 'Master Students',
-      content: [
         {
           name: 'Qihan Zhang',
-          description: 'Fall 2023 -',
+          description: 'Fall 2025 -',
           image: '/people_photos/qihan-photo.jpg',
           website: 'https://tsihan.github.io/',
           zoom: 'center',
           zoomLevel: 1.2,
         },
-        {
-          name: 'Bowen Wang',
-          description: 'Fall 2024 -',
-          image: '/people_photos/bowen-photo.jpg',
-          website: 'https://www.linkedin.com/in/kyriewang',
-          zoom: 'center',
-          zoomLevel: 1.7,
-        },
+      ],
+    },
+    {
+      header: 'Master Students',
+      content: [  
         {
           name: 'Archana Manoj Bhatia',
           description: 'Spring 2025 -',
@@ -90,6 +82,14 @@ export const People = () => {
       header: 'Alumni',
       content: [
         {
+          name: 'Bowen Wang',
+          description: 'Now: Software Engineer at Amazon',
+          image: '/people_photos/bowen-photo.jpg',
+          website: 'https://www.linkedin.com/in/kyriewang',
+          zoom: 'center',
+          zoomLevel: 1.7,
+        },
+        {
           name: 'Shashank Giridhara',
           description: 'Now: Amazon Redshift',
           image: '/people_photos/shashank-picture.png',
@@ -103,6 +103,7 @@ export const People = () => {
           image: '/people_photos/nicholas-picture.jpeg',
           website: 'https://www.linkedin.com/in/nicolas-matthew-lee/',
         },
+
       ],
     },
   ];

@@ -1,20 +1,36 @@
 const newsItems = [
-  { id: 1, date: 'June 2024', description: 'NexDIG launches a new database system.' },
-  { id: 2, date: 'May 2024', description: 'Paper accepted at SIGMOD 2024.' },
-  { id: 3, date: 'April 2024', description: 'New team members join NexDIG.' },
-  { id: 4, date: 'March 2024', description: 'Webinar on data-intensive systems.' },
-  { id: 5, date: 'February 2024', description: 'Research on spatial-temporal embeddings published.' },
+  {
+    id: 1,
+    date: 'April 15 2025',
+    description:
+      'Hanwen and Shashank\'s paper on <a href="https://www.arxiv.org/abs/2505.02284" target="_blank" rel="noopener noreferrer" style="color:#990000; font-weight:600; text-decoration:underline;">Conformal Prediction for Verifiable Learned Query Optimization</a> is accepted to VLDB\'25!',
+  },
+  {
+    id: 2,
+    date: 'June 25 2025',
+    description:
+      'Qihan and Shaolin\'s paper on <a href="https://arxiv.org/abs/2507.00188" target="_blank" rel="noopener noreferrer" style="color:#990000; font-weight:600; text-decoration:underline;">LIMAO: A Framework for Lifelong Modular Learned Query Optimization</a> is accepted to VLDB\'25!',
+  },
 ];
 
+const parseDate = (dateStr: string): number => {
+  return new Date(dateStr).getTime();
+};
+
 const News = () => {
+  const sortedNews = [...newsItems].sort((a, b) => parseDate(b.date) - parseDate(a.date));
+
   return (
     <section className="news-section">
       <h2 className="news-title">News</h2>
       <ul className="news-list">
-        {newsItems.map((news) => (
+        {sortedNews.map((news) => (
           <li key={news.id} className="news-item">
             <p className="news-date">{news.date}</p>
-            <p className="news-description">{news.description}</p>
+            <p
+              className="news-description"
+              dangerouslySetInnerHTML={{ __html: news.description }}
+            />
           </li>
         ))}
       </ul>
