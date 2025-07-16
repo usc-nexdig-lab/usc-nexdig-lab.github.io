@@ -6,6 +6,26 @@ import { faBook } from "@fortawesome/free-solid-svg-icons";
 export const Publications = () => {
   const publications = [
     {
+      title: "LIMAO: A Framework for Lifelong Modular Learned Query Optimization",
+      authors: (
+        <>
+          <b>Qihan Zhang</b>, <b>Shaolin Xie</b>, <b>Ibrahim Sabek</b>
+        </>
+      ),
+      source: "International Conference on Very Large Data Bases (VLDB), 2025",
+      link: "https://arxiv.org/abs/2507.00188",
+    },
+    {
+      title: "Conformal Prediction for Verifiable Learned Query Optimization",
+      authors: (
+        <>
+          <b>Hanwen Liu</b>, <b>Shashank Giridhara</b>, <b>Ibrahim Sabek</b>
+        </>
+      ),
+      source: "International Conference on Very Large Data Bases (VLDB), 2024",
+      link: "https://www.arxiv.org/abs/2505.02284",
+    },
+    {
       title: "From Logs to Causal Inference: Diagnosing Large Systems",
       authors: (
         <>
@@ -25,6 +45,7 @@ export const Publications = () => {
       source: "International Conference on Very Large Data Bases (VLDB), 2024",
       link: "https://viterbi-web.usc.edu/~sabek/pdf/24_paper_paine.pdf",
     },
+
   ];
   return (
     <div>

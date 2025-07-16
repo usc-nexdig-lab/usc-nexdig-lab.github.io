@@ -25,8 +25,8 @@ const projectData: {
       "Recently, many learned query optimizers have been proposed. These optimizers can undergo several hours of training and then achieve performance comparable to PostgreSQL, which has been refined over decades by database experts. However, despite their potential, learned query optimizers are rarely adopted in commercial database systems. A major concern stems from the black-box nature of learned components, as well as the potential long-tail effect of execution latency. In this research, we employ methods to address these challenges.",
     images: [], 
     members: [
-      { name: "Hanwen Liu", image: "/people_photos/hanwen.png" },
-      { name: "Shashank Giridhara", image: "shashank.jpg" },
+      { name: "Hanwen Liu", image: "/people_photos/hanwen.jpeg" },
+      { name: "Shashank Giridhara", image: "/people_photos/shashank-picture.png" },
     ],
   }, 
 };
