@@ -27,7 +27,7 @@ function App() {
         </div>
       </div>
       <div className="bg-black text-white text-xs py-[5px] px-[30px] fixed bottom-0 w-full">
-        Copyright © 2024 NEXDIG
+        Copyright © 2025 NEXDIG
       </div>
     </BrowserRouter>
   );

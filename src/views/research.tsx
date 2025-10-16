@@ -2,51 +2,126 @@ import { Title } from "components/title";
 import { Link } from "react-router-dom";
 
 export const Research = () => {
-  const sections = [
+  const currentResearch = [
+ 
     {
+      id: "data2insights",
+      header: "Data to Insights",
+      content:
+        "Building machine learning systems that transform raw data into actionable insights efficiently and reliably.",
+      image: "/project_photos/blank.jpeg",
+    },
+        {
+      id: "quantum_db",
+      header: "Quantum Database Systems",
+      content:
+        "A study of query optimization and execution in quantum computational environments.",
+      image: "/project_photos/blank.jpeg",
+    },
+    {
+      id: "secure_db",
+      header: "Secure Database Systems",
+      content:
+        "A study of privacy-preserving query processing in database systems.",
+      image: "/project_photos/blank.jpeg",
+    },
+  ];
+
+  const pastResearch = [
+       {
       id: "limao",
       header: "Knowledge-preserving Learned Query Optimizers",
-      content: "",
-      image: "",
+      content:
+        "We design continual learning mechanisms for query optimizers to preserve knowledge across evolving workloads.",
+      image: "/project_photos/blank.jpeg",
     },
     {
       id: "reliable_LQO",
       header: "Reliable Learned Query Optimizers",
-      content: "",
-      image: "",
+      content:
+        "Exploring interpretability and reliability in learned query optimizers for production database systems.",
+      image: "/project_photos/blank.jpeg",
     },
-    
+
   ];
 
   return (
-    <div className="max-w-[800px] mx-auto p-[20px]">
-      <Title content="Research" className="red-title mb-[30px]" />
-      <div className="flex flex-col gap-[30px]">
-        {sections.map((section) => (
-          <div
-            key={section.id}
-            className="flex items-start border border-gray-200 p-[20px] rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300"
-          >
-            <div className="flex-1">
-              <h2 className="font-bold text-2xl mb-[10px]">
-                <Link to={`/project/${section.id}`} className="research-header-link">
-                  {section.header}
-                </Link>
-              </h2>
-              <p className="text-gray-700">{section.content}</p>
-            </div>
-            {section.image && (
-              <div className="w-[150px] h-[150px] ml-[20px]">
+    <div className="max-w-[1200px] mx-auto p-5">
+      <Title content="Research" className="red-title mb-10" />
+
+      {/* CURRENT RESEARCH */}
+      <section className="mb-12">
+        <h2 className="text-2xl font-bold mb-6 border-b border-gray-300 pb-2">
+          Current Research
+        </h2>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          {currentResearch.map((section) => (
+            <div
+              key={section.id}
+              className="border border-gray-200 rounded-xl shadow-sm hover:shadow-md transition-all duration-300 overflow-hidden bg-white"
+            >
+              {section.image && (
                 <img
                   src={section.image}
                   alt={section.header}
-                  className="w-full h-full object-cover rounded-lg"
+                  className="w-full h-40 object-cover"
                 />
+              )}
+              <div className="p-4">
+                <h3 className="font-semibold text-lg mb-2 line-clamp-2">
+                  <Link
+                    to={`/project/${section.id}`}
+                    className="hover:text-red-600 transition-colors"
+                  >
+                    {section.header}
+                  </Link>
+                </h3>
+                <p className="text-sm text-gray-600 line-clamp-3">
+                  {section.content}
+                </p>
               </div>
-            )}
-          </div>
-        ))}
-      </div>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* PAST RESEARCH */}
+      <section>
+        <h2 className="text-2xl font-bold mb-6 border-b border-gray-300 pb-2">
+          Past Research
+        </h2>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          {pastResearch.map((section) => (
+            <div
+              key={section.id}
+              className="border border-gray-200 rounded-xl shadow-sm hover:shadow-md transition-all duration-300 overflow-hidden bg-white"
+            >
+              {section.image && (
+                <img
+                  src={section.image}
+                  alt={section.header}
+                  className="w-full h-40 object-cover"
+                />
+              )}
+              <div className="p-4">
+                <h3 className="font-semibold text-lg mb-2 line-clamp-2">
+                  <Link
+                    to={`/project/${section.id}`}
+                    className="hover:text-red-600 transition-colors"
+                  >
+                    {section.header}
+                  </Link>
+                </h3>
+                <p className="text-sm text-gray-600 line-clamp-3">
+                  {section.content}
+                </p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
     </div>
   );
 };

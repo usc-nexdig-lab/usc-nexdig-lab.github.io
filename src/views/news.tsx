@@ -9,13 +9,19 @@ const newsItems = [
     id: 2,
     date: 'June 25 2025',
     description:
-      'Qihan and Shaolin\'s paper on <a href="https://arxiv.org/abs/2507.00188" target="_blank" rel="noopener noreferrer" style="color:#990000; font-weight:600; text-decoration:underline;">LIMAO: A Framework for Lifelong Modular Learned Query Optimization</a> is accepted to VLDB\'25!',
+      'Qihan and Shelly\'s paper on <a href="https://arxiv.org/abs/2507.00188" target="_blank" rel="noopener noreferrer" style="color:#990000; font-weight:600; text-decoration:underline;">LIMAO: A Framework for Lifelong Modular Learned Query Optimization</a> is accepted to VLDB\'25!',
   },
   {
     id: 3,
     date: 'July 15 2025',
     description:
       'Bowen Wang is joining Amazon as a full-time software engineer after graduation. Congratulations Bowen!',
+  },
+  {
+    id: 4,
+    date: 'September 27 2025',
+    description:
+      'Shelly\'s paper on <a href="https://arxiv.org" target="_blank" rel="noopener noreferrer" style="color:#990000; font-weight:600; text-decoration:underline;">Intrinsic Geospatial Topological Reasoning in LLMs</a> is accepted to 2025 SIGSPATIAL GeoGenAgent workshop',
   },
 ];
 

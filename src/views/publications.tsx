@@ -1,7 +1,4 @@
 import { Title } from "components/title";
-import { Link } from "react-router-dom";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faBook } from "@fortawesome/free-solid-svg-icons";
 
 export const Publications = () => {
   const publications = [
@@ -13,17 +10,9 @@ export const Publications = () => {
         </>
       ),
       source: "International Conference on Very Large Data Bases (VLDB), 2025",
-      link: "https://arxiv.org/abs/2507.00188",
-    },
-    {
-      title: "Conformal Prediction for Verifiable Learned Query Optimization",
-      authors: (
-        <>
-          <b>Hanwen Liu</b>, <b>Shashank Giridhara</b>, <b>Ibrahim Sabek</b>
-        </>
-      ),
-      source: "International Conference on Very Large Data Bases (VLDB), 2024",
-      link: "https://www.arxiv.org/abs/2505.02284",
+      links: [
+        { label: "Paper", url: "https://arxiv.org/abs/2507.00188" },
+      ],
     },
     {
       title: "From Logs to Causal Inference: Diagnosing Large Systems",
@@ -33,8 +22,23 @@ export const Publications = () => {
         </>
       ),
       source: "International Conference on Very Large Data Bases (VLDB), 2025",
-      link: "https://viterbi-web.usc.edu/~sabek/pdf/25_paper_logos.pdf",
+      links: [
+        { label: "Paper", url: "https://viterbi-web.usc.edu/~sabek/pdf/25_paper_logos.pdf" },
+      ],
     },
+    {
+      title: "Conformal Prediction for Verifiable Learned Query Optimization",
+      authors: (
+        <>
+          <b>Hanwen Liu</b>, <b>Shashank Giridhara</b>, <b>Ibrahim Sabek</b>
+        </>
+      ),
+      source: "International Conference on Very Large Data Bases (VLDB), 2024",
+      links: [
+        { label: "Paper", url: "https://www.arxiv.org/abs/2505.02284" },
+      ],
+    },
+    
     {
       title: "Optimizing Video Selection LIMIT Queries With Commonsense Knowledge",
       authors: (
@@ -43,32 +47,42 @@ export const Publications = () => {
         </>
       ),
       source: "International Conference on Very Large Data Bases (VLDB), 2024",
-      link: "https://viterbi-web.usc.edu/~sabek/pdf/24_paper_paine.pdf",
+      links: [
+        { label: "Paper", url: "https://viterbi-web.usc.edu/~sabek/pdf/24_paper_paine.pdf" },
+      ],
     },
 
   ];
+
   return (
-    <div>
-      <Title content="Publications" className="red-title"/>
-      <div>
+    <div className="max-w-3xl mx-auto">
+      <Title content="Publications" className="red-title mb-6" />
+      <div className="space-y-5">
         {publications.map((publication, index) => (
-          <div key={index} className="space-y-[5px]">
-            <div>
-              <h2 className="font-semibold">{publication.title}</h2>
-              <p>{publication.authors}</p>
-              <p className="italic">{publication.source}</p>
-            </div>
-            <div>
-              <Link
-                to={publication.link}
-                className="border rounded p-[5px] bg-gray-100 font-semibold hover:bg-gray-200"
-              >
-                <FontAwesomeIcon
-                  icon={faBook}
-                  className="mr-[5px] text-gray-500"
-                />
-                PDF
-              </Link>
+          <div
+            key={index}
+            className="border-b border-gray-200 pb-3 space-y-1.5"
+          >
+            <h2 className="font-medium text-base leading-snug">
+              {publication.title}
+            </h2>
+            <p className="text-sm text-gray-800">{publication.authors}</p>
+            <p className="italic text-gray-500 text-sm">
+              {publication.source}
+            </p>
+
+            <div className="text-sm text-gray-600 mt-1 space-x-2">
+              {publication.links.map((linkObj, i) => (
+                <a
+                  key={i}
+                  href={linkObj.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="hover:underline text-blue-600"
+                >
+                  [{linkObj.label}]
+                </a>
+              ))}
             </div>
           </div>
         ))}

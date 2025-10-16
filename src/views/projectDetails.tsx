@@ -1,81 +1,215 @@
-import React from "react";
+import React, { useState } from "react";
 import { useParams } from "react-router-dom";
 
-const projectData: {
-  [key: string]: {
-    title: string;
-    description: string;
-    images: string[];
-    members: { name: string; image: string }[];
-  };
-} = {
+type Section = {
+  title: string;
+  html: string;
+  images?: string[];
+};
+
+type Project = {
+  title: string;
+  subtitle?: string;
+  links?: { label: string; url: string }[];
+  bibtex?: string;
+  members: { name: string; image: string }[];
+  sections: Section[];
+};
+
+const projectData: Record<string, Project> = {
   limao: {
     title: "Knowledge-preserving Learned Query Optimizers",
-    description:
-      "In traditional database systems, query optimizers play an important role in ensuring efficient query execution. Recently, learned query optimizers (LQOs) have shown promising improvements over traditional ones. However, most existing LQOs assume a static query environment (or limited dynamic environments), which limits their ability to handle real-world scenarios where queries and workloads change dynamically. This limitation leads to performance degradation over time, as frequent retraining can cause the model to forget previously learned knowledge, a problem known as catastrophic forgetting. In this research, we propose a novel approach to address this issue.",
-    images: [], 
+    subtitle: "Addressing catastrophic forgetting in dynamic workloads",
+    links: [
+      { label: "Paper", url: "#" },
+    ],
+    bibtex: ``,
     members: [
       { name: "Qihan Zhang", image: "/people_photos/qihan-photo.jpg" },
       { name: "Shaolin Xie", image: "/people_photos/shelly-photo.jpg" },
     ],
+    sections: [
+      {
+        title: "Description",
+        html: `
+        In traditional database systems, query optimizers play an important role in ensuring efficient query execution. Recently, learned query optimizers (LQOs) have shown promising improvements over traditional ones. However, most existing LQOs assume a static query environment (or limited dynamic environments), which limits their ability to handle real-world scenarios where queries and workloads change dynamically. This limitation leads to performance degradation over time, as frequent retraining can cause the model to forget previously learned knowledge, a problem known as catastrophic forgetting. In this research, we propose a novel approach to address this issue.
+`,
+      },
+    ],
   },
+
+
   reliable_LQO: {
     title: "Reliable Learned Query Optimizers",
-    description:
-      "Recently, many learned query optimizers have been proposed. These optimizers can undergo several hours of training and then achieve performance comparable to PostgreSQL, which has been refined over decades by database experts. However, despite their potential, learned query optimizers are rarely adopted in commercial database systems. A major concern stems from the black-box nature of learned components, as well as the potential long-tail effect of execution latency. In this research, we employ methods to address these challenges.",
-    images: [], 
+    subtitle: "Conformal Predictions for LQOs",
+    links: [
+      { label: "Paper", url: "#" },
+      { label: "Code", url: "#" },
+    ],
+    bibtex: ``,
     members: [
       { name: "Hanwen Liu", image: "/people_photos/hanwen.jpeg" },
       { name: "Shashank Giridhara", image: "/people_photos/shashank-picture.png" },
     ],
-  }, 
+    sections: [
+      {
+        title: "Overview",
+        html: `
+        Recently, many learned query optimizers have been proposed. These optimizers can undergo several hours of training and then achieve performance comparable to PostgreSQL, which has been refined over decades by database experts. However, despite their potential, learned query optimizers are rarely adopted in commercial database systems. A major concern stems from the black-box nature of learned components, as well as the potential long-tail effect of execution latency. In this research, we employ methods to address these challenges.
+`,
+      },
+    ],
+  },
+
+
+
+  data2insights: {
+    title: "Data to Insights",
+    subtitle: "Transforming raw data into actionable intelligence",
+    members: [
+      { name: "Shelly Xie", image: "/people_photos/shelly-photo.jpg" },
+    ],
+    sections: [
+      {
+        title: "Overview",
+        html: ``,
+      },
+    ],
+    bibtex: ``,
+  },
+
+
+
+
+  secure_db: {
+    title: "Secure Database Systems",
+    subtitle: "Enhancing privacy and security in database management",
+    links: [
+      { label: "Paper", url: "#" },
+      { label: "Code", url: "#" },
+    ],
+    bibtex: ``,
+    members: [
+      { name: "Qihan Zhang", image: "/people_photos/hanwen.jpeg" },
+    ],
+    sections: [],
+  },
 };
 
 export const ProjectDetails = () => {
-  const { id } = useParams<{ id?: string }>(); // Make `id` optional
-  const project = id ? projectData[id] : undefined; // Check if `id` is defined before accessing `projectData`
+  const { id } = useParams<{ id?: string }>();
+  const project = id ? projectData[id] : undefined;
+  const [copied, setCopied] = useState(false);
 
   if (!project) {
-    return <div className="text-center text-red-500">Project not found.</div>;
+    return <div className="text-center text-red-500 py-20">Project not found.</div>;
   }
 
+  const handleCopy = async () => {
+    if (!project.bibtex) return;
+    try {
+      await navigator.clipboard.writeText(project.bibtex);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 1600);
+    } catch {
+      // ignore
+    }
+  };
+
   return (
-    <div className="max-w-[900px] mx-auto p-[20px] flex flex-col gap-[30px]">
-      {/* Project Title & Description */}
-      <div>
-        <h1 className="text-3xl font-bold mb-[20px]">{project.title}</h1>
-        <p className="text-gray-700">{project.description}</p>
-      </div>
-
-      {/* Project Images */}
-      <div className="flex flex-wrap gap-[20px]">
-        {project.images.map((image, index) => (
-          <div key={index} className="w-[300px] h-[200px]">
-            <img
-              src={image}
-              alt={`${project.title} ${index + 1}`}
-              className="w-full h-full object-cover rounded-lg shadow-md"
-            />
+    <div className="max-w-[1200] mx-auto px-6 py-12 space-y-12">
+      {/* Title and Resources */}
+      <header className="text-center space-y-3">
+        <h1 className="text-4xl font-bold">{project.title}</h1>
+        {project.subtitle && (
+          <p className="text-lg text-gray-600">{project.subtitle}</p>
+        )}
+        {project.links && (
+          <div className="flex flex-wrap justify-center gap-4 mt-4">
+            {project.links.map((link, i) => (
+              <a
+                key={i}
+                href={link.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="px-5 py-2 border border-gray-300 rounded-full text-sm font-medium hover:bg-gray-100 transition-colors"
+              >
+                {link.label}
+              </a>
+            ))}
           </div>
-        ))}
-      </div>
+        )}
+      </header>
 
-      {/* Project Members */}
-      <div>
-        <h2 className="text-2xl font-semibold mb-[10px]">Project Members</h2>
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-[20px]">
-          {project.members.map((member, index) => (
-            <div key={index} className="flex flex-col items-center text-center">
-              <img
-                src={member.image}
-                alt={member.name}
-                className="w-[100px] h-[100px] object-cover rounded-full shadow-md"
-              />
-              <p className="mt-[10px] text-gray-800 font-medium">{member.name}</p>
+      {/* Sections */}
+      {project.sections.map((sec, i) => (
+        <section key={i} className="space-y-4">
+          <h2 className="text-2xl font-semibold border-b pb-1 border-gray-200">
+            {sec.title}
+          </h2>
+
+          {/* Section text */}
+          <div
+            className="prose prose-lg text-gray-700"
+            dangerouslySetInnerHTML={{ __html: sec.html }}
+          />
+
+          {/* Section images */}
+          {sec.images && sec.images.length > 0 && (
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-4">
+              {sec.images.map((img, idx) => (
+                <img
+                  key={idx}
+                  src={img}
+                  alt={`${sec.title} figure ${idx + 1}`}
+                  className="w-full h-auto rounded-lg shadow-md"
+                />
+              ))}
             </div>
-          ))}
-        </div>
-      </div>
+          )}
+        </section>
+      ))}
+
+      {/* BibTeX */}
+      {project.bibtex && (
+        <section className="space-y-4">
+          <h2 className="text-2xl font-semibold border-b pb-1 border-gray-200">
+            BibTeX
+          </h2>
+          <div className="relative bg-[#f6f8fa] border border-gray-200 rounded-lg p-4">
+            <button
+              onClick={handleCopy}
+              className="absolute top-2 right-3 text-xs px-2 py-1 rounded-md border border-gray-300 bg-white hover:bg-gray-100 transition"
+            >
+              {copied ? "Copied!" : "Copy"}
+            </button>
+            <pre className="overflow-x-auto text-sm text-gray-800 font-mono whitespace-pre leading-relaxed">
+              <code>{project.bibtex}</code>
+            </pre>
+          </div>
+        </section>
+      )}
+
+      {/* Members */}
+      {project.members.length > 0 && (
+        <section className="space-y-4">
+          <h2 className="text-2xl font-semibold border-b pb-1 border-gray-200">
+            People
+          </h2>
+          <div className="flex flex-wrap justify-center gap-8">
+            {project.members.map((member, i) => (
+              <div key={i} className="flex flex-col items-center">
+                <img
+                  src={member.image}
+                  alt={member.name}
+                  className="w-28 h-28 object-cover rounded-full shadow-md"
+                />
+                <p className="mt-3 text-gray-800 font-medium">{member.name}</p>
+              </div>
+            ))}
+          </div>
+        </section>
+      )}
     </div>
   );
 };

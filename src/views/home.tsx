@@ -4,13 +4,12 @@ import NEXDIG_LOGO from 'assets/logo_updated.svg';
 
 const PhotoGallery = () => {
   const images = [
-    '/team_photos/2021-1104-Northeast-View_Final-1.jpg',
-    '/team_photos/ginsburg-hall-update-with-pics-v0-axcru4xa5pjd1.jpg',
-    '/team_photos/HOK0020_8_S04_COMPUTER_USE_WIP04.jpg',
+    '/team_photos/socal_dbday2025.jpeg'
   ];
 
   const [currentIndex, setCurrentIndex] = useState(0);
 
+  // Optional: auto-rotate
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentIndex((prevIndex) => (prevIndex + 1) % images.length);
@@ -19,6 +18,16 @@ const PhotoGallery = () => {
     return () => clearInterval(interval);
   }, [images.length]);
 
+  const goToPrevious = () => {
+    setCurrentIndex((prevIndex) =>
+      prevIndex === 0 ? images.length - 1 : prevIndex - 1
+    );
+  };
+
+  const goToNext = () => {
+    setCurrentIndex((prevIndex) => (prevIndex + 1) % images.length);
+  };
+
   return (
     <div className="w-full max-w-[600px] h-[400px] overflow-hidden relative rounded-lg shadow-lg">
       <img
@@ -26,6 +35,24 @@ const PhotoGallery = () => {
         alt={`Gallery ${currentIndex + 1}`}
         className="w-full h-full object-cover transition-opacity duration-500 rounded-lg"
       />
+
+      {/* Left Button */}
+      <button
+        onClick={goToPrevious}
+        className="absolute left-2 top-1/2 transform -translate-y-1/2 bg-white/30 hover:bg-white  p-2 shadow-md"
+        aria-label="Previous Image"
+      >
+        ◀
+      </button>
+
+      {/* Right Button */}
+      <button
+        onClick={goToNext}
+        className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-white/30 hover:bg-white p-2 shadow-md"
+        aria-label="Next Image"
+      >
+        ▶
+      </button>
     </div>
   );
 };
@@ -62,14 +89,11 @@ const TwitterFeed = () => {
 export const Home = () => {
   return (
     <div className="flex flex-col space-y-[30px] items-center">
-      {/* Logo */}
       <div className="w-full max-w-7xl">
         <img src={NEXDIG_LOGO} alt="NexDIG Logo" />
       </div>
 
-      {/* Grid Layout */}
       <div className="homepage-grid">
-        {/* Left Column */}
         <div className="flex flex-col space-y-6">
           <div>
             <p>
