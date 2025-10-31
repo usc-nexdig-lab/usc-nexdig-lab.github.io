@@ -3,6 +3,32 @@ import { Title } from "components/title";
 export const Publications = () => {
   const publications = [
     {
+      title: "SEFRQO: A Self-Evolving Fine-Tuned RAG-Based Query Optimizer",
+      authors: (
+        <>
+          <b>Hanwen Liu*</b>, <b>Qihan Zhang*</b>, Ryan Marcus, <b>Ibrahim Sabek</b>
+        </>
+      ),
+      source: "International Conference on Management of Data (SIGMOD), 2026",
+      links: [
+        { label: "Paper", url: "https://arxiv.org/abs/2508.17556" },
+      ],
+      note: "* Equal contribution",
+    },
+    {
+      title: "SERAG: Self-Evolving RAG System for Query Optimization",
+      authors: (
+        <>
+          <b>Hanwen Liu*</b>, <b>Qihan Zhang*</b>, Ryan Marcus, <b>Ibrahim Sabek</b>
+        </>
+      ),
+      source: "Workshop on Applied AI for Database Systems and Applications (aiDM@SIGMOD), 2025",
+      links: [
+        { label: "Paper", url: "https://viterbi-web.usc.edu/~sabek/pdf/25_workshop_serag.pdf" },
+      ],
+      note: "* Equal contribution",
+    },
+    {
       title: "LIMAO: A Framework for Lifelong Modular Learned Query Optimization",
       authors: (
         <>
@@ -70,6 +96,11 @@ export const Publications = () => {
             <p className="italic text-gray-500 text-sm">
               {publication.source}
             </p>
+            {publication.note && (
+              <p className="text-xs text-gray-500 italic">
+                {publication.note}
+              </p>
+            )}
 
             <div className="text-sm text-gray-600 mt-1 space-x-2">
               {publication.links.map((linkObj, i) => (
