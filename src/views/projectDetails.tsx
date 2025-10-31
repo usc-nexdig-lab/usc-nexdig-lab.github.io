@@ -67,7 +67,7 @@ const projectData: Record<string, Project> = {
     title: "Data to Insights",
     subtitle: "Transforming raw data into actionable intelligence",
     members: [
-      { name: "Shelly Xie", image: "/people_photos/shelly-photo.jpg" },
+      { name: "Shaolin Xie", image: "/people_photos/shelly-photo.jpg" },
     ],
     sections: [
       {
