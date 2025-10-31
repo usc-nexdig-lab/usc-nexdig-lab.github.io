@@ -9,7 +9,6 @@ git clone https://github.com/usc-nexdig-lab/usc-nexdig-lab.github.io.git
 2. install packages
 
 ```shell
-cd nexdig-site
 npm i
 ```
 
