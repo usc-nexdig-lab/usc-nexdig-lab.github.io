@@ -27,10 +27,7 @@ export const Research = () => {
         "A study of privacy-preserving query processing in database systems.",
       image: "/projects_photos/security_db.jpg",
     },
-  ];
-
-  const pastResearch = [
-       {
+           {
       id: "limao",
       header: "Knowledge-preserving Learned Query Optimizers",
       content:
@@ -44,8 +41,12 @@ export const Research = () => {
         "Exploring interpretability and reliability in learned query optimizers for production database systems.",
       image: NEXDIG_LOGO,
     },
-
   ];
+
+  // const pastResearch = [
+
+
+  // ];
 
   return (
     <div className="max-w-[1200px] mx-auto p-5">
@@ -89,7 +90,7 @@ export const Research = () => {
       </section>
 
       {/* PAST RESEARCH */}
-      <section>
+      {/* <section>
         <h2 className="text-2xl font-bold mb-6 border-b border-gray-300 pb-2">
           Past Research
         </h2>
@@ -123,7 +124,7 @@ export const Research = () => {
             </div>
           ))}
         </div>
-      </section>
+      </section> */}
     </div>
   );
 };
