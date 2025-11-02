@@ -65,14 +65,22 @@ const projectData: Record<string, Project> = {
 
   data2insights: {
     title: "Data to Insights",
-    subtitle: "Transforming raw data into actionable intelligence",
+    // subtitle: "Transforming raw data into actionable intelligence",
     members: [
       { name: "Shaolin Xie", image: "/people_photos/shelly-photo.jpg" },
     ],
     sections: [
       {
         title: "Overview",
-        html: ``,
+        html: `In today’s data-driven world, organizations collect massive amounts of structured information, 
+        yet most of it remains underutilized. Extracting meaningful insights from databases typically requires 
+        expert knowledge of SQL, statistics, and domain-specific analysis - a process that’s slow, manual, 
+        and error-prone. Business users often face a simple but frustrating question: “I have the data, but 
+        what does it actually tell me?” This project addresses that gap by creating an intelligent, multi-agent 
+        system powered by large language models (LLMs) that can autonomously explore any database, generate analytical 
+        queries, and translate raw numbers into actionable insights without human intervention.
+
+        <p>[Research in progress...]</p>`,
       },
     ],
     bibtex: ``,

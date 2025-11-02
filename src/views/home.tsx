@@ -4,17 +4,23 @@ import NEXDIG_LOGO from 'assets/logo_updated.svg';
 
 const PhotoGallery = () => {
   const images = [
-    '/team_photos/socal_dbday2025.jpeg'
+    {
+      src: '/team_photos/socal_dbday2025.jpeg',
+      caption: 'NEXDIG @ SoCal DB Day 2025',
+    },
+    {
+      src: '/team_photos/amz_interns.jpg',
+      caption: 'NEXDIG Amazon Interns - Summer 2025',
+    },
+    
   ];
 
   const [currentIndex, setCurrentIndex] = useState(0);
 
-  // Optional: auto-rotate
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentIndex((prevIndex) => (prevIndex + 1) % images.length);
-    }, 3000);
-
+    }, 4000);
     return () => clearInterval(interval);
   }, [images.length]);
 
@@ -31,15 +37,20 @@ const PhotoGallery = () => {
   return (
     <div className="w-full max-w-[600px] h-[400px] overflow-hidden relative rounded-lg shadow-lg">
       <img
-        src={images[currentIndex]}
-        alt={`Gallery ${currentIndex + 1}`}
-        className="w-full h-full object-cover transition-opacity duration-500 rounded-lg"
+        src={images[currentIndex].src}
+        alt={images[currentIndex].caption}
+        className="w-full h-full object-cover transition-opacity duration-500 "
       />
+
+      {/* Caption in bottom-left corner */}
+      <div className="absolute bottom-3 left-3 text-white text-sm md:text-base font-medium drop-shadow-lg">
+        {images[currentIndex].caption}
+      </div>
 
       {/* Left Button */}
       <button
         onClick={goToPrevious}
-        className="absolute left-2 top-1/2 transform -translate-y-1/2 bg-white/30 hover:bg-white  p-2 shadow-md"
+        className="absolute left-2 top-1/2 transform -translate-y-1/2 bg-white/30 hover:bg-white p-2  shadow-md"
         aria-label="Previous Image"
       >
         ◀
@@ -48,7 +59,7 @@ const PhotoGallery = () => {
       {/* Right Button */}
       <button
         onClick={goToNext}
-        className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-white/30 hover:bg-white p-2 shadow-md"
+        className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-white/30 hover:bg-white p-2  shadow-md"
         aria-label="Next Image"
       >
         ▶
@@ -97,19 +108,22 @@ export const Home = () => {
         <div className="flex flex-col space-y-6">
           <div>
             <p>
-              The <b>Nex</b>t-generation <b>D</b>ata-<b>I</b>ntensive Systems{' '}
-              <b>G</b>roup (NexDIG) lab, led by{' '}
+              Welcome to the <b>NEX</b>t-generation <b>D</b>ata-<b>I</b>ntensive Systems{' '}
+              <b>G</b>roup (NEXDIG) lab! Led by{' '}
               <a
                 href="http://viterbi-web.usc.edu/~sabek/"
                 className="clickable-link"
               >
                 Ibrahim Sabek
               </a>
-              , is a cutting-edge research lab focused on the next-generation
-              data systems. We explore innovative ways to enhance performance,
-              scalability, and interpretability of data systems. Our
-              interdisciplinary approach aims to drive breakthroughs in AI and
-              data engineering, fostering solutions that power next-generation
+              , we are a cutting-edge research lab focused on the next-generation
+              data systems. The lab explores innovative approaches to enhance the performance,
+              scalability, security, and interpretability of data-intensive platforms.
+            </p>
+            <p> 
+              Through an interdisciplinary blend of machine learning, quantum computing, 
+              and large language models, NEXDIG drives fundamental advances that bridge AI and data systems, 
+              enabling intelligent, trustworthy, and high-performance solutions for next-generation 
               applications across industries.
             </p>
           </div>

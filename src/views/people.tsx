@@ -23,7 +23,7 @@ export const People = () => {
       content: [
         {
           name: 'Shaolin Xie',
-          description: 'Fall 2024 -',
+          description: 'Fall 2024 - Now',
           image: '/people_photos/shelly-photo.jpg',
           website: 'https://www.linkedin.com/in/shaolin-xie-25577a23b/',
           zoom: '',
@@ -31,7 +31,7 @@ export const People = () => {
         },
         {
           name: 'Hanwen Liu',
-          description: 'Fall 2024 -',
+          description: 'Fall 2024 - Now',
           image: '/people_photos/hanwen.jpeg',
           website: 'https://www.linkedin.com/in/liu-hanwen/',
           zoom: 'center',
@@ -39,7 +39,7 @@ export const People = () => {
         },
         {
           name: 'Qihan Zhang',
-          description: 'Fall 2025 -',
+          description: 'Fall 2025 - Now',
           image: '/people_photos/qihan-photo.jpg',
           website: 'https://tsihan.github.io/',
           zoom: 'center',
@@ -52,27 +52,14 @@ export const People = () => {
       content: [  
         {
           name: 'Archana Manoj Bhatia',
-          description: 'Spring 2025 -',
+          description: 'Spring 2025 - Now',
           image: '/people_photos/archana-picture.png',
           website: 'https://www.linkedin.com/in/archanab7/',
         },
-        {
-          name: 'Abhishek Kumar',
-          description: 'Spring 2025 -',
-          image: '/people_photos/abhishek-picture.png',
-          website:'https://uscviterbiclass.slack.com/archives/D08CN9GRQHZ/p1741569127653059',
-        },
-        {
-          name: 'Parinda Ashish Pranami',
-          description: 'Spring 2025 -',
-          image: '/people_photos/Parinda-image.jpg',
-          website: 'https://www.linkedin.com/in/parindapranami/',
-          zoom: 'top',
-          zoomLevel: 1.2,
-        },
+        
         {
           name: 'Gaurvi Vishnoi',
-          description: 'Spring 2025 -',
+          description: 'Spring 2025 - Now',
           image: '/people_photos/gaurvi-picture.jpg',
           website: 'https://www.linkedin.com/in/gaurvi-vishnoi/',
         },
@@ -82,8 +69,22 @@ export const People = () => {
       header: 'Alumni',
       content: [
         {
+          name: 'Abhishek Kumar',
+          description: 'Next: SWE at Arista Networks',
+          image: '/people_photos/abhishek-picture.png',
+          website:'https://uscviterbiclass.slack.com/archives/D08CN9GRQHZ/p1741569127653059',
+        },
+        {
+          name: 'Parinda Ashish Pranami',
+          description: 'Next: Software Engineer at Google',
+          image: '/people_photos/Parinda-image.jpg',
+          website: 'https://www.linkedin.com/in/parindapranami/',
+          zoom: 'top',
+          zoomLevel: 1.2,
+        },
+        {
           name: 'Bowen Wang',
-          description: 'Now: Software Engineer at Amazon',
+          description: 'Next: Software Engineer at Amazon',
           image: '/people_photos/bowen-photo.jpg',
           website: 'https://www.linkedin.com/in/kyriewang',
           zoom: 'center',
@@ -91,7 +92,7 @@ export const People = () => {
         },
         {
           name: 'Shashank Giridhara',
-          description: 'Now: Amazon Redshift',
+          description: 'Next: Amazon Redshift',
           image: '/people_photos/shashank-picture.png',
           website: 'https://www.linkedin.com/in/shashank-giridhara-4175a41a9/',
           zoom:'center',
@@ -120,7 +121,7 @@ export const People = () => {
                 <div key={index} className={`flex items-start ${section.header === 'Faculty' ? 'w-full gap-8' : 'w-80'}`}>
                   <div>
                     {person.image ? (
-                      <div className="relative w-32 h-32 overflow-hidden rounded-lg">
+                      <div className="relative w-32 h-32 overflow-hidden g">
                         <img
                           src={person.image}
                           alt={person.name}
@@ -136,7 +137,7 @@ export const People = () => {
                         />
                       </div>
                     ) : (
-                      <div className="bg-gray-100 w-24 h-24 flex items-center justify-center rounded">
+                      <div className="bg-gray-100 w-24 h-24 flex items-center justify-center ">
                         <FontAwesomeIcon
                           icon={faUser}
                           className="text-gray-300 w-12 h-12"

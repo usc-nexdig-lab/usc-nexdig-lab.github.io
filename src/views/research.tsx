@@ -8,8 +8,8 @@ export const Research = () => {
       id: "data2insights",
       header: "Data to Insights",
       content:
-        "Building machine learning systems that transform raw data into actionable insights efficiently and reliably.",
-      image: "/project_photos/blank.jpeg",
+        "Building LLM-based agent systems that transform raw data into actionable insights efficiently and reliably.",
+      image: "/projects_photos/transfrom-data-actionable-insights.jpg",
     },
         {
       id: "quantum_db",

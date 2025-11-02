@@ -29,6 +29,19 @@ export const Publications = () => {
       note: "* Equal contribution",
     },
     {
+      title: "Intrinsic Geospatial Topological Reasoning in LLMs",
+      authors: (
+        <>
+          <b>Shaolin Xie</b>, Shang-ling Hsu, <b>Qihan Zhang</b>, Yiming Gao, Cyrus Shahabi, <b>Ibrahim Sabek</b>
+        </>
+      ),
+      source: "Workshop on Generative and Agentic AI for Multi-Modality Space-Time Intelligence (GeoGenAgent@SIGSPATIAL), 2025",
+      links: [
+        { label: "Paper", url: "https://dl.acm.org/doi/10.1145/3764915.3770722" },
+        { label: "Code", url: "https://github.com/shaolin-x/topology_reasoning_queries" },
+      ],
+    },
+    {
       title: "LIMAO: A Framework for Lifelong Modular Learned Query Optimization",
       authors: (
         <>
