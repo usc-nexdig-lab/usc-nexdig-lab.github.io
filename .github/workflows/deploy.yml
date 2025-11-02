@@ -26,7 +26,7 @@ jobs:
       - name: Build production app
         run: npm run build
         env:
-            CI: false
+          CI: false  # 👈 Correct indentation — now this will actually apply
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
