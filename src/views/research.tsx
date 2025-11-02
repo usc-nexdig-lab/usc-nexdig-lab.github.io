@@ -1,5 +1,7 @@
 import { Title } from "components/title";
 import { Link } from "react-router-dom";
+import NEXDIG_LOGO from 'assets/logo_updated.svg';
+
 
 export const Research = () => {
   const currentResearch = [
@@ -16,14 +18,14 @@ export const Research = () => {
       header: "Quantum Database Systems",
       content:
         "Advancing the integration of quantum computing into data management for next-generation intelligent systems.",
-      image: "/project_photos/blank.jpeg",
+      image: NEXDIG_LOGO,
     },
     {
       id: "secure_db",
       header: "Secure Database Systems",
       content:
         "A study of privacy-preserving query processing in database systems.",
-      image: "/project_photos/blank.jpeg",
+      image: NEXDIG_LOGO,
     },
   ];
 
@@ -33,14 +35,14 @@ export const Research = () => {
       header: "Knowledge-preserving Learned Query Optimizers",
       content:
         "We design continual learning mechanisms for query optimizers to preserve knowledge across evolving workloads.",
-      image: "/project_photos/blank.jpeg",
+      image: NEXDIG_LOGO,
     },
     {
       id: "reliable_LQO",
       header: "Reliable Learned Query Optimizers",
       content:
         "Exploring interpretability and reliability in learned query optimizers for production database systems.",
-      image: "/project_photos/blank.jpeg",
+      image: NEXDIG_LOGO,
     },
 
   ];
@@ -65,7 +67,7 @@ export const Research = () => {
                 <img
                   src={section.image}
                   alt={section.header}
-                  className="w-full h-40 object-cover"
+                  className="w-full h-40 object-contain"
                 />
               )}
               <div className="p-4">
@@ -102,7 +104,7 @@ export const Research = () => {
                 <img
                   src={section.image}
                   alt={section.header}
-                  className="w-full h-40 object-cover"
+                  className="w-full h-40 object-contain"
                 />
               )}
               <div className="p-4">

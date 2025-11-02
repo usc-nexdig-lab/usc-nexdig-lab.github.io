@@ -18,12 +18,28 @@ type Project = {
 
 const projectData: Record<string, Project> = {
   limao: {
-    title: "Knowledge-preserving Learned Query Optimizers",
+    title: "LIMAO: A Framework for Lifelong Modular Learned Query Optimization",
     subtitle: "Addressing catastrophic forgetting in dynamic workloads",
     links: [
-      { label: "Paper", url: "#" },
+      { label: "Paper", url: "https://arxiv.org/abs/2507.00188" },
     ],
-    bibtex: ``,
+    bibtex: `@article{10.14778/3749646.3749712,
+author = {Zhang, Qihan and Xie, Shaolin and Sabek, Ibrahim},
+title = {LIMAO: A Framework for Lifelong Modular Learned Query Optimization},
+year = {2025},
+issue_date = {July 2025},
+publisher = {VLDB Endowment},
+volume = {18},
+number = {11},
+issn = {2150-8097},
+url = {https://doi.org/10.14778/3749646.3749712},
+doi = {10.14778/3749646.3749712},
+abstract = {Query optimizers are crucial for the performance of database systems. Recently, many learned query optimizers (LQOs) have demonstrated significant performance improvements over traditional optimizers. However, most of them operate under a limited assumption: a static query environment. This limitation prevents them from effectively handling complex, dynamic query environments in real-world scenarios. Extensive retraining can lead to the well-known catastrophic forgetting problem which reduces the LQO generalizability over time. In this paper, we address this limitation and introduce LIMAO (Lifelong Modular Learned Query Optimizer), a framework for lifelong learning of plan cost prediction that can be seamlessly integrated into existing LQOs. LIMAO leverages a modular lifelong learning technique, an attention-based neural network composition architecture, and an efficient training paradigm designed to retain prior knowledge while continuously adapting to new environments. We implement LIMAO in two LQOs, showing that our approach is agnostic to underlying engines. Experimental results show that LIMAO significantly enhances the performance of LQOs, achieving up to a 40\% improvement in query execution time and reducing the variance of execution time by up to 60\% under dynamic workloads. By leveraging a precise and self-consistent design, LIMAO effectively mitigates catastrophic forgetting, ensuring stable and reliable plan quality over time. Compared to Postgres, LIMAO achieves up to a 4\texttimes{} speedup on selected benchmarks, highlighting its practical advantages in real-world query optimization.},
+journal = {Proc. VLDB Endow.},
+month = sep,
+pages = {4546–4559},
+numpages = {14}
+}`,
     members: [
       { name: "Qihan Zhang", image: "/people_photos/qihan-photo.jpg" },
       { name: "Shaolin Xie", image: "/people_photos/shelly-photo.jpg" },
