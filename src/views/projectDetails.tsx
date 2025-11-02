@@ -43,10 +43,26 @@ const projectData: Record<string, Project> = {
     title: "Reliable Learned Query Optimizers",
     subtitle: "Conformal Predictions for LQOs",
     links: [
-      { label: "Paper", url: "#" },
-      { label: "Code", url: "#" },
+      { label: "Paper", url: "https://www.vldb.org/pvldb/vol18/p2653-liu.pdf" },
+      { label: "Code", url: "https://github.com/ihanwen99/Conformal-Prediction-for-Verifiable-Learned-Query-Optimization/" },
     ],
-    bibtex: ``,
+    bibtex: `@article{10.14778/3742728.3742755,
+author = {Liu, Hanwen and Giridhara, Shashank and Sabek, Ibrahim},
+title = {Conformal Prediction for Verifiable Learned Query Optimization},
+year = {2025},
+issue_date = {April 2025},
+publisher = {VLDB Endowment},
+volume = {18},
+number = {8},
+issn = {2150-8097},
+url = {https://doi.org/10.14778/3742728.3742755},
+doi = {10.14778/3742728.3742755},
+abstract = {Query optimization is critical in relational databases. Recently, numerous Learned Query Optimizers (LQOs) have been proposed, demonstrating superior performance over traditional hand-crafted query optimizers after short training periods. However, the opacity and instability of machine learning models have limited their practical applications. To address this issue, we are the first to formulate the LQO verification as a Conformal Prediction (CP) problem. We first construct a CP model and obtain user-controlled bounded ranges for the actual latency of LQO plans before execution. Then, we introduce CP-based runtime verification along with violation handling to ensure performance prior to execution. For both scenarios, we further extend our framework to handle distribution shifts in the dynamic environment using adaptive CP approaches. Finally, we present CP-guided plan search, which uses actual latency upper bounds from CP to heuristically guide query plan construction. We integrated our verification framework into three LQOs (Balsa, Lero, and RTOS) and conducted evaluations on several workloads. Experimental results demonstrate that our method is both accurate and efficient. Our CP-based approaches achieve tight upper bounds, reliably detect and handle violations. Adaptive CP maintains accurate confidence levels even in the presence of distribution shifts, and the CP-guided plan search improves both query plan quality (up to 9.84x) and planning time, with a reduction of up to 74.4\% for a single query and 9.96\% across all test queries from trained LQOs.},
+journal = {Proc. VLDB Endow.},
+month = sep,
+pages = {2653–2666},
+numpages = {14}
+}`,
     members: [
       { name: "Hanwen Liu", image: "/people_photos/hanwen.jpeg" },
       { name: "Shashank Giridhara", image: "/people_photos/shashank-picture.png" },
@@ -55,8 +71,8 @@ const projectData: Record<string, Project> = {
       {
         title: "Overview",
         html: `
-        Recently, many learned query optimizers have been proposed. These optimizers can undergo several hours of training and then achieve performance comparable to PostgreSQL, which has been refined over decades by database experts. However, despite their potential, learned query optimizers are rarely adopted in commercial database systems. A major concern stems from the black-box nature of learned components, as well as the potential long-tail effect of execution latency. In this research, we employ methods to address these challenges.
-`,
+Query optimization is critical in relational databases. Recently, numerous Learned Query Optimizers (LQOs) have been proposed, demonstrating superior performance over traditional hand-crafted query optimizers after short training periods. However, the opacity and instability of machine learning models have limited their practical applications. To address this issue, we are the first to formulate the LQO verification as a Conformal Prediction (CP) problem. We first construct the CP model and obtain user-controlled bounded ranges for the actual latency of LQO plans before execution. Then, we introduce CP-based runtime verification along with violation handling to ensure performance prior to execution. For both scenarios, we further extend our framework to handle distribution shifts in the dynamic environment using adaptive CP approaches. Finally, we present CP-guided plan search, which uses actual latency upper bounds from CP to heuristically guide query plan construction. We integrated our verification framework into three LQOs (Balsa, Lero, and RTOS) and conducted evaluations on the JOB and TPC-H workloads. Experimental results demonstrate that our method is both accurate and efficient. Our CP-based approaches achieve tight upper bounds, reliably detect and handle violations. Adaptive CP maintains accurate confidence levels even in the presence of distribution shifts, and the CP-guided plan search improves both query plan quality (up to 9.84x) and planning time, with a reduction of up to 74.4% for a single query and 9.96% across all test queries from trained LQOs.
+        `,
       },
     ],
   },
