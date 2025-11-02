@@ -18,7 +18,7 @@ export const Research = () => {
       header: "Quantum Database Systems",
       content:
         "Advancing the integration of quantum computing into data management for next-generation intelligent systems.",
-      image: NEXDIG_LOGO,
+      image: "/projects_photos/quantum-project-cover.jpeg",
     },
     {
       id: "secure_db",
