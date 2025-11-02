@@ -25,7 +25,7 @@ export const Research = () => {
       header: "Secure Database Systems",
       content:
         "A study of privacy-preserving query processing in database systems.",
-      image: "/projects_photos/secure_db.png",
+      image: "/projects_photos/security_db.jpg",
     },
   ];
 
