@@ -123,14 +123,14 @@ Query optimization is critical in relational databases. Recently, numerous Learn
 
   secure_db: {
     title: "Secure Database Systems",
-    subtitle: "Enhancing privacy and security in database management",
+    subtitle: "Enhancing privacy, security, and efficiency in database management",
     links: [
-      { label: "Paper", url: "#" },
-      { label: "Code", url: "#" },
+      // { label: "Paper", url: "#" },
+      // { label: "Code", url: "#" },
     ],
     bibtex: ``,
     members: [
-      { name: "Qihan Zhang", image: "/people_photos/hanwen.jpeg" },
+      { name: "Qihan Zhang", image: "/people_photos/qihan-photo.jpg" },
     ],
     sections: [],
   },

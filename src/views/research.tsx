@@ -25,7 +25,7 @@ export const Research = () => {
       header: "Secure Database Systems",
       content:
         "A study of privacy-preserving query processing in database systems.",
-      image: NEXDIG_LOGO,
+      image: "/projects_photos/securedb.png",
     },
   ];
 
