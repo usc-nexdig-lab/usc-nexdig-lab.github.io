@@ -35,7 +35,7 @@ export const People = () => {
           image: '/people_photos/hanwen.jpeg',
           website: 'https://www.linkedin.com/in/liu-hanwen/',
           zoom: 'center',
-          zoomLevel: 1.5, // Slight zoom
+          zoomLevel: 1,
         },
         {
           name: 'Qihan Zhang',

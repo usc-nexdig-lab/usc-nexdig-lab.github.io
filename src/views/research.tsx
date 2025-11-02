@@ -15,7 +15,7 @@ export const Research = () => {
       id: "quantum_db",
       header: "Quantum Database Systems",
       content:
-        "A study of query optimization and execution in quantum computational environments.",
+        "Advancing the integration of quantum computing into data management for next-generation intelligent systems.",
       image: "/project_photos/blank.jpeg",
     },
     {

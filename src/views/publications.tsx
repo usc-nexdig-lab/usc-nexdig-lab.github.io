@@ -16,17 +16,16 @@ export const Publications = () => {
       note: "* Equal contribution",
     },
     {
-      title: "SERAG: Self-Evolving RAG System for Query Optimization",
+      title: "A Demonstration of Q2O: Quantum-Augmented Query Optimizer",
       authors: (
         <>
-          <b>Hanwen Liu*</b>, <b>Qihan Zhang*</b>, Ryan Marcus, <b>Ibrahim Sabek</b>
+          <b>Hanwen Liu</b>, Federico Spedalieri, <b>Ibrahim Sabek</b>
         </>
       ),
-      source: "Workshop on Applied AI for Database Systems and Applications (aiDM@SIGMOD), 2025",
+      source: "International Conference on Very Large Data Bases (Demo@VLDB), 2025",
       links: [
-        { label: "Paper", url: "https://viterbi-web.usc.edu/~sabek/pdf/25_workshop_serag.pdf" },
+        { label: "Paper", url: "https://www.vldb.org/pvldb/vol18/p5439-liu.pdf"},
       ],
-      note: "* Equal contribution",
     },
     {
       title: "Intrinsic Geospatial Topological Reasoning in LLMs",
@@ -72,12 +71,36 @@ export const Publications = () => {
           <b>Hanwen Liu</b>, <b>Shashank Giridhara</b>, <b>Ibrahim Sabek</b>
         </>
       ),
-      source: "International Conference on Very Large Data Bases (VLDB), 2024",
+      source: "International Conference on Very Large Data Bases (VLDB), 2025",
       links: [
         { label: "Paper", url: "https://www.arxiv.org/abs/2505.02284" },
       ],
     },
-    
+    {
+      title: "Hybrid Quantum-Classical Optimization for Bushy Join Trees",
+      authors: (
+        <>
+          <b>Hanwen Liu</b>, <b>Abhishek Kumar</b>, Federico Spedalieri, <b>Ibrahim Sabek</b>
+        </>
+      ),
+      source: "Workshop on Quantum Computing and Quantum-Inspired Technology for Data-Intensive Systems and Applications (Q-Data@SIGMOD), 2025",
+      links: [
+        { label: "Paper", url: "https://dl.acm.org/doi/pdf/10.1145/3736393.3736695" },
+      ],
+    },
+    {
+      title: "SERAG: Self-Evolving RAG System for Query Optimization",
+      authors: (
+        <>
+          <b>Hanwen Liu*</b>, <b>Qihan Zhang*</b>, Ryan Marcus, <b>Ibrahim Sabek</b>
+        </>
+      ),
+      source: "Workshop on Applied AI for Database Systems and Applications (aiDM@SIGMOD), 2025",
+      links: [
+        { label: "Paper", url: "https://viterbi-web.usc.edu/~sabek/pdf/25_workshop_serag.pdf" },
+      ],
+      note: "* Equal contribution",
+    },
     {
       title: "Optimizing Video Selection LIMIT Queries With Commonsense Knowledge",
       authors: (
