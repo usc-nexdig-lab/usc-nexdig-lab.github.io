@@ -132,7 +132,17 @@ Query optimization is critical in relational databases. Recently, numerous Learn
     members: [
       { name: "Qihan Zhang", image: "/people_photos/qihan-photo.jpg" },
     ],
-    sections: [],
+    sections: [      {
+      title: "Overview",
+      html: `# Secure Database Systems
+      <p>Trusted Execution Environments (TEEs) provide hardware-based isolation and encryption mechanisms that enable secure computation on sensitive data. 
+      In the context of database systems, TEEs such as Intel SGX, AMD SEV, and ARM TrustZone offer a promising approach to protecting data confidentiality and integrity while maintaining query processing capabilities. 
+      Our research explores the integration of TEE technologies into modern database architectures, addressing critical challenges including secure query execution, 
+      encrypted data processing, memory constraints within secure enclaves, and performance optimization. 
+      We investigate novel techniques for building efficient and secure database systems that leverage TEEs to provide strong security guarantees against both external attackers and potentially compromised operating systems, 
+      while minimizing the performance overhead typically associated with encrypted computation. 
+      This work aims to enable organizations to process sensitive data in untrusted cloud environments without sacrificing either security or query performance.</p>`,
+    },],
   },
 };
 
