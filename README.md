@@ -18,13 +18,9 @@ npm i
 npm start
 ```
 
-** (ADMIN ONLY) After push, deploy the changes to the website:
-```shell
-npm run build
-npm run predeloy
-npm run deploy
-```
-after deployment, go to settings under the github repository -> Pages, and enter nexdig.usc.edu as the Custom Domain.
+Once an update is pushed to the repository, the CI/CD pipeline will automatically deploy new changes to nexdig.usc.edu/
+
+Please be very careful with the content you push, since the changes will be reflected immediately on our official website.
 
 ## Updating research projects
 We use two files to manage ongoing research:
@@ -105,8 +101,6 @@ Shelly will maintain the following components of the website:
 - **Maintenance**: troubleshoot and polish the layout of the website
 
 
-## TODO
-- add CI/CD pipeline to automate deployment upon each push and default custom domain without needing to change it everytime
 
 
 
