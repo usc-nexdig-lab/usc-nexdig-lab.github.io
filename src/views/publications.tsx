@@ -117,7 +117,7 @@ export const Publications = () => {
   ];
 
   return (
-    <div className="max-w-3xl mx-auto">
+    <div className="max-w-5xl mx-auto">
       <Title content="Publications" className="red-title mb-6" />
       <div className="space-y-5">
         {publications.map((publication, index) => (
