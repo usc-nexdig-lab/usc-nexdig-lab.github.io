@@ -68,34 +68,34 @@ const PhotoGallery = () => {
   );
 };
 
-const TwitterFeed = () => {
-  useEffect(() => {
-    // Load Twitter Widget Script
-    const script = document.createElement('script');
-    script.src = "https://platform.twitter.com/widgets.js";
-    script.async = true;
-    document.body.appendChild(script);
+// const TwitterFeed = () => {
+//   useEffect(() => {
+//     // Load Twitter Widget Script
+//     const script = document.createElement('script');
+//     script.src = "https://platform.twitter.com/widgets.js";
+//     script.async = true;
+//     document.body.appendChild(script);
 
-    return () => {
-      document.body.removeChild(script);
-    };
-  }, []);
+//     return () => {
+//       document.body.removeChild(script);
+//     };
+//   }, []);
 
-  return (
-    <div className="w-full max-w-[600px] p-4 border rounded-lg shadow-md">
-      <h2 className="text-xl font-semibold text-center">Latest Updates from X</h2>
-      <a 
-        className="twitter-timeline"
-        data-width="600"
-        data-height="400"
-        data-theme="light"
-        href="https://x.com/ibrahim_sabek"
-      >
-        Tweets by @ibrahim_sabek
-      </a>
-    </div>
-  );
-};
+//   return (
+//     <div className="w-full max-w-[600px] p-4 border rounded-lg shadow-md">
+//       <h2 className="text-xl font-semibold text-center">Latest Updates from X</h2>
+//       <a 
+//         className="twitter-timeline"
+//         data-width="600"
+//         data-height="400"
+//         data-theme="light"
+//         href="https://x.com/ibrahim_sabek"
+//       >
+//         Tweets by @ibrahim_sabek
+//       </a>
+//     </div>
+//   );
+// };
 
 export const Home = () => {
   return (
@@ -139,9 +139,9 @@ export const Home = () => {
             <PhotoGallery />
           </div>
 
-          <div>
+          {/* <div>
             <TwitterFeed />
-          </div>
+          </div> */}
         </div>
       </div>
     </div>
