@@ -17,6 +17,14 @@ jobs:
         with:
           node-version: 18
 
+      - name: Cache node modules
+        uses: actions/cache@v4
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-npm-${{ hashFiles('package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-npm-
+
       - name: Install dependencies
         run: npm ci
 
@@ -26,10 +34,15 @@ jobs:
       - name: Build production app
         run: npm run build
         env:
-          CI: false
+          CI: false  # Prevents warnings from breaking build
+
+
+      - name: Add custom CNAME file
+        run: echo "nexdig.usc.edu" > ./build/CNAME
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./build
+          keep_files: true  
