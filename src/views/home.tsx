@@ -9,6 +9,11 @@ const PhotoGallery = () => {
       caption: 'NEXDIG @ SoCal DB Day 2025',
     },
     {
+      src: '/team_photos/sigspatial2025.jpg',
+      caption: 'SIGSPATIAL 2025!',
+    },
+    
+    {
       src: '/team_photos/amz_interns.jpg',
       caption: 'NEXDIG Amazon Interns - Summer 2025',
     },
