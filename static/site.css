@@ -168,7 +168,9 @@ hr {
 }
 
 .site-header__brand {
-  flex: 1 1 0%;
+  flex: 0 0 auto;
+  display: block;
+  min-width: 0;
 }
 
 .site-header__logo {
@@ -177,9 +179,20 @@ hr {
   cursor: pointer;
 }
 
+/* margin-left:auto keeps the links grouped hard against the right edge instead
+   of spreading across the header. */
+.site-nav {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 30px;
+  min-width: 0;
+}
+
 .nav-link {
   position: relative;
   padding-bottom: 5px;
+  white-space: nowrap;
 }
 
 .nav-link__inner {
@@ -188,9 +201,12 @@ hr {
   gap: 5px;
 }
 
+/* width:auto only works because the outer <svg> carries a viewBox; without one
+   it would fall back to the 300px default replaced-element width. */
 .nav-icon {
   height: 20px;
   width: auto;
+  flex: none;
   fill: currentColor;
   transition: transform 0.2s ease, color 0.2s ease;
   cursor: pointer;
@@ -787,11 +803,26 @@ body.page-opportunities [data-nav="opportunities"]::after {
 
 /* ----------------------------------------------------------- 11. breakpoints */
 
-@media (min-width: 640px) {
+/* Nav sizing steps down as the window narrows so the links never clip.
+   Labels appear only when there is room for all five. */
+@media (min-width: 900px) {
   .nav-label {
     display: inline;
   }
+}
 
+@media (min-width: 900px) and (max-width: 1100px) {
+  .site-header {
+    gap: 16px;
+    padding-inline: 16px;
+  }
+
+  .site-nav {
+    gap: 16px;
+  }
+}
+
+@media (min-width: 640px) {
   .card-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }

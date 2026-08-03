@@ -143,11 +143,27 @@ async function build() {
   const data = load();
   const { site } = data;
 
+  /* Inline the icon sprite into every page and read each symbol's viewBox from
+     it, so the sprite file stays the single source of truth for both. */
+  const spriteSrc = readFileSync(join(STATIC, "icons.svg"), "utf8");
+  const viewBoxes = Object.fromEntries(
+    [...spriteSrc.matchAll(/<symbol id="([^"]+)" viewBox="([^"]+)"/g)].map((m) => [m[1], m[2]])
+  );
+  const sprite = spriteSrc.trim().split("\n").map((l) => "    " + l.trim()).join("\n");
+  for (const item of site.nav)
+    if (item.icon && !viewBoxes[item.icon])
+      errors.push(`site.json: nav item "${item.label}" uses icon "${item.icon}", which is not in static/icons.svg`);
+  if (errors.length) {
+    console.error(`\n${errors.length} error(s):`);
+    for (const e of errors) console.error("  " + e);
+    process.exit(1);
+  }
+
   rmSync(OUT, { recursive: true, force: true });
   mkdirSync(OUT, { recursive: true });
 
   const page = (rel, key, title, description, body) =>
-    write(rel, layout({ site, pageKey: key, title, description, body }));
+    write(rel, layout({ site, pageKey: key, title, description, body, viewBoxes, sprite }));
 
   page("index.html", "home", "NEXDIG Lab", "Next-generation Data-Intensive Systems Group at USC, led by Ibrahim Sabek.", P.home(data));
   page("people/index.html", "people", "People — NEXDIG Lab", "Faculty, students and alumni of the NEXDIG Lab at USC.", P.people(data));
@@ -189,19 +205,48 @@ async function serve() {
         timer = setTimeout(() => build().catch((e) => console.error(e.message)), 100);
       });
 
-  createServer((req, res) => {
-    let p = decodeURIComponent(req.url.split("?")[0]);
-    // Reproduce GitHub Pages: /people -> 301 /people/ -> people/index.html.
-    // Only redirect when the directory actually exists; otherwise 404, as Pages does.
-    if (!extname(p) && !p.endsWith("/") && existsSync(join(OUT, p, "index.html"))) {
-      res.writeHead(301, { Location: p + "/" });
-      return res.end();
+  const server = createServer((req, res) => {
+    // A rebuild wipes _site/, so a request arriving mid-rebuild can hit a file
+    // that briefly does not exist. Never let that take the dev server down.
+    try {
+      const p = decodeURIComponent(req.url.split("?")[0]);
+      // Reproduce GitHub Pages: /people -> 301 /people/ -> people/index.html.
+      // Only redirect when the directory exists; otherwise 404, as Pages does.
+      if (!extname(p) && !p.endsWith("/") && existsSync(join(OUT, p, "index.html"))) {
+        res.writeHead(301, { Location: p + "/" });
+        return res.end();
+      }
+      const f = join(OUT, p.endsWith("/") ? p + "index.html" : p);
+      if (existsSync(f)) {
+        res.writeHead(200, { "Content-Type": MIME[extname(f)] ?? "application/octet-stream" });
+        return res.end(readFileSync(f));
+      }
+      const notFound = join(OUT, "404.html");
+      res.writeHead(404, { "Content-Type": "text/html" });
+      res.end(existsSync(notFound) ? readFileSync(notFound) : "<h1>404</h1>");
+    } catch (e) {
+      res.writeHead(503, { "Content-Type": "text/plain" });
+      res.end("rebuilding, refresh in a moment\n");
     }
-    let f = join(OUT, p.endsWith("/") ? p + "index.html" : p);
-    if (!existsSync(f)) { res.writeHead(404, { "Content-Type": "text/html" }); return res.end(readFileSync(join(OUT, "404.html"))); }
-    res.writeHead(200, { "Content-Type": MIME[extname(f)] ?? "application/octet-stream" });
-    res.end(readFileSync(f));
-  }).listen(8000, () => console.log("serving http://localhost:8000  (watching for changes)"));
+  });
+
+  const portArg = process.argv.indexOf("--port");
+  const port = portArg > -1 ? Number(process.argv[portArg + 1]) : 8000;
+
+  server.on("error", (e) => {
+    if (e.code === "EADDRINUSE") {
+      console.error(
+        `\nPort ${port} is already in use -- another preview server is probably still running.\n` +
+          `  Reuse it:  open http://localhost:${port}\n` +
+          `  Or stop it: lsof -ti:${port} | xargs kill\n` +
+          `  Or pick another port: node build.mjs --serve --port 8001\n`
+      );
+      process.exit(1);
+    }
+    throw e;
+  });
+
+  server.listen(port, () => console.log(`serving http://localhost:${port}  (watching for changes)`));
 }
 
 const [major] = process.versions.node.split(".").map(Number);

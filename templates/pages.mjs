@@ -85,7 +85,8 @@ const person = (p) => {
                   <img src="/people_photos/${attr(p.photo)}" alt="${attr(p.name)}"
                        style="transform:scale(${Number(zoom)});object-position:${pos}" />
                 </div>`
-    : `<div class="person__placeholder"><svg aria-hidden="true"><use href="/icons.svg#person"/></svg></div>`;
+    // Same-document <use> and an explicit viewBox, for the reasons in layout.mjs.
+    : `<div class="person__placeholder"><svg viewBox="0 0 448 512" aria-hidden="true"><use href="#person"/></svg></div>`;
 
   const name = p.website
     ? `<a href="${url(p.website)}" target="_blank" rel="noopener noreferrer">${esc(p.name)}</a>`
