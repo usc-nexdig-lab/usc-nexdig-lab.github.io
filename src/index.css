@@ -19,9 +19,11 @@
     font-weight: bold;
 }
 
+/* Single source of truth. Previously split across two .news-section blocks where
+   the later one overrode width/max-width/position/bottom/left/transform; this is
+   the computed result of that cascade. */
 .news-section {
-    width: 30%; 
-    max-width: 1200px; /* Prevents excessive stretching on large screens */
+    width: 100%;
     padding: 20px;
     background-color: #d1c6c615;
     border-radius: 5px;
@@ -29,9 +31,6 @@
     overflow-y: auto; /* Enables scrolling for overflow */
     margin: 0 auto; /* Centers the section */
     position: relative;
-    bottom: 0;
-    left: 50%;
-    transform: translateX(-50%);
 }
 
 /* Title styling */
@@ -143,12 +142,3 @@
   max-width: 1200px;
 }
 
-/* Ensure news-section fits within the grid */
-.news-section {
-  width: 100%;
-  max-width: none;
-  position: relative; /* Remove absolute positioning */
-  bottom: unset;
-  left: unset;
-  transform: none;
-}
