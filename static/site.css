@@ -1,0 +1,820 @@
+/* NEXDIG Lab — hand-written stylesheet replacing Tailwind.
+ *
+ * Values are transcribed from the Tailwind 3.4 build that this site shipped
+ * before the migration, not from memory. Sections 1 and 2 reproduce Tailwind's
+ * Preflight reset: the markup depends on it, and dropping any of it visibly
+ * breaks every page (see the notes on each rule).
+ */
+
+/* ------------------------------------------------------------------ 1. reset */
+
+*,
+::before,
+::after {
+  box-sizing: border-box;
+  border: 0 solid #e5e7eb;
+}
+
+html {
+  line-height: 1.5;
+  -webkit-text-size-adjust: 100%;
+  tab-size: 4;
+  /* Exact Tailwind 3.4 stack. It deliberately omits -apple-system/Segoe UI/
+     Roboto; substituting the more familiar stack shifts every line break. */
+  font-family: ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji",
+    "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+}
+
+body {
+  margin: 0;
+  line-height: inherit;
+}
+
+/* Nav labels are <h1>. Without this they render at 2em bold. */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-size: inherit;
+  font-weight: inherit;
+}
+
+/* The two intro paragraphs on the homepage carry no spacing utility and run
+   together today. That is the current appearance; keep it. */
+blockquote,
+dd,
+dl,
+figure,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+hr,
+p,
+pre {
+  margin: 0;
+}
+
+menu,
+ol,
+ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+/* Header links and project link pills carry no colour class. Without this they
+   turn browser-blue and underlined. */
+a {
+  color: inherit;
+  text-decoration: inherit;
+}
+
+b,
+strong {
+  font-weight: bolder;
+}
+
+button {
+  background-color: transparent;
+  background-image: none;
+  font: inherit;
+  color: inherit;
+  margin: 0;
+  padding: 0;
+  cursor: pointer;
+}
+
+audio,
+canvas,
+embed,
+iframe,
+img,
+object,
+svg,
+video {
+  display: block;
+  vertical-align: middle;
+}
+
+img,
+video {
+  max-width: 100%;
+  height: auto;
+}
+
+code,
+kbd,
+pre,
+samp {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
+    "Liberation Mono", "Courier New", monospace;
+  font-size: 1em;
+}
+
+hr {
+  height: 0;
+  color: inherit;
+  border-top-width: 1px;
+}
+
+/* ----------------------------------------------------------------- 2. tokens */
+
+:root {
+  --usc-red: #990000;
+  --gray-100: #f3f4f6;
+  --gray-200: #e5e7eb;
+  --gray-300: #d1d5db;
+  --gray-500: #6b7280;
+  --gray-600: #4b5563;
+  --gray-700: #374151;
+  --gray-800: #1f2937;
+  --red-600: #dc2626;
+  --red-700: #b91c1c;
+  --blue-600: #2563eb;
+
+  --shadow: 0 1px 3px 0 #0000001a, 0 1px 2px -1px #0000001a;
+  --shadow-sm: 0 1px 2px 0 #0000000d;
+  --shadow-md: 0 4px 6px -1px #0000001a, 0 2px 4px -2px #0000001a;
+  --shadow-lg: 0 10px 15px -3px #0000001a, 0 4px 6px -4px #0000001a;
+
+  --page-max: 1200px;
+}
+
+/* ------------------------------------------------------------------ 3. shell */
+
+.site-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 60px;
+  z-index: 50;
+  display: flex;
+  align-items: center;
+  gap: 30px;
+  padding: 10px 30px;
+  background-color: #fff;
+  box-shadow: var(--shadow);
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  letter-spacing: 0.025em;
+  font-weight: 500;
+  color: var(--gray-800);
+}
+
+.site-header__brand {
+  flex: 1 1 0%;
+}
+
+.site-header__logo {
+  height: 20px;
+  width: auto;
+  cursor: pointer;
+}
+
+.nav-link {
+  position: relative;
+  padding-bottom: 5px;
+}
+
+.nav-link__inner {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.nav-icon {
+  height: 20px;
+  width: auto;
+  fill: currentColor;
+  transition: transform 0.2s ease, color 0.2s ease;
+  cursor: pointer;
+}
+
+/* Replaces the 300ms JS class toggle with the same visual effect, no script. */
+.nav-link__inner:active .nav-icon {
+  transform: scale(1.4) rotate(15deg);
+  color: var(--usc-red);
+}
+
+.nav-label {
+  display: none;
+}
+
+/* Active page: driven by <body class="page-*"> so the header markup is
+   identical on every page and lives in exactly one template. */
+body.page-home [data-nav="home"] .nav-label,
+body.page-people [data-nav="people"] .nav-label,
+body.page-people [data-nav="people"] .nav-icon,
+body.page-research [data-nav="research"] .nav-label,
+body.page-research [data-nav="research"] .nav-icon,
+body.page-publications [data-nav="publications"] .nav-label,
+body.page-publications [data-nav="publications"] .nav-icon,
+body.page-opportunities [data-nav="opportunities"] .nav-label,
+body.page-opportunities [data-nav="opportunities"] .nav-icon {
+  color: var(--usc-red);
+}
+
+body.page-home [data-nav="home"]::after,
+body.page-people [data-nav="people"]::after,
+body.page-research [data-nav="research"]::after,
+body.page-publications [data-nav="publications"]::after,
+body.page-opportunities [data-nav="opportunities"]::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  background-color: var(--usc-red);
+  border-radius: 2px;
+}
+
+.page {
+  padding: 90px 30px 60px;
+}
+
+.page__inner {
+  max-width: var(--page-max);
+  width: 100%;
+  margin-inline: auto;
+}
+
+.site-footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  padding: 5px 30px;
+  background-color: #000;
+  color: #fff;
+  font-size: 0.75rem;
+  line-height: 1rem;
+}
+
+/* ----------------------------------------------------------- 4. shared bits */
+
+.page-title {
+  font-size: 30px;
+  margin-bottom: 30px;
+}
+
+.red-title {
+  color: var(--usc-red);
+  font-weight: bold;
+}
+
+.clickable-link {
+  color: var(--usc-red);
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.separator {
+  border-top: 2px solid var(--usc-red);
+  margin: 20px 0;
+}
+
+.custom-h2 {
+  font-size: 26px;
+  color: var(--usc-red);
+  font-weight: bold;
+}
+
+/* ------------------------------------------------------------------- 5. home */
+
+.home {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 30px;
+}
+
+.home__logo {
+  width: 100%;
+  max-width: 80rem;
+}
+
+.homepage-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: auto auto;
+  gap: 20px;
+  width: 100%;
+  max-width: var(--page-max);
+}
+
+.home__col {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+/* carousel */
+.carousel {
+  position: relative;
+  width: 100%;
+  max-width: 600px;
+  height: 400px;
+  overflow: hidden;
+  border-radius: 0.5rem;
+  box-shadow: var(--shadow-lg);
+}
+
+.carousel__img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.carousel__caption {
+  position: absolute;
+  bottom: 0.75rem;
+  left: 0.75rem;
+  color: #fff;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  font-weight: 500;
+  filter: drop-shadow(0 10px 8px #0000000a) drop-shadow(0 4px 3px #0000001a);
+}
+
+.carousel__btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  padding: 0.5rem;
+  background-color: #ffffff4d;
+  box-shadow: var(--shadow-md);
+}
+
+.carousel__btn:hover {
+  background-color: #fff;
+}
+
+.carousel__btn--prev {
+  left: 0.5rem;
+}
+
+.carousel__btn--next {
+  right: 0.5rem;
+}
+
+/* news */
+.news-section {
+  width: 100%;
+  padding: 20px;
+  background-color: #d1c6c615;
+  border-radius: 5px;
+  max-height: 40vh;
+  overflow-y: auto;
+  margin: 0 auto;
+  position: relative;
+}
+
+.news-title {
+  font-size: 24px;
+  color: #333;
+  margin-bottom: 15px;
+  padding-bottom: 10px;
+  text-align: center;
+}
+
+.news-list {
+  display: flex;
+  flex-direction: column;
+}
+
+.news-item {
+  width: 100%;
+  margin-bottom: 15px;
+  padding-bottom: 15px;
+}
+
+.news-date {
+  font-weight: bold;
+  color: #555;
+  margin-bottom: 5px;
+}
+
+.news-description {
+  color: #666;
+  line-height: 1.5;
+}
+
+/* Was an inline style repeated on every news link; now defined once. */
+.news-description a {
+  color: var(--usc-red);
+  font-weight: 600;
+  text-decoration: underline;
+}
+
+/* ----------------------------------------------------------------- 6. people */
+
+.people {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.people__group {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.people__heading {
+  font-weight: 600;
+  font-size: 1.25rem;
+  line-height: 1.75rem;
+}
+
+.people__list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.people__list--faculty {
+  flex-wrap: nowrap;
+  width: 100%;
+}
+
+.person {
+  display: flex;
+  align-items: flex-start;
+  width: 20rem;
+}
+
+.people__list--faculty .person {
+  width: 100%;
+  gap: 2rem;
+}
+
+.person__photo {
+  position: relative;
+  width: 8rem;
+  height: 8rem;
+  overflow: hidden;
+  flex: none;
+}
+
+.person__photo img {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s;
+}
+
+.person__placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 6rem;
+  height: 6rem;
+  background-color: var(--gray-100);
+}
+
+.person__placeholder svg {
+  width: 3rem;
+  height: 3rem;
+  color: var(--gray-300);
+  fill: currentColor;
+}
+
+.person__body {
+  margin-left: 1rem;
+}
+
+.person__name {
+  font-weight: 600;
+  font-size: 1.125rem;
+  line-height: 1.75rem;
+}
+
+.person__name a {
+  color: var(--red-700);
+}
+
+.person__name a:hover {
+  text-decoration: underline;
+}
+
+.person__blurb {
+  margin-top: 0.5rem;
+  color: var(--gray-700);
+}
+
+/* --------------------------------------------------------------- 7. research */
+
+.research__section {
+  margin-bottom: 3rem;
+}
+
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(1, minmax(0, 1fr));
+  gap: 1.5rem;
+}
+
+.card {
+  border: 1px solid var(--gray-200);
+  border-radius: 0.75rem;
+  box-shadow: var(--shadow-sm);
+  overflow: hidden;
+  background-color: #fff;
+  transition: all 0.3s;
+}
+
+.card:hover {
+  box-shadow: var(--shadow-md);
+}
+
+.card__img {
+  width: 100%;
+  height: 10rem;
+  object-fit: contain;
+}
+
+.card__body {
+  padding: 1rem;
+}
+
+.card__title {
+  font-weight: 600;
+  font-size: 1.125rem;
+  line-height: 1.75rem;
+  margin-bottom: 0.5rem;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+}
+
+.card__title a {
+  transition: color 0.15s;
+}
+
+.card__title a:hover {
+  color: var(--red-600);
+}
+
+.card__summary {
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  color: var(--gray-600);
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  overflow: hidden;
+}
+
+/* ----------------------------------------------------------- 8. publications */
+
+.publications {
+  max-width: 64rem;
+  margin-inline: auto;
+}
+
+.publications__list {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.pub {
+  border-bottom: 1px solid var(--gray-200);
+  padding-bottom: 0.75rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.375rem;
+}
+
+.pub__title {
+  font-weight: 500;
+  font-size: 1rem;
+  line-height: 1.375;
+}
+
+.pub__authors {
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  color: var(--gray-800);
+}
+
+.pub__venue {
+  font-style: italic;
+  color: var(--gray-500);
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+}
+
+.pub__note {
+  font-size: 0.75rem;
+  line-height: 1rem;
+  color: var(--gray-500);
+  font-style: italic;
+}
+
+.pub__links {
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  color: var(--gray-600);
+  margin-top: 0.25rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.pub__links a {
+  color: var(--blue-600);
+}
+
+.pub__links a:hover {
+  text-decoration: underline;
+}
+
+/* ---------------------------------------------------------------- 9. project */
+
+.project {
+  margin-inline: auto;
+  padding: 3rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 3rem;
+}
+
+.project__header {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.project__title {
+  font-size: 2.25rem;
+  line-height: 2.5rem;
+  font-weight: 700;
+}
+
+.project__subtitle {
+  font-size: 1.125rem;
+  line-height: 1.75rem;
+  color: var(--gray-600);
+}
+
+.project__links {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.pill {
+  padding: 0.5rem 1.25rem;
+  border: 1px solid var(--gray-300);
+  border-radius: 9999px;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  font-weight: 500;
+  transition: background-color 0.15s;
+}
+
+.pill:hover {
+  background-color: var(--gray-100);
+}
+
+.project__section {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.project__h2 {
+  font-size: 1.5rem;
+  line-height: 2rem;
+  font-weight: 600;
+  border-bottom: 1px solid var(--gray-200);
+  padding-bottom: 0.25rem;
+}
+
+.project__body {
+  color: var(--gray-700);
+}
+
+.project__body p + p {
+  margin-top: 1rem;
+}
+
+.project__body a {
+  color: var(--usc-red);
+  text-decoration: underline;
+}
+
+.bibtex {
+  position: relative;
+  background-color: #f6f8fa;
+  border: 1px solid var(--gray-200);
+  border-radius: 0.5rem;
+  padding: 1rem;
+}
+
+.bibtex__copy {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.75rem;
+  font-size: 0.75rem;
+  line-height: 1rem;
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.375rem;
+  border: 1px solid var(--gray-300);
+  background-color: #fff;
+  transition: background-color 0.15s;
+}
+
+.bibtex__copy:hover {
+  background-color: var(--gray-100);
+}
+
+.bibtex pre {
+  overflow-x: auto;
+  font-size: 0.875rem;
+  color: var(--gray-800);
+  white-space: pre;
+  line-height: 1.625;
+}
+
+.members {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 2rem;
+}
+
+.member {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.member img {
+  width: 7rem;
+  height: 7rem;
+  object-fit: cover;
+  border-radius: 9999px;
+  box-shadow: var(--shadow-md);
+}
+
+.member__name {
+  margin-top: 0.75rem;
+  color: var(--gray-800);
+  font-weight: 500;
+}
+
+/* ------------------------------------------------------------- 10. not found */
+
+.notfound {
+  text-align: center;
+  color: #ef4444;
+  padding: 5rem 0;
+}
+
+/* ----------------------------------------------------------- 11. breakpoints */
+
+@media (min-width: 640px) {
+  .nav-label {
+    display: inline;
+  }
+
+  .card-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 768px) {
+  .carousel__caption {
+    font-size: 1rem;
+    line-height: 1.5rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .card-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+/* The homepage grid is a fixed two-column layout in the current design and has
+   no responsive rule; below ~900px it becomes cramped, so collapse it. This is
+   a deliberate improvement over the current behaviour, not a transcription. */
+@media (max-width: 900px) {
+  .homepage-grid {
+    grid-template-columns: 1fr;
+  }
+}

@@ -5,32 +5,32 @@
     {
       "label": "ABOUT",
       "href": "/",
-      "icon": "about",
-      "key": "home"
+      "key": "home",
+      "icon": ""
     },
     {
       "label": "TEAM",
       "href": "/people/",
-      "icon": "team",
-      "key": "people"
+      "key": "people",
+      "icon": "team"
     },
     {
       "label": "RESEARCH",
       "href": "/research/",
-      "icon": "about",
-      "key": "research"
+      "key": "research",
+      "icon": "research"
     },
     {
       "label": "PUBLICATIONS",
       "href": "/publications/",
-      "icon": "pubs",
-      "key": "publications"
+      "key": "publications",
+      "icon": "pubs"
     },
     {
       "label": "OPPORTUNITIES",
       "href": "/opportunities/",
-      "icon": "opps",
-      "key": "opportunities"
+      "key": "opportunities",
+      "icon": "opps"
     }
   ],
   "carousel": [
