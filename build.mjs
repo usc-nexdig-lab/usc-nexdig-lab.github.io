@@ -8,7 +8,7 @@
  *   node build.mjs --serve    build, serve on :8000, rebuild on change
  */
 
-import { readFileSync, readdirSync, writeFileSync, mkdirSync, rmSync, renameSync, copyFileSync, existsSync, watch } from "node:fs";
+import { readFileSync, readdirSync, writeFileSync, mkdirSync, rmSync, renameSync, copyFileSync, existsSync, statSync, watch } from "node:fs";
 import { join, dirname, extname } from "node:path";
 import { createServer } from "node:http";
 
@@ -147,6 +147,20 @@ function load() {
   need(Array.isArray(homepage.photos) && homepage.photos.length, "homepage.json", "needs at least one photo");
   for (const c of [...(homepage.photos ?? []), homepage.heroPhoto].filter(Boolean))
     need(existsSync(join("public", c.src.replace(/^\//, ""))), "homepage.json", `photo not found: ${c.src}`);
+
+  /* Photos are displayed a few hundred pixels wide. A multi-megabyte upload is
+     almost always a phone original that nobody thought to resize, and it is the
+     easiest way to make the site feel slow. Warn rather than fail. */
+  for (const dir of ["team_photos", "people_photos", "projects_photos"]) {
+    const d = join("public", dir);
+    if (!existsSync(d)) continue;
+    for (const f of readdirSync(d)) {
+      if (f.startsWith(".")) continue;
+      const kb = statSync(join(d, f)).size / 1024;
+      if (kb > 800)
+        console.warn(`  warn  ${dir}/${f} is ${Math.round(kb)} KB -- consider resizing; it is displayed a few hundred pixels wide`);
+    }
+  }
 
   if (errors.length) {
     console.error(`\n${errors.length} error(s):`);

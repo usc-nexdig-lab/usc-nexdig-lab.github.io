@@ -114,10 +114,10 @@ ${
     ? `          <section class="band">
             <div class="container home__section">
               <div class="home__head"><h2 class="section-heading">${esc(h.photosHeading)}</h2></div>
-              <div class="mosaic">
+              <div class="gallery">
 ${h.photos
   .map(
-    (ph) => `                <figure class="mosaic__item">
+    (ph) => `                <figure class="gallery__item">
                   <img src="${url(ph.src)}" alt="${attr(ph.caption ?? "")}" loading="lazy" />
 ${ph.caption ? `                  <figcaption>${esc(ph.caption)}</figcaption>` : ""}
                 </figure>`

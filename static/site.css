@@ -531,24 +531,44 @@ body.page-opportunities [data-nav="opportunities"]::after {
 .news-description a { color: var(--gray-800); font-weight: 600; text-decoration: underline; }
 .news-description a:hover { color: var(--usc-red); }
 
-/* --- photo mosaic (the lead photo is in the hero) --- */
-.mosaic { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1.25rem; }
-
-.mosaic__item { margin: 0; }
-
-.mosaic__item img {
-  width: 100%;
-  aspect-ratio: 4 / 3;
-  object-fit: cover;
-  border-radius: 0.6rem;
-  border: 1px solid var(--gray-200);
+/* --- photo gallery -------------------------------------------------------
+   Masonry columns, not a fixed grid: the lab's photos are a mix of landscape
+   and portrait, and forcing them all into one aspect ratio crops the portrait
+   ones straight through the middle. Here each keeps its natural shape. */
+.gallery {
+  column-count: 3;
+  column-gap: 1.25rem;
 }
 
-.mosaic__item figcaption {
-  margin-top: 0.5rem;
+.gallery__item {
+  break-inside: avoid;
+  margin: 0 0 1.25rem;
+  overflow: hidden;
+  border-radius: 0.7rem;
+  border: 1px solid var(--gray-200);
+  background-color: #fff;
+  transition: box-shadow 0.2s, transform 0.2s;
+}
+
+.gallery__item:hover {
+  box-shadow: var(--shadow-md);
+  transform: translateY(-2px);
+}
+
+.gallery__item img {
+  display: block;
+  width: 100%;
+  height: auto;
+  transition: transform 0.5s ease;
+}
+
+.gallery__item:hover img { transform: scale(1.03); }
+
+.gallery__item figcaption {
+  padding: 0.65rem 0.85rem 0.75rem;
   font-size: 0.8125rem;
-  color: var(--gray-500);
   line-height: 1.4;
+  color: var(--gray-600);
 }
 
 /* --- call to action --- */
@@ -1282,9 +1302,14 @@ body.page-opportunities [data-nav="opportunities"]::after {
   .hero { grid-template-columns: 1fr; gap: 2.25rem; }
   .hero__figure { order: -1; }
   .home__split { grid-template-columns: 1fr; gap: 2.5rem; }
+  .gallery { column-count: 2; }
   .areas { grid-template-columns: 1fr; }
   .hero__mission { font-size: 2rem; }
   .band { padding: 3rem 0; }
+}
+
+@media (max-width: 560px) {
+  .gallery { column-count: 1; }
 }
 
 @media (max-width: 760px) {
