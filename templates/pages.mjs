@@ -23,58 +23,99 @@ const linkList = (links = []) =>
 
 /* ------------------------------------------------------------------ home */
 
-export const home = ({ homepage, news }) => `
+export const home = ({ homepage: h, news, projects, publications: pubs }) => {
+  const featured = projects.filter((p) => p.status === "current").slice(0, 3);
+  const recentNews = news.slice(0, 4);
+  const recentPubs = pubs.slice(0, 3);
+
+  return `
         <div class="home">
-          <div class="home__logo"><img src="/assets/logo.svg" alt="NEXDIG Logo" /></div>
 
-          <div class="homepage-grid">
-            <div class="home__col">
-              <div>
-                <p>
-                  Welcome to the <b>NEX</b>t-generation <b>D</b>ata-<b>I</b>ntensive Systems
-                  <b>G</b>roup (NEXDIG) lab! Led by
-                  <a href="http://viterbi-web.usc.edu/~sabek/" class="clickable-link">Ibrahim Sabek</a>,
-                  we are a cutting-edge research lab focused on the next-generation data systems.
-                  The lab explores innovative approaches to enhance the performance, scalability,
-                  security, and interpretability of data-intensive platforms.
-                </p>
-                <p>
-                  Through an interdisciplinary blend of machine learning, quantum computing, and
-                  large language models, NEXDIG drives fundamental advances that bridge AI and data
-                  systems, enabling intelligent, trustworthy, and high-performance solutions for
-                  next-generation applications across industries.
-                </p>
-              </div>
+          <section class="hero">
+            <img class="hero__logo" src="/assets/logo.svg" alt="NEXDIG" />
+            <p class="hero__tagline">${esc(h.tagline)}</p>
+            <h1 class="hero__mission">${esc(h.mission)}</h1>
+            <div class="hero__intro">${markdown(h.intro)}</div>
+            <div class="hero__actions">
+              <a class="btn btn--primary" href="/research/">Our research</a>
+              <a class="btn" href="${url(h.cta.href)}">${esc(h.cta.label)}</a>
+            </div>
+          </section>
 
-              <div>
-                <section class="news-section">
-                  <h2 class="news-title">News</h2>
-                  <ul class="news-list">
-${news
+          <section class="home__section">
+            <div class="home__head">
+              <h2 class="section-heading">What we work on</h2>
+              <a class="home__more" href="/research/">All research &rarr;</a>
+            </div>
+            <div class="areas">
+${featured
   .map(
-    (n) => `                    <li class="news-item">
-                      <p class="news-date"><time datetime="${attr(n.date)}">${esc(n.displayDate)}</time></p>
-                      <p class="news-description">${mdInline(n.text)}</p>
-                    </li>`
+    (p) => `              <a class="area" href="/project/${attr(p.id)}/">
+                <div class="area__media"><img src="${url(p.cardImage)}" alt="" loading="lazy" /></div>
+                <h3 class="area__title">${esc(p.cardTitle)}</h3>
+                <p class="area__hook">${esc(p.hook)}</p>
+              </a>`
   )
   .join("\n")}
-                  </ul>
-                </section>
-              </div>
             </div>
+          </section>
 
-            <div class="home__col">
-              <div>
-                <div class="carousel" data-carousel='${attr(JSON.stringify(homepage.carousel))}'>
-                  <img class="carousel__img" src="${url(homepage.carousel[0].src)}" alt="${attr(homepage.carousel[0].caption)}" />
-                  <div class="carousel__caption">${esc(homepage.carousel[0].caption)}</div>
-                  <button class="carousel__btn carousel__btn--prev" aria-label="Previous Image">&#9664;</button>
-                  <button class="carousel__btn carousel__btn--next" aria-label="Next Image">&#9654;</button>
-                </div>
+          <div class="home__split">
+            <section class="home__section">
+              <div class="home__head"><h2 class="section-heading">News</h2></div>
+              <ul class="news-list">
+${recentNews
+  .map(
+    (n) => `                <li class="news-item">
+                  <p class="news-date"><time datetime="${attr(n.date)}">${esc(n.displayDate)}</time></p>
+                  <p class="news-description">${mdInline(n.text)}</p>
+                </li>`
+  )
+  .join("\n")}
+              </ul>
+            </section>
+
+            <section class="home__section">
+              <div class="home__head">
+                <h2 class="section-heading">Recent papers</h2>
+                <a class="home__more" href="/publications/">All papers &rarr;</a>
               </div>
-            </div>
+              <div class="publications__list">
+${recentPubs
+  .map(
+    (p) => `                <div class="pub">
+                  <h3 class="pub__title">${esc(p.title)}</h3>
+                  <p class="pub__authors">${p.authorsHtml}</p>
+                  <p class="pub__venue">${esc(p.venueShort)}, ${esc(p.year)}</p>
+                </div>`
+  )
+  .join("\n")}
+              </div>
+            </section>
           </div>
+
+          <section class="home__section">
+            <div class="home__head"><h2 class="section-heading">${esc(h.photosHeading)}</h2></div>
+            <div class="mosaic">
+${h.photos
+  .map(
+    (ph, i) => `              <figure class="mosaic__item${i === 0 ? " mosaic__item--lead" : ""}">
+                <img src="${url(ph.src)}" alt="${attr(ph.caption ?? "")}" loading="lazy" />
+${ph.caption ? `                <figcaption>${esc(ph.caption)}</figcaption>` : ""}
+              </figure>`
+  )
+  .join("\n")}
+            </div>
+          </section>
+
+          <section class="cta">
+            <h2 class="cta__heading">${esc(h.cta.heading)}</h2>
+            <p class="cta__body">${esc(h.cta.body)}</p>
+            <a class="btn btn--primary" href="${url(h.cta.href)}">${esc(h.cta.label)}</a>
+          </section>
+
         </div>`;
+};
 
 /* ---------------------------------------------------------------- people */
 
@@ -219,7 +260,13 @@ ${p.hook ? `            <p class="project__hook">${esc(p.hook)}</p>` : ""}
 ${
   p.links?.length
     ? `            <div class="project__links">
-${p.links.map((l) => `              <a class="pill" href="${url(l.url)}" target="_blank" rel="noopener noreferrer">${esc(l.label)}</a>`).join("\n")}
+${p.links
+  .map((l) => {
+    // The paper is the primary action; everything else is secondary.
+    const primary = /paper|pdf|arxiv|proceedings/i.test(l.label);
+    return `              <a class="btn btn--sm ${primary ? "btn--primary" : "btn--outline"}" href="${url(l.url)}" target="_blank" rel="noopener noreferrer">${esc(l.label)}</a>`;
+  })
+  .join("\n")}
             </div>`
     : ""
 }
@@ -262,16 +309,17 @@ ${s.caption ? `              <figcaption>${esc(s.caption)}</figcaption>` : ""}
 ${
   p.resolvedPublications?.length
     ? `          <section class="project__section">
-            <h2 class="section-heading">Publications</h2>
-            <div class="publications__list">
+            <h2 class="section-heading">Citation</h2>
+            <div class="cites">
 ${p.resolvedPublications
   .map(
-    (pub) => `              <div class="pub">
-                <h3 class="pub__title">${esc(pub.title)}</h3>
-                <p class="pub__authors">${pub.authorsHtml}</p>
-                <p class="pub__venue">${esc(pub.venue)}, ${esc(pub.year)}</p>
-                <div class="pub__links">
-            ${linkList(pub.links)}
+    (pub) => `              <div class="cite-entry">
+                <p class="cite-entry__text" data-citation>${esc(pub.citation)}</p>
+                <div class="cite-entry__actions">
+${(pub.links ?? [])
+  .map((l) => `                  <a class="btn btn--sm ${/paper|pdf|arxiv|proceedings/i.test(l.label) ? "btn--primary" : "btn--outline"}" href="${url(l.url)}" target="_blank" rel="noopener noreferrer">${esc(l.label)}</a>`)
+  .join("\n")}
+                  <button class="btn btn--sm btn--ghost" data-copy-citation>Copy citation</button>
                 </div>
               </div>`
   )

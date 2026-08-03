@@ -3,28 +3,24 @@
  * one file can serve every page. */
 
 document.addEventListener("DOMContentLoaded", () => {
-  /* ---- homepage photo carousel ---- */
-  const el = document.querySelector("[data-carousel]");
-  if (el) {
-    const slides = JSON.parse(el.dataset.carousel);
-    const img = el.querySelector(".carousel__img");
-    const caption = el.querySelector(".carousel__caption");
-    let i = 0;
-    let timer;
+  /* ---- copy buttons: BibTeX blocks and citation lines ---- */
+  const flash = (btn, label) => {
+    const original = btn.textContent;
+    btn.textContent = label;
+    setTimeout(() => { btn.textContent = original; }, 1600);
+  };
 
-    const show = (n) => {
-      i = (n + slides.length) % slides.length;
-      img.src = slides[i].src;
-      img.alt = slides[i].caption;
-      caption.textContent = slides[i].caption;
-    };
-    const start = () => { timer = setInterval(() => show(i + 1), 4000); };
-    const restart = () => { clearInterval(timer); start(); };
-
-    el.querySelector(".carousel__btn--prev").addEventListener("click", () => { show(i - 1); restart(); });
-    el.querySelector(".carousel__btn--next").addEventListener("click", () => { show(i + 1); restart(); });
-    if (slides.length > 1) start();
-  }
+  document.querySelectorAll("[data-copy-citation]").forEach((btn) => {
+    btn.addEventListener("click", async () => {
+      const text = btn.closest(".cite-entry").querySelector("[data-citation]").textContent.trim();
+      try {
+        await navigator.clipboard.writeText(text);
+        flash(btn, "Copied!");
+      } catch {
+        /* ignore */
+      }
+    });
+  });
 
   /* ---- BibTeX copy buttons ---- */
   document.querySelectorAll("[data-copy-bibtex]").forEach((btn) => {
@@ -33,8 +29,7 @@ document.addEventListener("DOMContentLoaded", () => {
       const code = btn.closest(".bibtex").querySelector("code").textContent;
       try {
         await navigator.clipboard.writeText(code);
-        btn.textContent = "Copied!";
-        setTimeout(() => { btn.textContent = "Copy"; }, 1600);
+        flash(btn, "Copied!");
       } catch {
         /* ignore, same as the previous implementation */
       }

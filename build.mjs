@@ -105,6 +105,11 @@ function load() {
   for (const p of publications) {
     const m = String(p.venue ?? "").match(/\(([^)]+)\)\s*$/);
     p.venueShort = m ? m[1] : p.venue;
+    // Plain-text citation, e.g. "A. One, B. Two. Title. Venue, 2025."
+    // Trailing equal-contribution markers are dropped -- they mean nothing
+    // outside the paper's own author list.
+    const authors = (p.authors ?? []).map((a) => a.replace(/[*†‡]+$/, "").trim());
+    p.citation = `${authors.join(", ")}. ${p.title}. ${p.venue}, ${p.year}.`;
   }
 
   const knownProjects = new Set(projects.map((p) => p.id));
@@ -135,8 +140,10 @@ function load() {
     for (const s of p.sections ?? []) need(typeof s.body === "string", p.file, `section "${s.title}" needs a body`);
   }
 
-  need(Array.isArray(homepage.carousel) && homepage.carousel.length, "homepage.json", "needs at least one carousel photo");
-  for (const c of homepage.carousel ?? [])
+  for (const f of ["tagline", "mission", "intro", "cta"])
+    need(homepage[f], "homepage.json", `missing "${f}"`);
+  need(Array.isArray(homepage.photos) && homepage.photos.length, "homepage.json", "needs at least one photo");
+  for (const c of homepage.photos ?? [])
     need(existsSync(join("public", c.src.replace(/^\//, ""))), "homepage.json", `photo not found: ${c.src}`);
 
   if (errors.length) {
