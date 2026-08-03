@@ -55,7 +55,6 @@ ${body}
     </main>
 
     <footer class="site-footer">${esc(site.footer)}</footer>
-    <script src="/site.js" defer></script>
   </body>
 </html>
 `;

@@ -312,17 +312,7 @@ ${
             <h2 class="section-heading">Citation</h2>
             <div class="cites">
 ${p.resolvedPublications
-  .map(
-    (pub) => `              <div class="cite-entry">
-                <p class="cite-entry__text" data-citation>${esc(pub.citation)}</p>
-                <div class="cite-entry__actions">
-${(pub.links ?? [])
-  .map((l) => `                  <a class="btn btn--sm ${/paper|pdf|arxiv|proceedings/i.test(l.label) ? "btn--primary" : "btn--outline"}" href="${url(l.url)}" target="_blank" rel="noopener noreferrer">${esc(l.label)}</a>`)
-  .join("\n")}
-                  <button class="btn btn--sm btn--ghost" data-copy-citation>Copy citation</button>
-                </div>
-              </div>`
-  )
+  .map((pub) => `              <p class="cite-entry">${esc(pub.citation)}</p>`)
   .join("\n")}
             </div>
           </section>`
@@ -347,17 +337,6 @@ ${p.resolvedMembers
     : ""
 }
 
-${
-  p.bibtex
-    ? `          <details class="cite">
-            <summary class="cite__summary">Cite this work</summary>
-            <div class="bibtex">
-              <button class="bibtex__copy" data-copy-bibtex>Copy</button>
-              <pre><code>${esc(p.bibtex)}</code></pre>
-            </div>
-          </details>`
-    : ""
-}
         </div>`;
 
 /* ------------------------------------------------------------- not found */

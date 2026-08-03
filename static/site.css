@@ -996,21 +996,12 @@ body.page-opportunities [data-nav="opportunities"]::after {
   gap: 1.25rem;
 }
 
+/* Just the reference text, selectable. Nothing else. */
 .cite-entry {
   padding-left: 1rem;
   border-left: 2px solid var(--gray-200);
-}
-
-.cite-entry__text {
   color: var(--gray-800);
   line-height: 1.6;
-}
-
-.cite-entry__actions {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.5rem;
-  margin-top: 0.65rem;
 }
 
 /* BibTeX is relevant to few readers; available, but no longer dominant. */
