@@ -396,17 +396,11 @@ body.page-opportunities [data-nav="opportunities"]::after {
 
 /* --- hero: text left, lead photo right, so imagery anchors the top --- */
 .hero {
-  display: grid;
-  grid-template-columns: 1.05fr 0.95fr;
-  gap: 3.5rem;
-  align-items: center;
-}
-
-.hero__text {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   gap: 0.85rem;
+  max-width: 46rem;
 }
 
 .hero__logo { height: 46px; width: auto; margin-bottom: 0.35rem; }
@@ -433,21 +427,8 @@ body.page-opportunities [data-nav="opportunities"]::after {
 .hero__intro a { color: var(--usc-red); text-decoration: underline; }
 
 
-.hero__figure { margin: 0; }
 
-.hero__figure img {
-  width: 100%;
-  aspect-ratio: 3 / 2;
-  object-fit: cover;
-  border-radius: 0.9rem;
-  box-shadow: var(--shadow-lg);
-}
 
-.hero__figure figcaption {
-  margin-top: 0.6rem;
-  font-size: 0.8125rem;
-  color: var(--gray-500);
-}
 
 
 
@@ -1308,8 +1289,6 @@ body.page-opportunities [data-nav="opportunities"]::after {
 }
 
 @media (max-width: 960px) {
-  .hero { grid-template-columns: 1fr; gap: 2.25rem; }
-  .hero__figure { order: -1; }
   .home__split { grid-template-columns: 1fr; gap: 2.5rem; }
   .gallery { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .areas { grid-template-columns: 1fr; }

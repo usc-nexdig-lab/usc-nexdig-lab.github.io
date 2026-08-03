@@ -145,7 +145,7 @@ function load() {
   for (const f of ["tagline", "mission", "intro", "cta"])
     need(homepage[f], "homepage.json", `missing "${f}"`);
   need(Array.isArray(homepage.photos) && homepage.photos.length, "homepage.json", "needs at least one photo");
-  for (const c of [...(homepage.photos ?? []), homepage.heroPhoto].filter(Boolean))
+  for (const c of homepage.photos ?? [])
     need(existsSync(join("public", c.src.replace(/^\//, ""))), "homepage.json", `photo not found: ${c.src}`);
 
   /* Photos are displayed a few hundred pixels wide. A multi-megabyte upload is

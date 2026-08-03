@@ -30,24 +30,16 @@ const linkList = (links = []) =>
 
 export const home = ({ homepage: h, news, projects, publications: pubs }) => {
   const featured = projects.filter((p) => p.status === "current").slice(0, 3);
-  // The hero has its own photo so the gallery below can show all of them.
-  const lead = h.heroPhoto ?? h.photos[0];
 
   return `
         <div class="home">
 
           <section class="band band--hero">
             <div class="container hero">
-              <div class="hero__text">
-                <img class="hero__logo" src="/assets/logo.svg" alt="NEXDIG" />
-                <p class="hero__tagline">${esc(h.tagline)}</p>
-                <h1 class="hero__mission">${esc(h.mission)}</h1>
-                <div class="hero__intro">${markdown(h.intro)}</div>
-              </div>
-              <figure class="hero__figure">
-                <img src="${url(lead.src)}" alt="${attr(lead.caption ?? "")}" style="${cropStyle(lead.crop)}" />
-${lead.caption ? `                <figcaption>${esc(lead.caption)}</figcaption>` : ""}
-              </figure>
+              <img class="hero__logo" src="/assets/logo.svg" alt="NEXDIG" />
+              <p class="hero__tagline">${esc(h.tagline)}</p>
+              <h1 class="hero__mission">${esc(h.mission)}</h1>
+              <div class="hero__intro">${markdown(h.intro)}</div>
             </div>
           </section>
 

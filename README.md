@@ -127,7 +127,6 @@ the text rather than inline.
 | **Tagline** | The small red uppercase line above the headline. |
 | **Headline** | The big sentence at the top. One line — what the lab does and why it matters. |
 | **Introduction** | The paragraphs under it. Markdown. |
-| **Hero photo** | The large photo beside the headline at the top. |
 | **Gallery: section heading** | The heading over the photo grid — currently *Lab Appearance*. |
 | **Photos** | The photo gallery lower down. **All** of them are shown at once — no slideshow, nothing hidden. Drag to reorder. |
 | **Framing** (on each photo) | Every photo is shown in the same 3:2 frame whatever its original shape. If the crop cuts off something important, change the focus (top / center / bottom / left / right) and zoom. |
@@ -145,7 +144,6 @@ Always use the upload field — never type a path.
 | Kind | Where | Best shape |
 |---|---|---|
 | Headshot | People → Photo | square (shown at 128×128) |
-| Hero photo | Site → Homepage → Hero photo | landscape |
 | Gallery photo | Site → Homepage → Photos | landscape |
 | Research card image | Research Projects → Card: image | landscape |
 | Section figure | Research Projects → Sections → Figure | any |
@@ -171,7 +169,7 @@ a fixed frame, and your upload is fitted to it automatically:
 | Where | Frame |
 |---|---|
 | Headshots | square |
-| Homepage hero and gallery | 3:2 landscape |
+| Homepage gallery | 3:2 landscape |
 | Research card images | 16:10 landscape |
 
 Upload whatever you have — portrait, landscape, phone snapshot. If the crop cuts
