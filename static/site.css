@@ -255,6 +255,15 @@ body.page-opportunities [data-nav="opportunities"]::after {
   padding: 90px 30px 60px;
 }
 
+/* The homepage manages its own containers so its bands can span the viewport. */
+.page--full {
+  padding: 60px 0 60px;
+}
+
+.page__inner--full {
+  max-width: none;
+}
+
 .page__inner {
   max-width: var(--page-max);
   width: 100%;
@@ -304,13 +313,45 @@ body.page-opportunities [data-nav="opportunities"]::after {
 
 /* ------------------------------------------------------------------- 5. home */
 
-.home {
-  display: flex;
-  flex-direction: column;
-  gap: 4rem;
+.home { display: block; }
+
+/* Full-width bands with a constrained inner container. Alternating tints give
+   the page vertical rhythm -- without them every section reads identically. */
+.band { padding: 4.5rem 0; }
+.band + .band { padding-top: 4.5rem; }
+
+.container {
+  max-width: var(--page-max);
+  margin-inline: auto;
+  padding-inline: 30px;
 }
 
-/* --- buttons (shared) --- */
+.band--hero {
+  padding-top: 3.5rem;
+  padding-bottom: 3.5rem;
+  background:
+    radial-gradient(60rem 26rem at 88% 8%, #9900000c, transparent 70%),
+    linear-gradient(180deg, #fafafa, #fff);
+  border-bottom: 1px solid var(--gray-200);
+}
+
+.band--tint {
+  background-color: #fafafa;
+  border-block: 1px solid var(--gray-200);
+}
+
+.band--stats {
+  padding: 0;
+  background-color: #fff;
+  border-bottom: 1px solid var(--gray-200);
+}
+
+.band--cta {
+  background-color: var(--usc-red);
+  color: #fff;
+}
+
+/* --- buttons --- */
 .btn {
   display: inline-block;
   padding: 0.6rem 1.25rem;
@@ -334,90 +375,107 @@ body.page-opportunities [data-nav="opportunities"]::after {
   color: #fff;
 }
 
-.btn--primary:hover {
-  background-color: #7d0000;
-  border-color: #7d0000;
-}
+.btn--primary:hover { background-color: #7d0000; border-color: #7d0000; }
 
 .btn--outline {
-  background-color: #fff;
+  background-color: transparent;
   border-color: var(--usc-red);
   color: var(--usc-red);
 }
 
 .btn--outline:hover { background-color: #99000010; }
 
-.btn--ghost {
-  border-color: transparent;
-  color: var(--gray-500);
-  font-weight: 500;
+.btn--light {
+  background-color: #fff;
+  border-color: #fff;
+  color: var(--usc-red);
 }
 
+.btn--light:hover { background-color: #ffffffe0; border-color: #ffffffe0; }
+
+.btn--ghost { border-color: transparent; color: var(--gray-500); font-weight: 500; }
 .btn--ghost:hover { color: var(--usc-red); border-color: var(--gray-300); }
 
-/* Same footprint as the old pill -- deliberately not larger, just clearer. */
-.btn--sm {
-  padding: 0.45rem 0.9rem;
-  font-size: 0.8125rem;
+/* Same footprint as the old pill -- clearer, deliberately not larger. */
+.btn--sm { padding: 0.45rem 0.9rem; font-size: 0.8125rem; }
+
+/* --- hero: text left, lead photo right, so imagery anchors the top --- */
+.hero {
+  display: grid;
+  grid-template-columns: 1.05fr 0.95fr;
+  gap: 3.5rem;
+  align-items: center;
 }
 
-/* --- hero --- */
-.hero {
+.hero__text {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   gap: 0.85rem;
-  max-width: 46rem;
 }
 
-/* Was full-width at 1280px, which read as a placeholder rather than a header. */
-.hero__logo {
-  height: 52px;
-  width: auto;
-  margin-bottom: 0.5rem;
-}
+.hero__logo { height: 46px; width: auto; margin-bottom: 0.35rem; }
 
 .hero__tagline {
-  font-size: 0.8125rem;
-  font-weight: 600;
-  letter-spacing: 0.08em;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.11em;
   text-transform: uppercase;
   color: var(--usc-red);
 }
 
 .hero__mission {
-  font-size: 2.25rem;
-  line-height: 1.22;
-  font-weight: 700;
-  color: var(--gray-800);
-  letter-spacing: -0.015em;
+  font-size: 2.6rem;
+  line-height: 1.14;
+  font-weight: 800;
+  color: #111827;
+  letter-spacing: -0.022em;
+  text-wrap: balance;
 }
 
-.hero__intro {
-  color: var(--gray-600);
-  line-height: 1.7;
+.hero__intro { color: var(--gray-600); line-height: 1.7; max-width: 34rem; }
+.hero__intro p + p { margin-top: 0.8rem; }
+.hero__intro a { color: var(--usc-red); text-decoration: underline; }
+
+.hero__actions { display: flex; flex-wrap: wrap; gap: 0.75rem; margin-top: 0.6rem; }
+
+.hero__figure { margin: 0; }
+
+.hero__figure img {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  border-radius: 0.9rem;
+  box-shadow: var(--shadow-lg);
 }
 
-.hero__intro p + p { margin-top: 0.85rem; }
-
-.hero__intro a {
-  color: var(--usc-red);
-  text-decoration: underline;
+.hero__figure figcaption {
+  margin-top: 0.6rem;
+  font-size: 0.8125rem;
+  color: var(--gray-500);
 }
 
-.hero__actions {
+/* --- stats strip --- */
+.statbar {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.75rem;
-  margin-top: 0.5rem;
+  gap: 2.5rem;
+  padding-block: 1.35rem;
 }
 
-/* --- generic home section --- */
-.home__section {
-  display: flex;
-  flex-direction: column;
-  gap: 1.25rem;
+.statbar__item { display: flex; align-items: baseline; gap: 0.45rem; }
+
+.statbar__value {
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: var(--usc-red);
+  font-variant-numeric: tabular-nums;
 }
+
+.statbar__label { font-size: 0.875rem; color: var(--gray-500); }
+
+/* --- section scaffolding --- */
+.home__section { display: flex; flex-direction: column; gap: 1.5rem; }
 
 .home__head {
   display: flex;
@@ -437,98 +495,66 @@ body.page-opportunities [data-nav="opportunities"]::after {
 
 .home__more:hover { text-decoration: underline; }
 
-.home__split {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 3rem;
-  align-items: start;
-}
+.home__split { display: grid; grid-template-columns: 1fr 1fr; gap: 3.5rem; align-items: start; }
 
 /* --- research area previews --- */
-.areas {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 1.5rem;
-}
+.areas { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1.75rem; }
 
 .area {
   display: flex;
   flex-direction: column;
-  gap: 0.6rem;
-}
-
-.area__media {
-  aspect-ratio: 16 / 10;
-  border-radius: 0.6rem;
-  overflow: hidden;
-  background-color: var(--gray-100);
   border: 1px solid var(--gray-200);
+  border-radius: 0.75rem;
+  overflow: hidden;
+  background-color: #fff;
+  transition: box-shadow 0.2s, border-color 0.2s, transform 0.2s;
 }
 
-.area__media img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  transition: transform 0.4s ease;
+.area:hover {
+  box-shadow: var(--shadow-md);
+  border-color: var(--gray-300);
+  transform: translateY(-2px);
 }
 
+.area__media { aspect-ratio: 16 / 10; overflow: hidden; background-color: var(--gray-100); }
+
+.area__media img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.4s ease; }
 .area:hover .area__media img { transform: scale(1.05); }
+
+.area__body { padding: 1.1rem; display: flex; flex-direction: column; gap: 0.5rem; }
+
+.area__title { font-size: 1.0625rem; font-weight: 600; line-height: 1.35; transition: color 0.2s; }
 .area:hover .area__title { color: var(--usc-red); }
 
-.area__title {
-  font-size: 1.0625rem;
-  font-weight: 600;
-  line-height: 1.35;
-  transition: color 0.2s;
-}
+.area__hook { font-size: 0.875rem; line-height: 1.55; color: var(--gray-600); }
 
-.area__hook {
-  font-size: 0.875rem;
-  line-height: 1.55;
-  color: var(--gray-600);
-}
-
-/* --- news on the homepage: a plain list, not a scrolling grey widget --- */
-.news-list {
-  display: flex;
-  flex-direction: column;
-}
+/* --- news --- */
+.news-list { display: flex; flex-direction: column; }
 
 .news-item {
-  padding-bottom: 1rem;
-  margin-bottom: 1rem;
+  padding-bottom: 1.1rem;
+  margin-bottom: 1.1rem;
   border-bottom: 1px solid var(--gray-200);
 }
 
 .news-item:last-child { border-bottom: 0; margin-bottom: 0; padding-bottom: 0; }
 
 .news-date {
-  font-size: 0.8125rem;
-  font-weight: 600;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
   color: var(--usc-red);
-  margin-bottom: 0.25rem;
+  margin-bottom: 0.3rem;
 }
 
-.news-description {
-  color: var(--gray-700);
-  line-height: 1.6;
-}
+.news-description { color: var(--gray-700); line-height: 1.6; }
 
-.news-description a {
-  color: var(--gray-800);
-  font-weight: 600;
-  text-decoration: underline;
-}
-
+.news-description a { color: var(--gray-800); font-weight: 600; text-decoration: underline; }
 .news-description a:hover { color: var(--usc-red); }
 
-/* --- photo mosaic: everything visible, nothing moving --- */
-.mosaic {
-  display: grid;
-  grid-template-columns: 2fr 1fr 1fr;
-  gap: 1rem;
-  align-items: start;
-}
+/* --- photo mosaic (the lead photo is in the hero) --- */
+.mosaic { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1.25rem; }
 
 .mosaic__item { margin: 0; }
 
@@ -540,8 +566,6 @@ body.page-opportunities [data-nav="opportunities"]::after {
   border: 1px solid var(--gray-200);
 }
 
-.mosaic__item--lead img { aspect-ratio: 3 / 2; }
-
 .mosaic__item figcaption {
   margin-top: 0.5rem;
   font-size: 0.8125rem;
@@ -552,22 +576,14 @@ body.page-opportunities [data-nav="opportunities"]::after {
 /* --- call to action --- */
 .cta {
   display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 0.75rem;
-  padding: 2.25rem;
-  border-radius: 0.85rem;
-  background-color: #99000008;
-  border: 1px solid #99000020;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
 }
 
-.cta__heading {
-  font-size: 1.5rem;
-  font-weight: 700;
-  color: var(--usc-red);
-}
-
-.cta__body { color: var(--gray-700); max-width: 42rem; }
+.cta__heading { font-size: 1.6rem; font-weight: 700; }
+.cta__body { margin-top: 0.4rem; max-width: 42rem; color: #ffffffcc; }
 
 /* ----------------------------------------------------------------- 6. people */
 
@@ -989,7 +1005,61 @@ body.page-opportunities [data-nav="opportunities"]::after {
   color: var(--gray-500);
 }
 
-/* Citation entries: the actual reference text, copyable. */
+/* Citation: BibTeX blocks with a copy control in the top-right corner. */
+.cite {
+  position: relative;
+  background-color: #f6f8fa;
+  border: 1px solid var(--gray-200);
+  border-radius: 0.5rem;
+  padding: 1rem 3rem 1rem 1rem;
+}
+
+.cite pre {
+  overflow-x: auto;
+  font-size: 0.8125rem;
+  line-height: 1.6;
+  color: var(--gray-800);
+  white-space: pre;
+}
+
+.cite__copy {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
+  border-radius: 0.375rem;
+  border: 1px solid var(--gray-300);
+  background-color: #fff;
+  color: var(--gray-500);
+  transition: color 0.15s, border-color 0.15s, background-color 0.15s;
+}
+
+.cite__copy svg { width: 0.875rem; height: 0.875rem; fill: currentColor; }
+
+.cite__copy:hover { color: var(--usc-red); border-color: var(--usc-red); }
+
+.cite__copy.is-copied {
+  color: #fff;
+  background-color: var(--usc-red);
+  border-color: var(--usc-red);
+}
+
+/* Shown after the icon flips to the copied state. */
+.cite__copy.is-copied::after {
+  content: "Copied";
+  position: absolute;
+  right: calc(100% + 0.4rem);
+  font-size: 0.6875rem;
+  font-weight: 600;
+  color: var(--usc-red);
+  white-space: nowrap;
+}
+
+/* Fallback for papers with no BibTeX yet: the plain reference text. */
 .cites {
   display: flex;
   flex-direction: column;
@@ -1230,12 +1300,14 @@ body.page-opportunities [data-nav="opportunities"]::after {
   }
 }
 
-@media (max-width: 900px) {
+@media (max-width: 960px) {
+  .hero { grid-template-columns: 1fr; gap: 2.25rem; }
+  .hero__figure { order: -1; }
   .home__split { grid-template-columns: 1fr; gap: 2.5rem; }
   .areas { grid-template-columns: 1fr; }
-  .mosaic { grid-template-columns: 1fr 1fr; }
-  .mosaic__item--lead { grid-column: 1 / -1; }
-  .hero__mission { font-size: 1.85rem; }
+  .hero__mission { font-size: 2rem; }
+  .band { padding: 3rem 0; }
+  .statbar { gap: 1.25rem 2rem; }
 }
 
 @media (max-width: 760px) {

@@ -23,7 +23,7 @@ const navItem = (viewBoxes) => (item) => {
           </a>`;
 };
 
-export function layout({ site, pageKey, title, description, body, viewBoxes, sprite }) {
+export function layout({ site, pageKey, title, description, body, viewBoxes, sprite, wide }) {
   return `<!doctype html>
 <html lang="en">
   <head>
@@ -48,13 +48,14 @@ ${sprite}
       </nav>
     </header>
 
-    <main class="page">
-      <div class="page__inner">
+    <main class="page${wide ? " page--full" : ""}">
+      <div class="page__inner${wide ? " page__inner--full" : ""}">
 ${body}
       </div>
     </main>
 
     <footer class="site-footer">${esc(site.footer)}</footer>
+    <script src="/site.js" defer></script>
   </body>
 </html>
 `;

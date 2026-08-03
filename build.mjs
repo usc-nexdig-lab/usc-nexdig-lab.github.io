@@ -139,8 +139,6 @@ function load() {
       if (!m) errors.push(`${p.file}: member "${name}" is not in data/people/`);
       return m;
     }).filter(Boolean);
-    const bib = join(DATA, "projects", `${p.id}.bib`);
-    p.bibtex = existsSync(bib) ? readFileSync(bib, "utf8").trim() : "";
     for (const s of p.sections ?? []) need(typeof s.body === "string", p.file, `section "${s.title}" needs a body`);
   }
 
@@ -155,7 +153,16 @@ function load() {
     for (const e of errors) console.error("  " + e);
     process.exit(1);
   }
-  return { site, homepage, people, news, publications, projects };
+  const years = publications.map((p) => Number(p.year)).filter(Boolean);
+  const stats = [
+    { value: String(publications.length), label: "publications" },
+    { value: String(people.filter((p) => p.group !== "alumni").length), label: "lab members" },
+    { value: String(projects.filter((p) => p.status === "current").length), label: "research areas" },
+    { value: String(new Set(publications.map((p) => p.venueShort)).size), label: "venues" },
+  ];
+  if (years.length) stats.push({ value: `since ${Math.min(...years)}`, label: "publishing" });
+
+  return { site, homepage, people, news, publications, projects, stats };
 }
 
 /* ---------------------------------------------------------------- render */
@@ -200,10 +207,10 @@ async function build() {
   rmSync(TMP, { recursive: true, force: true });
   mkdirSync(TMP, { recursive: true });
 
-  const page = (rel, key, title, description, body) =>
-    write(rel, layout({ site, pageKey: key, title, description, body, viewBoxes, sprite }));
+  const page = (rel, key, title, description, body, wide = false) =>
+    write(rel, layout({ site, pageKey: key, title, description, body, viewBoxes, sprite, wide }));
 
-  page("index.html", "home", "NEXDIG Lab", "Next-generation Data-Intensive Systems Group at USC, led by Ibrahim Sabek.", P.home(data));
+  page("index.html", "home", "NEXDIG Lab", "Next-generation Data-Intensive Systems Group at USC, led by Ibrahim Sabek.", P.home(data), true);
   page("people/index.html", "people", "People — NEXDIG Lab", "Faculty, students and alumni of the NEXDIG Lab at USC.", P.people(data));
   page("research/index.html", "research", "Research — NEXDIG Lab", "Research projects on learned query optimization, quantum databases, secure data systems and LLM agents.", P.research(data));
   page("publications/index.html", "publications", "Publications — NEXDIG Lab", "Papers published by the NEXDIG Lab at USC.", P.publications(data));

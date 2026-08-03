@@ -60,6 +60,15 @@ collections:
           - { name: label, label: Label, widget: string, hint: 'e.g. Paper, Code' }
           - { name: url, label: URL, widget: string, pattern: ['^https?://', 'Must start with http:// or https://'] }
       - { name: note, label: Note, widget: string, required: false, hint: 'e.g. "* Equal contribution"' }
+      - name: bibtex
+        label: BibTeX
+        widget: text
+        required: false
+        hint: >-
+          Paste the BibTeX straight from the ACM DL, DBLP or arXiv — no escaping
+          needed. Shown in a copyable box in the Citation section of any research
+          project this paper is linked to. Leave empty and a plain-text reference
+          is shown instead.
       - name: projects
         label: Related research projects
         widget: relation

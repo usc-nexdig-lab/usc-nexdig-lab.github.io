@@ -23,95 +23,137 @@ const linkList = (links = []) =>
 
 /* ------------------------------------------------------------------ home */
 
-export const home = ({ homepage: h, news, projects, publications: pubs }) => {
+export const home = ({ homepage: h, news, projects, publications: pubs, stats }) => {
   const featured = projects.filter((p) => p.status === "current").slice(0, 3);
-  const recentNews = news.slice(0, 4);
-  const recentPubs = pubs.slice(0, 3);
+  const lead = h.photos[0];
+  const rest = h.photos.slice(1);
 
   return `
         <div class="home">
 
-          <section class="hero">
-            <img class="hero__logo" src="/assets/logo.svg" alt="NEXDIG" />
-            <p class="hero__tagline">${esc(h.tagline)}</p>
-            <h1 class="hero__mission">${esc(h.mission)}</h1>
-            <div class="hero__intro">${markdown(h.intro)}</div>
-            <div class="hero__actions">
-              <a class="btn btn--primary" href="/research/">Our research</a>
-              <a class="btn" href="${url(h.cta.href)}">${esc(h.cta.label)}</a>
+          <section class="band band--hero">
+            <div class="container hero">
+              <div class="hero__text">
+                <img class="hero__logo" src="/assets/logo.svg" alt="NEXDIG" />
+                <p class="hero__tagline">${esc(h.tagline)}</p>
+                <h1 class="hero__mission">${esc(h.mission)}</h1>
+                <div class="hero__intro">${markdown(h.intro)}</div>
+                <div class="hero__actions">
+                  <a class="btn btn--primary" href="/research/">Our research</a>
+                  <a class="btn btn--outline" href="${url(h.cta.href)}">${esc(h.cta.label)}</a>
+                </div>
+              </div>
+              <figure class="hero__figure">
+                <img src="${url(lead.src)}" alt="${attr(lead.caption ?? "")}" />
+${lead.caption ? `                <figcaption>${esc(lead.caption)}</figcaption>` : ""}
+              </figure>
             </div>
           </section>
 
-          <section class="home__section">
-            <div class="home__head">
-              <h2 class="section-heading">What we work on</h2>
-              <a class="home__more" href="/research/">All research &rarr;</a>
+          <section class="band band--stats">
+            <div class="container statbar">
+${stats
+  .map(
+    (st) => `              <div class="statbar__item">
+                <span class="statbar__value">${esc(st.value)}</span>
+                <span class="statbar__label">${esc(st.label)}</span>
+              </div>`
+  )
+  .join("\n")}
             </div>
-            <div class="areas">
+          </section>
+
+          <section class="band">
+            <div class="container home__section">
+              <div class="home__head">
+                <h2 class="section-heading">What we work on</h2>
+                <a class="home__more" href="/research/">All research &rarr;</a>
+              </div>
+              <div class="areas">
 ${featured
   .map(
-    (p) => `              <a class="area" href="/project/${attr(p.id)}/">
-                <div class="area__media"><img src="${url(p.cardImage)}" alt="" loading="lazy" /></div>
-                <h3 class="area__title">${esc(p.cardTitle)}</h3>
-                <p class="area__hook">${esc(p.hook)}</p>
-              </a>`
-  )
-  .join("\n")}
-            </div>
-          </section>
-
-          <div class="home__split">
-            <section class="home__section">
-              <div class="home__head"><h2 class="section-heading">News</h2></div>
-              <ul class="news-list">
-${recentNews
-  .map(
-    (n) => `                <li class="news-item">
-                  <p class="news-date"><time datetime="${attr(n.date)}">${esc(n.displayDate)}</time></p>
-                  <p class="news-description">${mdInline(n.text)}</p>
-                </li>`
-  )
-  .join("\n")}
-              </ul>
-            </section>
-
-            <section class="home__section">
-              <div class="home__head">
-                <h2 class="section-heading">Recent papers</h2>
-                <a class="home__more" href="/publications/">All papers &rarr;</a>
-              </div>
-              <div class="publications__list">
-${recentPubs
-  .map(
-    (p) => `                <div class="pub">
-                  <h3 class="pub__title">${esc(p.title)}</h3>
-                  <p class="pub__authors">${p.authorsHtml}</p>
-                  <p class="pub__venue">${esc(p.venueShort)}, ${esc(p.year)}</p>
-                </div>`
+    (p) => `                <a class="area" href="/project/${attr(p.id)}/">
+                  <div class="area__media">
+                    <img src="${url(p.cardImage)}" alt="" loading="lazy" />
+                  </div>
+                  <div class="area__body">
+${p.venues?.length ? `                    <ul class="tags"><li class="tag tag--venue">${esc(p.venues[0])}</li></ul>` : ""}
+                    <h3 class="area__title">${esc(p.cardTitle)}</h3>
+                    <p class="area__hook">${esc(p.hook)}</p>
+                  </div>
+                </a>`
   )
   .join("\n")}
               </div>
-            </section>
-          </div>
-
-          <section class="home__section">
-            <div class="home__head"><h2 class="section-heading">${esc(h.photosHeading)}</h2></div>
-            <div class="mosaic">
-${h.photos
-  .map(
-    (ph, i) => `              <figure class="mosaic__item${i === 0 ? " mosaic__item--lead" : ""}">
-                <img src="${url(ph.src)}" alt="${attr(ph.caption ?? "")}" loading="lazy" />
-${ph.caption ? `                <figcaption>${esc(ph.caption)}</figcaption>` : ""}
-              </figure>`
-  )
-  .join("\n")}
             </div>
           </section>
 
-          <section class="cta">
-            <h2 class="cta__heading">${esc(h.cta.heading)}</h2>
-            <p class="cta__body">${esc(h.cta.body)}</p>
-            <a class="btn btn--primary" href="${url(h.cta.href)}">${esc(h.cta.label)}</a>
+          <section class="band band--tint">
+            <div class="container home__split">
+              <div class="home__section">
+                <div class="home__head"><h2 class="section-heading">News</h2></div>
+                <ul class="news-list">
+${news
+  .slice(0, 4)
+  .map(
+    (n) => `                  <li class="news-item">
+                    <p class="news-date"><time datetime="${attr(n.date)}">${esc(n.displayDate)}</time></p>
+                    <p class="news-description">${mdInline(n.text)}</p>
+                  </li>`
+  )
+  .join("\n")}
+                </ul>
+              </div>
+
+              <div class="home__section">
+                <div class="home__head">
+                  <h2 class="section-heading">Recent papers</h2>
+                  <a class="home__more" href="/publications/">All papers &rarr;</a>
+                </div>
+                <div class="publications__list">
+${pubs
+  .slice(0, 3)
+  .map(
+    (p) => `                  <div class="pub">
+                    <h3 class="pub__title">${esc(p.title)}</h3>
+                    <p class="pub__authors">${p.authorsHtml}</p>
+                    <p class="pub__venue">${esc(p.venueShort)}, ${esc(p.year)}</p>
+                  </div>`
+  )
+  .join("\n")}
+                </div>
+              </div>
+            </div>
+          </section>
+
+${
+  rest.length
+    ? `          <section class="band">
+            <div class="container home__section">
+              <div class="home__head"><h2 class="section-heading">${esc(h.photosHeading)}</h2></div>
+              <div class="mosaic">
+${rest
+  .map(
+    (ph) => `                <figure class="mosaic__item">
+                  <img src="${url(ph.src)}" alt="${attr(ph.caption ?? "")}" loading="lazy" />
+${ph.caption ? `                  <figcaption>${esc(ph.caption)}</figcaption>` : ""}
+                </figure>`
+  )
+  .join("\n")}
+              </div>
+            </div>
+          </section>`
+    : ""
+}
+
+          <section class="band band--cta">
+            <div class="container cta">
+              <div>
+                <h2 class="cta__heading">${esc(h.cta.heading)}</h2>
+                <p class="cta__body">${esc(h.cta.body)}</p>
+              </div>
+              <a class="btn btn--light" href="${url(h.cta.href)}">${esc(h.cta.label)}</a>
+            </div>
           </section>
 
         </div>`;
@@ -312,7 +354,16 @@ ${
             <h2 class="section-heading">Citation</h2>
             <div class="cites">
 ${p.resolvedPublications
-  .map((pub) => `              <p class="cite-entry">${esc(pub.citation)}</p>`)
+  .map((pub) =>
+    pub.bibtex
+      ? `              <div class="cite">
+                <button class="cite__copy" data-copy-cite aria-label="Copy BibTeX" title="Copy BibTeX">
+                  <svg viewBox="0 0 448 512" aria-hidden="true"><use href="#copy"/></svg>
+                </button>
+                <pre><code>${esc(pub.bibtex)}</code></pre>
+              </div>`
+      : `              <p class="cite-entry">${esc(pub.citation)}</p>`
+  )
   .join("\n")}
             </div>
           </section>`
