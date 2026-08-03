@@ -72,7 +72,7 @@ export const People = () => {
           name: 'Abhishek Kumar',
           description: 'Next: SWE at Arista Networks',
           image: '/people_photos/abhishek-picture.png',
-          website:'https://uscviterbiclass.slack.com/archives/D08CN9GRQHZ/p1741569127653059',
+          website:'https://www.linkedin.com/in/abhishek-kumar-8b562516a/',
         },
         {
           name: 'Parinda Ashish Pranami',

@@ -140,9 +140,33 @@ Query optimization is critical in relational databases. Recently, numerous Learn
       Our research explores the integration of TEE technologies into modern database architectures, addressing critical challenges including secure query execution, 
       encrypted data processing, memory constraints within secure enclaves, and performance optimization. 
       We investigate novel techniques for building efficient and secure database systems that leverage TEEs to provide strong security guarantees against both external attackers and potentially compromised operating systems, 
-      while minimizing the performance overhead typically associated with encrypted computation. 
+      while minimizing the performance overhead typically associated with encrypted computation.
       This work aims to enable organizations to process sensitive data in untrusted cloud environments without sacrificing either security or query performance.</p>`,
     },],
+  },
+
+
+
+  quantum_db: {
+    title: "Quantum Database Systems",
+    subtitle: "Integrating quantum computing into data management",
+    links: [
+      { label: "Q2O Demo (VLDB'25)", url: "https://www.vldb.org/pvldb/vol18/p5439-liu.pdf" },
+      { label: "Bushy Join Trees (Q-Data@SIGMOD'25)", url: "https://dl.acm.org/doi/pdf/10.1145/3736393.3736695" },
+    ],
+    bibtex: ``,
+    members: [
+      { name: "Hanwen Liu", image: "/people_photos/hanwen.jpeg" },
+      { name: "Abhishek Kumar", image: "/people_photos/abhishek-picture.png" },
+    ],
+    sections: [
+      {
+        title: "Overview",
+        // TODO: replace the placeholder below with the real project description.
+        // Structure and links are in place; only the prose is missing.
+        html: `<p>[Research in progress...]</p>`,
+      },
+    ],
   },
 };
 
