@@ -2,6 +2,26 @@
   "id": "reliable_LQO",
   "status": "current",
   "order": 5,
+  "hook": "Learned optimizers are fast but unpredictable. We put verifiable bounds on a query plan's latency before you run it.",
+  "tags": [
+    "conformal prediction",
+    "query optimization",
+    "reliability"
+  ],
+  "highlights": [
+    {
+      "value": "9.84×",
+      "label": "better plan quality"
+    },
+    {
+      "value": "74.4%",
+      "label": "faster planning"
+    },
+    {
+      "value": "VLDB 2025",
+      "label": "published at"
+    }
+  ],
   "cardTitle": "Reliable Learned Query Optimizers",
   "cardSummary": "Exploring interpretability and reliability in learned query optimizers for production database systems.",
   "cardImage": "/assets/logo.svg",

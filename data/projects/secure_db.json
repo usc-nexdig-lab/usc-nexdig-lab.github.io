@@ -2,6 +2,13 @@
   "id": "secure_db",
   "status": "current",
   "order": 3,
+  "hook": "Query sensitive data in an untrusted cloud without giving up confidentiality — or speed.",
+  "tags": [
+    "trusted execution",
+    "privacy",
+    "encrypted query processing"
+  ],
+  "highlights": [],
   "cardTitle": "Secure Database Systems",
   "cardSummary": "A study of privacy-preserving query processing in database systems.",
   "cardImage": "/projects_photos/security_db.jpg",

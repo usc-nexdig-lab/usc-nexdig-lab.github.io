@@ -20,5 +20,8 @@
       "label": "Code",
       "url": "https://github.com/shaolin-x/topology_reasoning_queries"
     }
+  ],
+  "projects": [
+    "data2insights"
   ]
 }

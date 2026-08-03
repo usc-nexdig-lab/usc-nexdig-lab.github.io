@@ -2,6 +2,13 @@
   "id": "quantum_db",
   "status": "current",
   "order": 2,
+  "hook": "Can quantum hardware search the space of query plans better than classical optimizers?",
+  "tags": [
+    "quantum computing",
+    "query optimization",
+    "join ordering"
+  ],
+  "highlights": [],
   "cardTitle": "Quantum Database Systems",
   "cardSummary": "Advancing the integration of quantum computing into data management for next-generation intelligent systems.",
   "cardImage": "/projects_photos/quantum-project-cover.jpeg",

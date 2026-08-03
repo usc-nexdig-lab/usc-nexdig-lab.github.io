@@ -15,5 +15,8 @@
       "url": "https://arxiv.org/abs/2508.17556"
     }
   ],
-  "note": "* Equal contribution"
+  "note": "* Equal contribution",
+  "projects": [
+    "limao"
+  ]
 }

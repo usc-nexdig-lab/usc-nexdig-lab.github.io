@@ -15,5 +15,8 @@
       "url": "https://viterbi-web.usc.edu/~sabek/pdf/25_workshop_serag.pdf"
     }
   ],
-  "note": "* Equal contribution"
+  "note": "* Equal contribution",
+  "projects": [
+    "limao"
+  ]
 }

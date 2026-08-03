@@ -2,6 +2,26 @@
   "id": "limao",
   "status": "current",
   "order": 4,
+  "hook": "Learned query optimizers forget what they already knew whenever the workload shifts. LIMAO keeps that knowledge.",
+  "tags": [
+    "learned query optimization",
+    "continual learning",
+    "catastrophic forgetting"
+  ],
+  "highlights": [
+    {
+      "value": "4×",
+      "label": "speedup over PostgreSQL"
+    },
+    {
+      "value": "40%",
+      "label": "better query execution time"
+    },
+    {
+      "value": "VLDB 2025",
+      "label": "published at"
+    }
+  ],
   "cardTitle": "Knowledge-preserving Learned Query Optimizers",
   "cardSummary": "We design continual learning mechanisms for query optimizers to preserve knowledge across evolving workloads.",
   "cardImage": "/assets/logo.svg",

@@ -60,6 +60,18 @@ collections:
           - { name: label, label: Label, widget: string, hint: 'e.g. Paper, Code' }
           - { name: url, label: URL, widget: string, pattern: ['^https?://', 'Must start with http:// or https://'] }
       - { name: note, label: Note, widget: string, required: false, hint: 'e.g. "* Equal contribution"' }
+      - name: projects
+        label: Related research projects
+        widget: relation
+        collection: projects
+        search_fields: [cardTitle]
+        value_field: id
+        display_fields: [cardTitle]
+        multiple: true
+        required: false
+        hint: >-
+          Listing a project here makes this paper appear on that project's page
+          and counts toward its paper count on the Research page.
 
   # --------------------------------------------------------------------- people
   - name: people
@@ -165,6 +177,31 @@ collections:
           - { label: Current research, value: current }
           - { label: Past research, value: past }
       - { name: order, label: Order on Research page, widget: number, value_type: int, default: 99 }
+      - name: hook
+        label: One-line hook
+        widget: text
+        hint: >-
+          The single sentence a visitor should read if they read nothing else.
+          Plain language, no jargon -- say what problem this solves. Shown large
+          on the project page and under the title on the Research page.
+      - name: tags
+        label: Topic tags
+        widget: list
+        required: false
+        field: { name: tag, label: Tag, widget: string }
+        hint: 'Two to four lowercase keywords, e.g. "quantum computing".'
+      - name: highlights
+        label: Key results
+        label_singular: Result
+        widget: list
+        required: false
+        summary: '{{value}} — {{label}}'
+        hint: >-
+          Up to three headline numbers, shown as a strip near the top. Use real
+          published figures only. Leave empty if there are none yet.
+        fields:
+          - { name: value, label: Value, widget: string, hint: 'e.g. "4×", "40%", "VLDB 2025"' }
+          - { name: label, label: Label, widget: string, hint: 'e.g. "speedup over PostgreSQL"' }
       - { name: cardTitle, label: 'Card: title', widget: string, hint: 'Shown on the Research page.' }
       - { name: cardSummary, label: 'Card: summary', widget: text }
       - { name: cardImage, label: 'Card: image', widget: image }
@@ -201,6 +238,8 @@ collections:
             hint: >-
               Links use [text](https://example.com). Blank lines start a new
               paragraph. Do not paste HTML.
+          - { name: image, label: Figure, widget: image, required: false, hint: 'Optional diagram or chart shown under this section.' }
+          - { name: caption, label: Figure caption, widget: string, required: false }
 
   # ----------------------------------------------------------------- site config
   # media_folder must sit at the collection or FILE level -- Decap/Sveltia do not

@@ -121,22 +121,47 @@ ${all
 
 /* -------------------------------------------------------------- research */
 
-const card = (p) => `            <div class="card">
-              <img class="card__img" src="${url(p.cardImage)}" alt="${attr(p.cardTitle)}" />
-              <div class="card__body">
-                <h3 class="card__title"><a href="/project/${attr(p.id)}/">${esc(p.cardTitle)}</a></h3>
-                <p class="card__summary">${esc(p.cardSummary)}</p>
-              </div>
-            </div>`;
+const tagList = (tags = []) =>
+  tags.length
+    ? `<ul class="tags">${tags.map((t) => `<li class="tag">${esc(t)}</li>`).join("")}</ul>`
+    : "";
+
+/* Editorial row: cropped 16:9 thumbnail left, content right. object-cover rather
+   than object-contain, because every cover photo in this repo is portrait and
+   letterboxed badly inside a landscape box. */
+const researchRow = (p) => {
+  const papers = p.resolvedPublications ?? [];
+  const latest = papers[0];
+  const meta = [
+    papers.length ? `${papers.length} paper${papers.length > 1 ? "s" : ""}` : null,
+    latest ? `latest ${esc(latest.venueShort)} ${esc(latest.year)}` : null,
+  ].filter(Boolean).join(" · ");
+
+  return `          <a class="rrow" href="/project/${attr(p.id)}/">
+            <div class="rrow__media">
+              <img src="${url(p.cardImage)}" alt="" loading="lazy" />
+            </div>
+            <div class="rrow__body">
+              <h2 class="rrow__title">
+                ${esc(p.cardTitle)}
+                ${p.status === "current" ? `<span class="badge badge--active">Active</span>` : `<span class="badge">Completed</span>`}
+              </h2>
+              <p class="rrow__hook">${esc(p.hook ?? p.cardSummary)}</p>
+              ${tagList(p.tags)}
+              ${meta ? `<p class="rrow__meta">${meta}</p>` : ""}
+            </div>
+            <span class="rrow__chevron" aria-hidden="true">&rarr;</span>
+          </a>`;
+};
 
 export const research = ({ projects }) => {
   const section = (status, heading) => {
     const items = projects.filter((p) => p.status === status);
     if (!items.length) return "";
     return `        <section class="research__section">
-${heading ? `          <h2 class="project__h2">${esc(heading)}</h2>` : ""}
-          <div class="card-grid">
-${items.map(card).join("\n")}
+${heading ? `          <h2 class="section-heading">${esc(heading)}</h2>` : ""}
+          <div class="rrows">
+${items.map(researchRow).join("\n")}
           </div>
         </section>`;
   };
@@ -181,9 +206,15 @@ export const opportunities = () => `
 
 export const project = ({ project: p }) => `
         <div class="project">
+          <a class="breadcrumb" href="/research/">&larr; Research</a>
+
           <header class="project__header">
-            <h1 class="project__title">${esc(p.title)}</h1>
+            <h1 class="project__title">${esc(p.title)}
+              ${p.status === "current" ? `<span class="badge badge--active">Active</span>` : `<span class="badge">Completed</span>`}
+            </h1>
 ${p.subtitle ? `            <p class="project__subtitle">${esc(p.subtitle)}</p>` : ""}
+${p.hook ? `            <p class="project__hook">${esc(p.hook)}</p>` : ""}
+            ${tagList(p.tags)}
 ${
   p.links?.length
     ? `            <div class="project__links">
@@ -193,24 +224,57 @@ ${p.links.map((l) => `              <a class="pill" href="${url(l.url)}" target=
 }
           </header>
 
+${
+  p.highlights?.length
+    ? `          <div class="stats">
+${p.highlights
+  .map(
+    (h) => `            <div class="stat">
+              <div class="stat__value">${esc(h.value)}</div>
+              <div class="stat__label">${esc(h.label)}</div>
+            </div>`
+  )
+  .join("\n")}
+          </div>`
+    : ""
+}
+
 ${p.sections
   .map(
     (s) => `          <section class="project__section">
-            <h2 class="project__h2">${esc(s.title)}</h2>
+            <h2 class="section-heading">${esc(s.title)}</h2>
             <div class="project__body">
 ${md(s.body)}
             </div>
+${
+  s.image
+    ? `            <figure class="figure">
+              <img src="${url(s.image)}" alt="${attr(s.caption ?? s.title)}" loading="lazy" />
+${s.caption ? `              <figcaption>${esc(s.caption)}</figcaption>` : ""}
+            </figure>`
+    : ""
+}
           </section>`
   )
   .join("\n")}
 
 ${
-  p.bibtex
+  p.resolvedPublications?.length
     ? `          <section class="project__section">
-            <h2 class="project__h2">BibTeX</h2>
-            <div class="bibtex">
-              <button class="bibtex__copy" data-copy-bibtex>Copy</button>
-              <pre><code>${esc(p.bibtex)}</code></pre>
+            <h2 class="section-heading">Publications</h2>
+            <div class="publications__list">
+${p.resolvedPublications
+  .map(
+    (pub) => `              <div class="pub">
+                <h3 class="pub__title">${esc(pub.title)}</h3>
+                <p class="pub__authors">${pub.authorsHtml}</p>
+                <p class="pub__venue">${esc(pub.venue)}, ${esc(pub.year)}</p>
+                <div class="pub__links">
+            ${linkList(pub.links)}
+                </div>
+              </div>`
+  )
+  .join("\n")}
             </div>
           </section>`
     : ""
@@ -219,18 +283,30 @@ ${
 ${
   p.resolvedMembers?.length
     ? `          <section class="project__section">
-            <h2 class="project__h2">People</h2>
+            <h2 class="section-heading">Team</h2>
             <div class="members">
 ${p.resolvedMembers
   .map(
-    (m) => `              <div class="member">
+    (m) => `              <a class="member" href="/people/">
                 <img src="/people_photos/${attr(m.photo)}" alt="${attr(m.name)}" />
                 <p class="member__name">${esc(m.name)}</p>
-              </div>`
+              </a>`
   )
   .join("\n")}
             </div>
           </section>`
+    : ""
+}
+
+${
+  p.bibtex
+    ? `          <details class="cite">
+            <summary class="cite__summary">Cite this work</summary>
+            <div class="bibtex">
+              <button class="bibtex__copy" data-copy-bibtex>Copy</button>
+              <pre><code>${esc(p.bibtex)}</code></pre>
+            </div>
+          </details>`
     : ""
 }
         </div>`;

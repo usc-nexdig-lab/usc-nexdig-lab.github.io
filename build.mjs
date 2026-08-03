@@ -100,9 +100,26 @@ function load() {
         console.warn(`  warn  ${p.file}: "${a}" shares a surname with a lab member but did not match -- typo?`);
     }
   }
+  /* Short venue name for the research-page meta line: the text inside the last
+     parentheses, e.g. "...Very Large Data Bases (Demo@VLDB)" -> "Demo@VLDB". */
+  for (const p of publications) {
+    const m = String(p.venue ?? "").match(/\(([^)]+)\)\s*$/);
+    p.venueShort = m ? m[1] : p.venue;
+  }
+
+  const knownProjects = new Set(projects.map((p) => p.id));
+  for (const pub of publications)
+    for (const id of pub.projects ?? [])
+      need(knownProjects.has(id), pub.file, `references unknown project "${id}"`);
+
   for (const p of projects) {
     need(p.id === p.slug, p.file, `id "${p.id}" must equal the filename "${p.slug}"`);
     need(p.cardImage, p.file, "missing cardImage");
+    need(p.hook, p.file, "missing hook (the one-sentence plain-language summary)");
+    // Publications already sort newest-first, so this list inherits that order.
+    p.resolvedPublications = publications.filter((pub) => (pub.projects ?? []).includes(p.id));
+    for (const h of p.highlights ?? [])
+      need(h.value && h.label, p.file, "each highlight needs both a value and a label");
     p.resolvedMembers = (p.members ?? []).map((name) => {
       const m = byName.get(name);
       if (!m) errors.push(`${p.file}: member "${name}" is not in data/people/`);
