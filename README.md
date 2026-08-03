@@ -132,9 +132,6 @@ the text rather than inline.
 | **Photos** | The photo gallery lower down. **All** of them are shown at once — no slideshow, nothing hidden. Drag to reorder. |
 | **Join us box** | The red band at the bottom: heading, text, button label and link. |
 
-The statistics strip (*9 publications · 6 lab members · …*) is calculated
-automatically. There is nothing to edit and it can never go stale.
-
 ## Change the menu or footer
 
 **Site → Navigation & footer.** This affects every page — edit with care. Don't

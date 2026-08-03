@@ -23,7 +23,7 @@ const linkList = (links = []) =>
 
 /* ------------------------------------------------------------------ home */
 
-export const home = ({ homepage: h, news, projects, publications: pubs, stats }) => {
+export const home = ({ homepage: h, news, projects, publications: pubs }) => {
   const featured = projects.filter((p) => p.status === "current").slice(0, 3);
   // The hero has its own photo so the gallery below can show all of them.
   const lead = h.heroPhoto ?? h.photos[0];
@@ -38,28 +38,11 @@ export const home = ({ homepage: h, news, projects, publications: pubs, stats })
                 <p class="hero__tagline">${esc(h.tagline)}</p>
                 <h1 class="hero__mission">${esc(h.mission)}</h1>
                 <div class="hero__intro">${markdown(h.intro)}</div>
-                <div class="hero__actions">
-                  <a class="btn btn--primary" href="/research/">Our research</a>
-                  <a class="btn btn--outline" href="${url(h.cta.href)}">${esc(h.cta.label)}</a>
-                </div>
               </div>
               <figure class="hero__figure">
                 <img src="${url(lead.src)}" alt="${attr(lead.caption ?? "")}" />
 ${lead.caption ? `                <figcaption>${esc(lead.caption)}</figcaption>` : ""}
               </figure>
-            </div>
-          </section>
-
-          <section class="band band--stats">
-            <div class="container statbar">
-${stats
-  .map(
-    (st) => `              <div class="statbar__item">
-                <span class="statbar__value">${esc(st.value)}</span>
-                <span class="statbar__label">${esc(st.label)}</span>
-              </div>`
-  )
-  .join("\n")}
             </div>
           </section>
 

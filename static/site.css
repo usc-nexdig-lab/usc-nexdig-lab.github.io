@@ -340,11 +340,6 @@ body.page-opportunities [data-nav="opportunities"]::after {
   border-block: 1px solid var(--gray-200);
 }
 
-.band--stats {
-  padding: 0;
-  background-color: #fff;
-  border-bottom: 1px solid var(--gray-200);
-}
 
 .band--cta {
   background-color: var(--usc-red);
@@ -437,7 +432,6 @@ body.page-opportunities [data-nav="opportunities"]::after {
 .hero__intro p + p { margin-top: 0.8rem; }
 .hero__intro a { color: var(--usc-red); text-decoration: underline; }
 
-.hero__actions { display: flex; flex-wrap: wrap; gap: 0.75rem; margin-top: 0.6rem; }
 
 .hero__figure { margin: 0; }
 
@@ -455,24 +449,8 @@ body.page-opportunities [data-nav="opportunities"]::after {
   color: var(--gray-500);
 }
 
-/* --- stats strip --- */
-.statbar {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 2.5rem;
-  padding-block: 1.35rem;
-}
 
-.statbar__item { display: flex; align-items: baseline; gap: 0.45rem; }
 
-.statbar__value {
-  font-size: 1.4rem;
-  font-weight: 700;
-  color: var(--usc-red);
-  font-variant-numeric: tabular-nums;
-}
-
-.statbar__label { font-size: 0.875rem; color: var(--gray-500); }
 
 /* --- section scaffolding --- */
 .home__section { display: flex; flex-direction: column; gap: 1.5rem; }
@@ -1307,7 +1285,6 @@ body.page-opportunities [data-nav="opportunities"]::after {
   .areas { grid-template-columns: 1fr; }
   .hero__mission { font-size: 2rem; }
   .band { padding: 3rem 0; }
-  .statbar { gap: 1.25rem 2rem; }
 }
 
 @media (max-width: 760px) {

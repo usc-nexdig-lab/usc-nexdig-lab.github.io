@@ -153,16 +153,7 @@ function load() {
     for (const e of errors) console.error("  " + e);
     process.exit(1);
   }
-  const years = publications.map((p) => Number(p.year)).filter(Boolean);
-  const stats = [
-    { value: String(publications.length), label: "publications" },
-    { value: String(people.filter((p) => p.group !== "alumni").length), label: "lab members" },
-    { value: String(projects.filter((p) => p.status === "current").length), label: "research areas" },
-    { value: String(new Set(publications.map((p) => p.venueShort)).size), label: "venues" },
-  ];
-  if (years.length) stats.push({ value: `since ${Math.min(...years)}`, label: "publishing" });
-
-  return { site, homepage, people, news, publications, projects, stats };
+  return { site, homepage, people, news, publications, projects };
 }
 
 /* ---------------------------------------------------------------- render */
