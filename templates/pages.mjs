@@ -1,4 +1,5 @@
-import { esc, attr, url, md, mdInline } from "../lib/html.mjs";
+import { esc, attr, url, mdInline } from "../lib/html.mjs";
+import { markdown } from "../lib/markdown.mjs";
 
 const GROUPS = [
   ["faculty", "Faculty"],
@@ -244,7 +245,7 @@ ${p.sections
     (s) => `          <section class="project__section">
             <h2 class="section-heading">${esc(s.title)}</h2>
             <div class="project__body">
-${md(s.body)}
+${markdown(s.body)}
             </div>
 ${
   s.image

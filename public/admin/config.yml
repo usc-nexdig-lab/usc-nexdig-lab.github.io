@@ -145,8 +145,9 @@ collections:
         label: Text
         widget: text
         hint: >-
-          Links use [text](https://example.com). **bold** and *italic* also work.
-          Do not paste HTML.
+          One or two sentences. Links use [text](https://example.com); **bold**
+          and *italic* also work. Headings and lists are intentionally not
+          supported here — news items are one-liners.
 
   # ------------------------------------------------------------------- projects
   - name: projects
@@ -234,11 +235,35 @@ collections:
           - { name: title, label: Heading, widget: string }
           - name: body
             label: Body
-            widget: text
+            widget: markdown
+            modes: [rich_text, raw]
+            minimal: false
+            buttons: [bold, italic, strikethrough, code, link, heading-two, heading-three, quote, bulleted-list, numbered-list]
+            editor_components: [image, code-block]
             hint: >-
-              Links use [text](https://example.com). Blank lines start a new
-              paragraph. Do not paste HTML.
-          - { name: image, label: Figure, widget: image, required: false, hint: 'Optional diagram or chart shown under this section.' }
+              Full Markdown. Use ## and ### for sub-headings, - for bullets,
+              1. for numbered lists, > for a pulled-out quote, **bold**,
+              *italic*, `code`, and [text](https://example.com) for links. Drop
+              an image in with the toolbar. Switch to the "raw" tab if you would
+              rather type Markdown directly. Pasted HTML is shown as literal
+              text, not rendered.
+            default: |
+              Say what problem this solves, in two or three sentences a
+              non-specialist could follow.
+
+              ## Our approach
+
+              What you actually did. Keep it concrete.
+
+              - the key idea
+              - what makes it different from prior work
+
+              ## Results
+
+              What you found. Put real numbers in **bold** — and add the
+              headline ones to "Key results" above so they show at the top
+              of the page.
+          - { name: image, label: Figure, widget: image, required: false, hint: 'Optional diagram or chart shown under this section. You can also place images inline in the body.' }
           - { name: caption, label: Figure caption, widget: string, required: false }
 
   # ----------------------------------------------------------------- site config

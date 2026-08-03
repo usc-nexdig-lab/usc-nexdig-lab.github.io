@@ -881,11 +881,98 @@ body.page-opportunities [data-nav="opportunities"]::after {
   gap: 1rem;
 }
 
+/* Prose rendered from Markdown. The reset above strips list markers and all
+   heading sizes, so everything a body can contain is restyled here. */
 .project__body {
   color: var(--gray-700);
   max-width: 46rem;
   line-height: 1.7;
 }
+
+.project__body > * + * {
+  margin-top: 1rem;
+}
+
+.project__body h3,
+.project__body h4,
+.project__body h5,
+.project__body h6 {
+  color: var(--gray-800);
+  font-weight: 600;
+  line-height: 1.35;
+  margin-top: 2rem;
+}
+
+.project__body h3 { font-size: 1.375rem; }
+.project__body h4 { font-size: 1.125rem; }
+.project__body h5,
+.project__body h6 { font-size: 1rem; }
+
+.project__body ul,
+.project__body ol {
+  padding-left: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.project__body ul { list-style: disc; }
+.project__body ol { list-style: decimal; }
+.project__body li::marker { color: var(--gray-500); }
+
+/* Nested lists sit tight against their parent item. */
+.project__body li > ul,
+.project__body li > ol {
+  margin-top: 0.35rem;
+}
+
+.project__body blockquote {
+  border-left: 3px solid var(--gray-300);
+  padding-left: 1rem;
+  color: var(--gray-600);
+  font-style: italic;
+}
+
+.project__body code {
+  background-color: var(--gray-100);
+  padding: 0.1em 0.35em;
+  border-radius: 0.25rem;
+  font-size: 0.9em;
+}
+
+.project__body pre {
+  background-color: #f6f8fa;
+  border: 1px solid var(--gray-200);
+  border-radius: 0.5rem;
+  padding: 1rem;
+  overflow-x: auto;
+  font-size: 0.875rem;
+  line-height: 1.5;
+}
+
+.project__body pre code {
+  background: none;
+  padding: 0;
+  font-size: inherit;
+}
+
+.project__body hr {
+  border-top: 1px solid var(--gray-200);
+  margin: 2rem 0;
+}
+
+.project__body a {
+  color: var(--usc-red);
+  text-decoration: underline;
+}
+
+.project__body img {
+  border-radius: 0.5rem;
+  border: 1px solid var(--gray-200);
+}
+
+.project__body del { color: var(--gray-500); }
+.project__body strong { font-weight: 600; color: var(--gray-800); }
 
 .project__body p + p {
   margin-top: 1rem;
