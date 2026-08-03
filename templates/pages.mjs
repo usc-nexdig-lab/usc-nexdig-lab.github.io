@@ -25,8 +25,8 @@ const linkList = (links = []) =>
 
 export const home = ({ homepage: h, news, projects, publications: pubs, stats }) => {
   const featured = projects.filter((p) => p.status === "current").slice(0, 3);
-  const lead = h.photos[0];
-  const rest = h.photos.slice(1);
+  // The hero has its own photo so the gallery below can show all of them.
+  const lead = h.heroPhoto ?? h.photos[0];
 
   return `
         <div class="home">
@@ -127,12 +127,12 @@ ${pubs
           </section>
 
 ${
-  rest.length
+  h.photos.length
     ? `          <section class="band">
             <div class="container home__section">
               <div class="home__head"><h2 class="section-heading">${esc(h.photosHeading)}</h2></div>
               <div class="mosaic">
-${rest
+${h.photos
   .map(
     (ph) => `                <figure class="mosaic__item">
                   <img src="${url(ph.src)}" alt="${attr(ph.caption ?? "")}" loading="lazy" />

@@ -302,16 +302,22 @@ collections:
             modes: [rich_text, raw]
             buttons: [bold, italic, link]
             hint: 'One or two short paragraphs under the headline.'
-          - { name: photosHeading, label: 'Photos: section heading', widget: string, default: Lab life }
+          - name: heroPhoto
+            label: Hero photo
+            widget: object
+            hint: 'The large photo beside the headline at the top of the page.'
+            fields:
+              - { name: src, label: Photo, widget: image }
+              - { name: caption, label: Caption, widget: string, required: false }
+          - { name: photosHeading, label: 'Gallery: section heading', widget: string, default: Lab Appearance }
           - name: photos
             label: Photos
             label_singular: Photo
             widget: list
             summary: '{{caption}}'
             hint: >-
-              Shown as a grid on the homepage — all of them visible at once, no
-              slideshow. The first is displayed larger, so put the best one first.
-              Drag to reorder.
+              The gallery further down the homepage. All of them are shown at
+              once — no slideshow, nothing hidden. Drag to reorder.
             fields:
               - { name: src, label: Photo, widget: image }
               - { name: caption, label: Caption, widget: string, required: false }
