@@ -149,8 +149,25 @@ Always use the upload field — never type a path.
 | Research card image | Research Projects → Card: image | landscape |
 | Section figure | Research Projects → Sections → Figure | any |
 
-The build **fails on a missing image** rather than publishing a broken one, so
-an incomplete upload stops the deploy instead of shipping.
+### You don't need to resize anything
+
+Uploads are **automatically resized and compressed in your browser** before they
+are saved — capped at 1600px and converted to WebP. Drop in a photo straight
+from your phone; the CMS handles it.
+
+Two safety nets behind that:
+
+- The build **fails on a missing image** rather than publishing a broken one, so
+  an incomplete upload stops the deploy instead of shipping.
+- The build **warns on any image over 800 KB**, naming the file, in case the
+  automatic resizing is ever misconfigured.
+
+### If a headshot is cropped badly
+
+Don't re-crop and re-upload. Open the person and adjust
+**Photo framing** → focus (top / center / bottom / left / right) and zoom, then
+check the People page. The photo itself is never modified, so you can adjust it
+as many times as you like.
 
 ## If something goes wrong
 
@@ -165,6 +182,11 @@ See [Add a publication](#add-a-publication) above.
 **"A photo isn't showing."**
 The build refuses to publish a missing image, so the upload probably didn't
 finish. Re-open the entry and add it again.
+
+**"The site feels slow to load."**
+Check the build log for `consider resizing` warnings. Uploads are resized
+automatically, so this should not happen — if it does, the media-library
+settings at the top of `public/admin/config.yml` need looking at.
 
 **"I can't log in."**
 You need write access to the repo. See below.
