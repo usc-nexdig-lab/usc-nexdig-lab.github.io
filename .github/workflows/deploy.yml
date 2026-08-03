@@ -27,6 +27,9 @@ jobs:
       # No npm install: build.mjs uses only Node built-ins, and ubuntu-latest
       # ships Node 20+. On a pull request this is purely a validation gate --
       # malformed content fails here, naming the file, before reaching main.
+      - name: Check the CMS schema matches the content
+        run: python3 -m pip install --quiet pyyaml && python3 tools/check-cms.py
+
       - name: Build site
         run: node build.mjs
 
