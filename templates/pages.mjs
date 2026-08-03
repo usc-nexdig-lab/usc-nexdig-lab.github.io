@@ -122,9 +122,13 @@ ${all
 
 /* -------------------------------------------------------------- research */
 
-const tagList = (tags = []) =>
-  tags.length
-    ? `<ul class="tags">${tags.map((t) => `<li class="tag">${esc(t)}</li>`).join("")}</ul>`
+/* Venue chips are styled distinctly from topic tags -- one is "where this was
+   published", the other is "what it is about", and conflating them reads badly. */
+const tagList = (tags = [], venues = []) =>
+  tags.length || venues.length
+    ? `<ul class="tags">${venues
+        .map((v) => `<li class="tag tag--venue">${esc(v)}</li>`)
+        .join("")}${tags.map((t) => `<li class="tag">${esc(t)}</li>`).join("")}</ul>`
     : "";
 
 /* Editorial row: cropped 16:9 thumbnail left, content right. object-cover rather
@@ -132,11 +136,7 @@ const tagList = (tags = []) =>
    letterboxed badly inside a landscape box. */
 const researchRow = (p) => {
   const papers = p.resolvedPublications ?? [];
-  const latest = papers[0];
-  const meta = [
-    papers.length ? `${papers.length} paper${papers.length > 1 ? "s" : ""}` : null,
-    latest ? `latest ${esc(latest.venueShort)} ${esc(latest.year)}` : null,
-  ].filter(Boolean).join(" · ");
+  const meta = papers.length ? `${papers.length} paper${papers.length > 1 ? "s" : ""}` : "";
 
   return `          <a class="rrow" href="/project/${attr(p.id)}/">
             <div class="rrow__media">
@@ -148,7 +148,7 @@ const researchRow = (p) => {
                 ${p.status === "current" ? `<span class="badge badge--active">Active</span>` : `<span class="badge">Completed</span>`}
               </h2>
               <p class="rrow__hook">${esc(p.hook ?? p.cardSummary)}</p>
-              ${tagList(p.tags)}
+              ${tagList(p.tags, p.venues)}
               ${meta ? `<p class="rrow__meta">${meta}</p>` : ""}
             </div>
             <span class="rrow__chevron" aria-hidden="true">&rarr;</span>
@@ -215,7 +215,7 @@ export const project = ({ project: p }) => `
             </h1>
 ${p.subtitle ? `            <p class="project__subtitle">${esc(p.subtitle)}</p>` : ""}
 ${p.hook ? `            <p class="project__hook">${esc(p.hook)}</p>` : ""}
-            ${tagList(p.tags)}
+            ${tagList(p.tags, p.venues)}
 ${
   p.links?.length
     ? `            <div class="project__links">

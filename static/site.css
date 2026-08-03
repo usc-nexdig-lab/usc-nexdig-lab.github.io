@@ -552,6 +552,15 @@ body.page-opportunities [data-nav="opportunities"]::after {
   white-space: nowrap;
 }
 
+/* "Where it was published" -- outlined in USC red so it reads as a credential,
+   distinct from the grey topic tags next to it. */
+.tag--venue {
+  background-color: #99000010;
+  color: var(--usc-red);
+  font-weight: 600;
+  border: 1px solid #99000028;
+}
+
 .badge {
   display: inline-block;
   vertical-align: middle;

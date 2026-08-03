@@ -118,6 +118,11 @@ function load() {
     need(p.hook, p.file, "missing hook (the one-sentence plain-language summary)");
     // Publications already sort newest-first, so this list inherits that order.
     p.resolvedPublications = publications.filter((pub) => (pub.projects ?? []).includes(p.id));
+    // Distinct venues, newest first: "VLDB 2025", "Demo@VLDB 2025", ...
+    const seen = new Set();
+    p.venues = p.resolvedPublications
+      .map((pub) => `${pub.venueShort} ${pub.year}`)
+      .filter((v) => !seen.has(v) && seen.add(v));
     for (const h of p.highlights ?? [])
       need(h.value && h.label, p.file, "each highlight needs both a value and a label");
     p.resolvedMembers = (p.members ?? []).map((name) => {
