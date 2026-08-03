@@ -130,6 +130,7 @@ the text rather than inline.
 | **Hero photo** | The large photo beside the headline at the top. |
 | **Gallery: section heading** | The heading over the photo grid — currently *Lab Appearance*. |
 | **Photos** | The photo gallery lower down. **All** of them are shown at once — no slideshow, nothing hidden. Drag to reorder. |
+| **Framing** (on each photo) | Every photo is shown in the same 3:2 frame whatever its original shape. If the crop cuts off something important, change the focus (top / center / bottom / left / right) and zoom. |
 | **Join us box** | The red band at the bottom: heading, text, button label and link. |
 
 ## Change the menu or footer
@@ -161,6 +162,22 @@ Two safety nets behind that:
   an incomplete upload stops the deploy instead of shipping.
 - The build **warns on any image over 800 KB**, naming the file, in case the
   automatic resizing is ever misconfigured.
+
+### Every photo is cropped to a fixed shape
+
+You never have to crop anything before uploading. Each place a photo appears has
+a fixed frame, and your upload is fitted to it automatically:
+
+| Where | Frame |
+|---|---|
+| Headshots | square |
+| Homepage hero and gallery | 3:2 landscape |
+| Research card images | 16:10 landscape |
+
+Upload whatever you have — portrait, landscape, phone snapshot. If the crop cuts
+off something important, use the **Framing** control on that photo to change the
+focus and zoom. The file itself is never altered, so you can adjust it as often
+as you like.
 
 ### If a headshot is cropped badly
 

@@ -16,6 +16,11 @@ const OBJECT_POSITION = {
   center: "50% 50%",
 };
 
+/* Shared by headshots, the hero photo and the gallery: uniform tile, with the
+   editor choosing which part survives the crop. */
+const cropStyle = (crop) =>
+  `transform:scale(${Number(crop?.zoom ?? 1)});object-position:${OBJECT_POSITION[crop?.position] ?? OBJECT_POSITION.center}`;
+
 const linkList = (links = []) =>
   links
     .map((l) => `<a href="${url(l.url)}" target="_blank" rel="noopener noreferrer">[${esc(l.label)}]</a>`)
@@ -40,7 +45,7 @@ export const home = ({ homepage: h, news, projects, publications: pubs }) => {
                 <div class="hero__intro">${markdown(h.intro)}</div>
               </div>
               <figure class="hero__figure">
-                <img src="${url(lead.src)}" alt="${attr(lead.caption ?? "")}" />
+                <img src="${url(lead.src)}" alt="${attr(lead.caption ?? "")}" style="${cropStyle(lead.crop)}" />
 ${lead.caption ? `                <figcaption>${esc(lead.caption)}</figcaption>` : ""}
               </figure>
             </div>
@@ -118,7 +123,9 @@ ${
 ${h.photos
   .map(
     (ph) => `                <figure class="gallery__item">
-                  <img src="${url(ph.src)}" alt="${attr(ph.caption ?? "")}" loading="lazy" />
+                  <div class="gallery__frame">
+                    <img src="${url(ph.src)}" alt="${attr(ph.caption ?? "")}" loading="lazy" style="${cropStyle(ph.crop)}" />
+                  </div>
 ${ph.caption ? `                  <figcaption>${esc(ph.caption)}</figcaption>` : ""}
                 </figure>`
   )

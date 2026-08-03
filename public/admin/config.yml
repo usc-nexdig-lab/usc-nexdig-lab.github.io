@@ -328,6 +328,21 @@ collections:
             fields:
               - { name: src, label: Photo, widget: image }
               - { name: caption, label: Caption, widget: string, required: false }
+              - name: crop
+                label: Framing
+                widget: object
+                required: false
+                collapsed: true
+                hint: >-
+                  Every photo is shown in the same 3:2 frame. If the crop cuts
+                  off something important, change the focus.
+                fields:
+                  - name: position
+                    label: Focus
+                    widget: select
+                    default: center
+                    options: [center, top, bottom, left, right]
+                  - { name: zoom, label: Zoom, widget: number, value_type: float, default: 1, min: 0.5, max: 3, step: 0.01 }
           - { name: photosHeading, label: 'Gallery: section heading', widget: string, default: Lab Appearance }
           - name: photos
             label: Photos
@@ -340,6 +355,21 @@ collections:
             fields:
               - { name: src, label: Photo, widget: image }
               - { name: caption, label: Caption, widget: string, required: false }
+              - name: crop
+                label: Framing
+                widget: object
+                required: false
+                collapsed: true
+                hint: >-
+                  Every photo is shown in the same 3:2 frame. If the crop cuts
+                  off something important, change the focus.
+                fields:
+                  - name: position
+                    label: Focus
+                    widget: select
+                    default: center
+                    options: [center, top, bottom, left, right]
+                  - { name: zoom, label: Zoom, widget: number, value_type: float, default: 1, min: 0.5, max: 3, step: 0.01 }
           - name: cta
             label: 'Join us box'
             widget: object

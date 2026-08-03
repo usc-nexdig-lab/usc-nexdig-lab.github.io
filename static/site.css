@@ -437,7 +437,7 @@ body.page-opportunities [data-nav="opportunities"]::after {
 
 .hero__figure img {
   width: 100%;
-  aspect-ratio: 4 / 3;
+  aspect-ratio: 3 / 2;
   object-fit: cover;
   border-radius: 0.9rem;
   box-shadow: var(--shadow-lg);
@@ -532,17 +532,17 @@ body.page-opportunities [data-nav="opportunities"]::after {
 .news-description a:hover { color: var(--usc-red); }
 
 /* --- photo gallery -------------------------------------------------------
-   Masonry columns, not a fixed grid: the lab's photos are a mix of landscape
-   and portrait, and forcing them all into one aspect ratio crops the portrait
-   ones straight through the middle. Here each keeps its natural shape. */
+   Uniform 3:2 tiles at a constrained size. The lab's photos are a mix of
+   landscape and portrait, so each carries its own focus and zoom -- otherwise a
+   portrait shot gets cropped straight through the middle. */
 .gallery {
-  column-count: 3;
-  column-gap: 1.25rem;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1.25rem;
 }
 
 .gallery__item {
-  break-inside: avoid;
-  margin: 0 0 1.25rem;
+  margin: 0;
   overflow: hidden;
   border-radius: 0.7rem;
   border: 1px solid var(--gray-200);
@@ -555,14 +555,23 @@ body.page-opportunities [data-nav="opportunities"]::after {
   transform: translateY(-2px);
 }
 
-.gallery__item img {
+.gallery__frame {
+  aspect-ratio: 3 / 2;
+  overflow: hidden;
+  background-color: var(--gray-100);
+}
+
+.gallery__frame img {
   display: block;
   width: 100%;
-  height: auto;
+  height: 100%;
+  object-fit: cover;
   transition: transform 0.5s ease;
 }
 
-.gallery__item:hover img { transform: scale(1.03); }
+/* The hover zoom composes with the editor's own scale(), so it is applied to
+   the frame rather than overwriting the inline transform. */
+.gallery__item:hover .gallery__frame { transform: scale(1.03); }
 
 .gallery__item figcaption {
   padding: 0.65rem 0.85rem 0.75rem;
@@ -1302,14 +1311,14 @@ body.page-opportunities [data-nav="opportunities"]::after {
   .hero { grid-template-columns: 1fr; gap: 2.25rem; }
   .hero__figure { order: -1; }
   .home__split { grid-template-columns: 1fr; gap: 2.5rem; }
-  .gallery { column-count: 2; }
+  .gallery { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .areas { grid-template-columns: 1fr; }
   .hero__mission { font-size: 2rem; }
   .band { padding: 3rem 0; }
 }
 
 @media (max-width: 560px) {
-  .gallery { column-count: 1; }
+  .gallery { grid-template-columns: 1fr; }
 }
 
 @media (max-width: 760px) {

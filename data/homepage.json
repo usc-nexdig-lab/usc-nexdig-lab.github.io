@@ -4,21 +4,37 @@
   "intro": "Led by [Ibrahim Sabek](http://viterbi-web.usc.edu/~sabek/), NEXDIG explores how machine learning, quantum computing, and large language models can make data systems faster, more scalable, more secure, and easier to reason about.\n\nOur work bridges AI and data systems, aiming at intelligent, trustworthy, and high-performance solutions for next-generation applications.",
   "heroPhoto": {
     "src": "/team_photos/socal_dbday2025.jpeg",
-    "caption": "NEXDIG @ SoCal DB Day 2025"
+    "caption": "NEXDIG @ SoCal DB Day 2025",
+    "crop": {
+      "position": "center",
+      "zoom": 1
+    }
   },
   "photosHeading": "Lab Appearance",
   "photos": [
     {
       "src": "/team_photos/socal_dbday2025.jpeg",
-      "caption": "NEXDIG @ SoCal DB Day 2025"
+      "caption": "NEXDIG @ SoCal DB Day 2025",
+      "crop": {
+        "position": "center",
+        "zoom": 1
+      }
     },
     {
       "src": "/team_photos/sigspatial2025.jpg",
-      "caption": "SIGSPATIAL 2025!"
+      "caption": "SIGSPATIAL 2025!",
+      "crop": {
+        "position": "center",
+        "zoom": 1
+      }
     },
     {
       "src": "/team_photos/amz_interns.jpg",
-      "caption": "NEXDIG Amazon Interns - Summer 2025"
+      "caption": "NEXDIG Amazon Interns - Summer 2025",
+      "crop": {
+        "position": "center",
+        "zoom": 1
+      }
     }
   ],
   "cta": {
