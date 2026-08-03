@@ -1,0 +1,13 @@
+{
+  "name": "Shaolin Xie",
+  "aliases": [],
+  "group": "phd",
+  "order": 1,
+  "blurb": "Fall 2024 - Now",
+  "photo": "shelly-photo.jpg",
+  "website": "https://shaolin-x.github.io",
+  "crop": {
+    "position": "center",
+    "zoom": 0.97
+  }
+}

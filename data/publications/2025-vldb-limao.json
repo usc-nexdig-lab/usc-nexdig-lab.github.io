@@ -1,0 +1,17 @@
+{
+  "title": "LIMAO: A Framework for Lifelong Modular Learned Query Optimization",
+  "authors": [
+    "Qihan Zhang",
+    "Shaolin Xie",
+    "Ibrahim Sabek"
+  ],
+  "venue": "International Conference on Very Large Data Bases (VLDB)",
+  "year": 2025,
+  "date": "2025-09",
+  "links": [
+    {
+      "label": "Paper",
+      "url": "https://arxiv.org/abs/2507.00188"
+    }
+  ]
+}

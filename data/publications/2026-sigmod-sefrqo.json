@@ -1,0 +1,19 @@
+{
+  "title": "SEFRQO: A Self-Evolving Fine-Tuned RAG-Based Query Optimizer",
+  "authors": [
+    "Hanwen Liu*",
+    "Qihan Zhang*",
+    "Ryan Marcus",
+    "Ibrahim Sabek"
+  ],
+  "venue": "International Conference on Management of Data (SIGMOD)",
+  "year": 2026,
+  "date": "2026-06",
+  "links": [
+    {
+      "label": "Paper",
+      "url": "https://arxiv.org/abs/2508.17556"
+    }
+  ],
+  "note": "* Equal contribution"
+}

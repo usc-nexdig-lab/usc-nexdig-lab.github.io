@@ -1,0 +1,50 @@
+{
+  "title": "NEXDIG Lab",
+  "footer": "Copyright © 2025 NEXDIG",
+  "nav": [
+    {
+      "label": "ABOUT",
+      "href": "/",
+      "icon": "about",
+      "key": "home"
+    },
+    {
+      "label": "TEAM",
+      "href": "/people/",
+      "icon": "team",
+      "key": "people"
+    },
+    {
+      "label": "RESEARCH",
+      "href": "/research/",
+      "icon": "about",
+      "key": "research"
+    },
+    {
+      "label": "PUBLICATIONS",
+      "href": "/publications/",
+      "icon": "pubs",
+      "key": "publications"
+    },
+    {
+      "label": "OPPORTUNITIES",
+      "href": "/opportunities/",
+      "icon": "opps",
+      "key": "opportunities"
+    }
+  ],
+  "carousel": [
+    {
+      "src": "/team_photos/socal_dbday2025.jpeg",
+      "caption": "NEXDIG @ SoCal DB Day 2025"
+    },
+    {
+      "src": "/team_photos/sigspatial2025.jpg",
+      "caption": "SIGSPATIAL 2025!"
+    },
+    {
+      "src": "/team_photos/amz_interns.jpg",
+      "caption": "NEXDIG Amazon Interns - Summer 2025"
+    }
+  ]
+}

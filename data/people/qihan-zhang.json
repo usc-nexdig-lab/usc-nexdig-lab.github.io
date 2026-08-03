@@ -1,0 +1,13 @@
+{
+  "name": "Qihan Zhang",
+  "aliases": [],
+  "group": "phd",
+  "order": 3,
+  "blurb": "Fall 2025 - Now",
+  "photo": "qihan-photo.jpg",
+  "website": "https://tsihan.github.io/",
+  "crop": {
+    "position": "center",
+    "zoom": 1.2
+  }
+}

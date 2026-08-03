@@ -1,0 +1,23 @@
+{
+  "title": "From Logs to Causal Inference: Diagnosing Large Systems",
+  "authors": [
+    "M. Markakis",
+    "B. Youngmann",
+    "T. Gao",
+    "Z. Zhang",
+    "R. Shahout",
+    "P. B. Chen",
+    "C. Liu",
+    "I. Sabek",
+    "M. Cafarella"
+  ],
+  "venue": "International Conference on Very Large Data Bases (VLDB)",
+  "year": 2025,
+  "date": "2025-08",
+  "links": [
+    {
+      "label": "Paper",
+      "url": "https://viterbi-web.usc.edu/~sabek/pdf/25_paper_logos.pdf"
+    }
+  ]
+}

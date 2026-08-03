@@ -1,0 +1,13 @@
+{
+  "name": "Nicholas Lee",
+  "aliases": [],
+  "group": "alumni",
+  "order": 5,
+  "blurb": "Fall 2024",
+  "photo": "nicholas-picture.jpeg",
+  "website": "https://www.linkedin.com/in/nicolas-matthew-lee/",
+  "crop": {
+    "position": "center",
+    "zoom": 1
+  }
+}

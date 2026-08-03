@@ -1,0 +1,17 @@
+{
+  "title": "A Demonstration of Q2O: Quantum-Augmented Query Optimizer",
+  "authors": [
+    "Hanwen Liu",
+    "Federico Spedalieri",
+    "Ibrahim Sabek"
+  ],
+  "venue": "International Conference on Very Large Data Bases (Demo@VLDB)",
+  "year": 2025,
+  "date": "2025-09",
+  "links": [
+    {
+      "label": "Paper",
+      "url": "https://www.vldb.org/pvldb/vol18/p5439-liu.pdf"
+    }
+  ]
+}

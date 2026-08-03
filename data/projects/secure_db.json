@@ -1,0 +1,20 @@
+{
+  "id": "secure_db",
+  "status": "current",
+  "order": 3,
+  "cardTitle": "Secure Database Systems",
+  "cardSummary": "A study of privacy-preserving query processing in database systems.",
+  "cardImage": "/projects_photos/security_db.jpg",
+  "title": "Secure Database Systems",
+  "subtitle": "Enhancing privacy, security, and efficiency in database management",
+  "links": [],
+  "members": [
+    "Qihan Zhang"
+  ],
+  "sections": [
+    {
+      "title": "Overview",
+      "body": "Trusted Execution Environments (TEEs) provide hardware-based isolation and encryption mechanisms that enable secure computation on sensitive data. In the context of database systems, TEEs such as Intel SGX, AMD SEV, and ARM TrustZone offer a promising approach to protecting data confidentiality and integrity while maintaining query processing capabilities. Our research explores the integration of TEE technologies into modern database architectures, addressing critical challenges including secure query execution, encrypted data processing, memory constraints within secure enclaves, and performance optimization. We investigate novel techniques for building efficient and secure database systems that leverage TEEs to provide strong security guarantees against both external attackers and potentially compromised operating systems, while minimizing the performance overhead typically associated with encrypted computation. This work aims to enable organizations to process sensitive data in untrusted cloud environments without sacrificing either security or query performance."
+    }
+  ]
+}

@@ -1,0 +1,18 @@
+{
+  "title": "Hybrid Quantum-Classical Optimization for Bushy Join Trees",
+  "authors": [
+    "Hanwen Liu",
+    "Abhishek Kumar",
+    "Federico Spedalieri",
+    "Ibrahim Sabek"
+  ],
+  "venue": "Workshop on Quantum Computing and Quantum-Inspired Technology for Data-Intensive Systems and Applications (Q-Data@SIGMOD)",
+  "year": 2025,
+  "date": "2025-06",
+  "links": [
+    {
+      "label": "Paper",
+      "url": "https://dl.acm.org/doi/pdf/10.1145/3736393.3736695"
+    }
+  ]
+}

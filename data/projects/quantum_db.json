@@ -1,0 +1,30 @@
+{
+  "id": "quantum_db",
+  "status": "current",
+  "order": 2,
+  "cardTitle": "Quantum Database Systems",
+  "cardSummary": "Advancing the integration of quantum computing into data management for next-generation intelligent systems.",
+  "cardImage": "/projects_photos/quantum-project-cover.jpeg",
+  "title": "Quantum Database Systems",
+  "subtitle": "Integrating quantum computing into data management",
+  "links": [
+    {
+      "label": "Q2O Demo (VLDB'25)",
+      "url": "https://www.vldb.org/pvldb/vol18/p5439-liu.pdf"
+    },
+    {
+      "label": "Bushy Join Trees (Q-Data@SIGMOD'25)",
+      "url": "https://dl.acm.org/doi/pdf/10.1145/3736393.3736695"
+    }
+  ],
+  "members": [
+    "Hanwen Liu",
+    "Abhishek Kumar"
+  ],
+  "sections": [
+    {
+      "title": "Overview",
+      "body": "[Research in progress...]"
+    }
+  ]
+}

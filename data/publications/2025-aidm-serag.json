@@ -1,0 +1,19 @@
+{
+  "title": "SERAG: Self-Evolving RAG System for Query Optimization",
+  "authors": [
+    "Hanwen Liu*",
+    "Qihan Zhang*",
+    "Ryan Marcus",
+    "Ibrahim Sabek"
+  ],
+  "venue": "Workshop on Applied AI for Database Systems and Applications (aiDM@SIGMOD)",
+  "year": 2025,
+  "date": "2025-06",
+  "links": [
+    {
+      "label": "Paper",
+      "url": "https://viterbi-web.usc.edu/~sabek/pdf/25_workshop_serag.pdf"
+    }
+  ],
+  "note": "* Equal contribution"
+}

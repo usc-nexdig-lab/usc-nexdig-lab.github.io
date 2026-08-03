@@ -1,0 +1,235 @@
+# Sveltia CMS configuration for the NEXDIG Lab site.
+#
+# This file is served publicly and contains NO secrets. The GitHub OAuth client
+# ID and client secret both live in the Cloudflare Worker named by base_url.
+#
+# Editing rights == GitHub write access to the repo below. To add or remove an
+# editor, change repo collaborators; there is no separate user list here.
+
+backend:
+  name: github
+  repo: usc-nexdig-lab/usc-nexdig-lab.github.io
+  branch: main
+  base_url: https://sveltia-cms-auth.nexdiglab.workers.dev
+
+# Saves commit straight to main; the deploy workflow rebuilds the site.
+publish_mode: simple
+
+# Fallback media location. Most collections override this.
+media_folder: public/people_photos
+public_folder: /people_photos
+
+collections:
+  # ---------------------------------------------------------------- publications
+  - name: publications
+    label: Publications
+    label_singular: Publication
+    folder: data/publications
+    create: true
+    format: json
+    slug: '{{year}}-{{slug}}'
+    summary: '{{title}} ({{year}})'
+    sortable_fields: [date, year, title]
+    fields:
+      - { name: title, label: Title, widget: string }
+      - name: authors
+        label: Authors
+        label_singular: Author
+        widget: list
+        field: { name: name, label: Name, widget: string }
+        hint: >-
+          In publication order. Lab members are bolded automatically from the
+          People list, so do not add any formatting. Keep a trailing * for equal
+          contribution, e.g. "Hanwen Liu*".
+      - name: venue
+        label: Venue
+        widget: string
+        hint: 'Without the year, e.g. "International Conference on Very Large Data Bases (VLDB)".'
+      - { name: year, label: Year, widget: number, value_type: int, min: 1990, max: 2100 }
+      - name: date
+        label: Publication month
+        widget: string
+        pattern: ['^\d{4}-\d{2}$', 'Use YYYY-MM, e.g. 2026-06']
+        hint: 'YYYY-MM. Only used to order publications within a year.'
+      - name: links
+        label: Links
+        label_singular: Link
+        widget: list
+        required: false
+        fields:
+          - { name: label, label: Label, widget: string, hint: 'e.g. Paper, Code' }
+          - { name: url, label: URL, widget: string, pattern: ['^https?://', 'Must start with http:// or https://'] }
+      - { name: note, label: Note, widget: string, required: false, hint: 'e.g. "* Equal contribution"' }
+
+  # --------------------------------------------------------------------- people
+  - name: people
+    label: People
+    label_singular: Person
+    folder: data/people
+    create: true
+    format: json
+    slug: '{{slug}}'
+    identifier_field: name
+    summary: '{{name}} — {{group}}'
+    sortable_fields: [group, order, name]
+    media_folder: ../../public/people_photos
+    public_folder: /people_photos
+    fields:
+      - { name: name, label: Full name, widget: string }
+      - name: group
+        label: Group
+        widget: select
+        options:
+          - { label: Faculty, value: faculty }
+          - { label: PhD Student, value: phd }
+          - { label: Master Student, value: masters }
+          - { label: Alumni, value: alumni }
+        hint: 'To graduate someone, change this to Alumni and update the blurb.'
+      - { name: order, label: Order within group, widget: number, value_type: int, default: 99 }
+      - name: blurb
+        label: Blurb
+        widget: string
+        hint: 'Current members: "Fall 2024 - Now". Alumni: "Next: Software Engineer at Google".'
+      - name: photo
+        label: Photo
+        widget: image
+        required: false
+        hint: 'Square headshots look best. Leave empty for a placeholder icon.'
+      - { name: website, label: Website, widget: string, required: false, pattern: ['^https?://', 'Must start with http:// or https://'] }
+      - name: aliases
+        label: Name aliases
+        widget: list
+        required: false
+        field: { name: alias, label: Alias, widget: string }
+        hint: >-
+          Other spellings used in publication author lists, e.g. "I. Sabek".
+          Used only to bold this person on the Publications page.
+      - name: crop
+        label: Photo framing
+        widget: object
+        required: false
+        collapsed: true
+        fields:
+          - name: position
+            label: Focus
+            widget: select
+            default: center
+            options: [center, top, bottom, left, right]
+          - { name: zoom, label: Zoom, widget: number, value_type: float, default: 1, min: 0.5, max: 3, step: 0.01 }
+
+  # ----------------------------------------------------------------------- news
+  - name: news
+    label: News
+    label_singular: News item
+    folder: data/news
+    create: true
+    format: json
+    slug: '{{year}}-{{month}}-{{day}}-{{slug}}'
+    summary: '{{date}} — {{text}}'
+    sortable_fields: [date]
+    fields:
+      - { name: date, label: Date, widget: datetime, date_format: 'YYYY-MM-DD', time_format: false, picker_utc: true }
+      - name: text
+        label: Text
+        widget: text
+        hint: >-
+          Links use [text](https://example.com). **bold** and *italic* also work.
+          Do not paste HTML.
+
+  # ------------------------------------------------------------------- projects
+  - name: projects
+    label: Research Projects
+    label_singular: Project
+    folder: data/projects
+    create: true
+    format: json
+    slug: '{{fields.id}}'
+    identifier_field: cardTitle
+    summary: '{{cardTitle}}'
+    sortable_fields: [order, status]
+    media_folder: ../../public/projects_photos
+    public_folder: /projects_photos
+    fields:
+      - name: id
+        label: URL slug
+        widget: string
+        pattern: ['^[a-zA-Z][a-zA-Z0-9_]*$', 'Letters, numbers and underscores only; must start with a letter']
+        hint: >-
+          Becomes nexdig.usc.edu/project/<slug> permanently. Never change it on an
+          existing project — outside links and papers may point at it.
+      - name: status
+        label: Status
+        widget: select
+        default: current
+        options:
+          - { label: Current research, value: current }
+          - { label: Past research, value: past }
+      - { name: order, label: Order on Research page, widget: number, value_type: int, default: 99 }
+      - { name: cardTitle, label: 'Card: title', widget: string, hint: 'Shown on the Research page.' }
+      - { name: cardSummary, label: 'Card: summary', widget: text }
+      - { name: cardImage, label: 'Card: image', widget: image }
+      - { name: title, label: 'Page: title', widget: string, hint: 'Shown on the project page itself; may differ from the card title.' }
+      - { name: subtitle, label: 'Page: subtitle', widget: string, required: false }
+      - name: links
+        label: Links
+        label_singular: Link
+        widget: list
+        required: false
+        fields:
+          - { name: label, label: Label, widget: string }
+          - { name: url, label: URL, widget: string, pattern: ['^https?://', 'Must start with http:// or https://'] }
+      - name: members
+        label: Members
+        label_singular: Member
+        widget: relation
+        collection: people
+        search_fields: [name]
+        value_field: name
+        display_fields: [name]
+        multiple: true
+        required: false
+        hint: 'Picked from the People list, so photos can never go stale.'
+      - name: sections
+        label: Sections
+        label_singular: Section
+        widget: list
+        fields:
+          - { name: title, label: Heading, widget: string }
+          - name: body
+            label: Body
+            widget: text
+            hint: >-
+              Links use [text](https://example.com). Blank lines start a new
+              paragraph. Do not paste HTML.
+
+  # ----------------------------------------------------------------- site config
+  - name: settings
+    label: Site settings
+    files:
+      - name: site
+        label: General
+        file: data/site.json
+        format: json
+        fields:
+          - { name: title, label: Site title, widget: string }
+          - { name: footer, label: Footer text, widget: string }
+          - name: nav
+            label: Navigation
+            widget: list
+            fields:
+              - { name: label, label: Label, widget: string }
+              - { name: href, label: Path, widget: string }
+              - { name: key, label: Key, widget: string, hint: 'Used to highlight the active page. Do not change.' }
+              - name: icon
+                label: Icon
+                widget: select
+                options: [about, team, pubs, opps, person]
+          - name: carousel
+            label: Homepage photos
+            widget: list
+            required: false
+            media_folder: ../../public/team_photos
+            public_folder: /team_photos
+            fields:
+              - { name: src, label: Image, widget: image }
+              - { name: caption, label: Caption, widget: string, required: false }

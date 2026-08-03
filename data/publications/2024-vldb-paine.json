@@ -1,0 +1,18 @@
+{
+  "title": "Optimizing Video Selection LIMIT Queries With Commonsense Knowledge",
+  "authors": [
+    "Wenjia He",
+    "Ibrahim Sabek",
+    "Yuze Lou",
+    "Michael Cafarella"
+  ],
+  "venue": "International Conference on Very Large Data Bases (VLDB)",
+  "year": 2024,
+  "date": "2024-08",
+  "links": [
+    {
+      "label": "Paper",
+      "url": "https://viterbi-web.usc.edu/~sabek/pdf/24_paper_paine.pdf"
+    }
+  ]
+}
