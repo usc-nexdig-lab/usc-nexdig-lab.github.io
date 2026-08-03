@@ -25,7 +25,7 @@ export const People = () => {
           name: 'Shaolin Xie',
           description: 'Fall 2024 - Now',
           image: '/people_photos/shelly-photo.jpg',
-          website: 'https://www.linkedin.com/in/shaolin-xie-25577a23b/',
+          website: 'https://shaolin-x.github.io',
           zoom: '',
           zoomLevel: 0.97, 
         },
