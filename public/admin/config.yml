@@ -203,11 +203,34 @@ collections:
               paragraph. Do not paste HTML.
 
   # ----------------------------------------------------------------- site config
+  # media_folder must sit at the collection or FILE level -- Decap/Sveltia do not
+  # honour it on an individual field -- and it resolves relative to the data file's
+  # directory, so data/homepage.json + ../public/team_photos => public/team_photos.
   - name: settings
-    label: Site settings
+    label: Site
     files:
+      - name: homepage
+        label: Team photos (homepage)
+        file: data/homepage.json
+        format: json
+        media_folder: ../public/team_photos
+        public_folder: /team_photos
+        fields:
+          - name: carousel
+            label: Photos
+            label_singular: Photo
+            widget: list
+            summary: '{{caption}}'
+            hint: >-
+              The rotating photos on the homepage. They cycle every 4 seconds in
+              the order listed here — drag to reorder. Landscape images look best;
+              they are shown at 600x400.
+            fields:
+              - { name: src, label: Photo, widget: image }
+              - { name: caption, label: Caption, widget: string, required: false, hint: 'Shown over the bottom-left of the photo.' }
+
       - name: site
-        label: General
+        label: Navigation & footer
         file: data/site.json
         format: json
         fields:
@@ -216,6 +239,7 @@ collections:
           - name: nav
             label: Navigation
             widget: list
+            hint: 'Changing these affects every page. Edit with care.'
             fields:
               - { name: label, label: Label, widget: string }
               - { name: href, label: Path, widget: string }
@@ -223,13 +247,5 @@ collections:
               - name: icon
                 label: Icon
                 widget: select
-                options: [about, team, pubs, opps, person]
-          - name: carousel
-            label: Homepage photos
-            widget: list
-            required: false
-            media_folder: ../../public/team_photos
-            public_folder: /team_photos
-            fields:
-              - { name: src, label: Image, widget: image }
-              - { name: caption, label: Caption, widget: string, required: false }
+                required: false
+                options: [research, team, pubs, opps, person]

@@ -31,7 +31,8 @@ That commits your change and the site rebuilds automatically. It is live in abou
 | **People** | Members. To graduate someone, change **Group** to `Alumni` and update the blurb to `Next: ...`. |
 | **News** | Announcements. Links use `[text](https://example.com)`. Sorted by date automatically — order does not matter. |
 | **Research Projects** | One entry drives **both** the card on /research and the project page at `/project/<slug>`. |
-| **Site settings** | Nav, footer, homepage intro photos. |
+| **Site → Team photos** | The rotating photos on the homepage. Add, remove, caption, or drag to reorder — they cycle every 4 seconds in list order. |
+| **Site → Navigation & footer** | Menu items and the footer line. Affects every page; edit with care. |
 
 ### Rules worth knowing
 
@@ -45,9 +46,20 @@ That commits your change and the site rebuilds automatically. It is live in abou
 
 ### Adding a photo
 
-Use the image field in the form. It uploads the file and fills in the filename for
-you. Square headshots look best (they are displayed at 128×128). If the crop looks
-wrong, open the person and adjust **Photo framing** → focus and zoom.
+Use the image field in the form. It uploads the file and fills in the path for you —
+never type one by hand.
+
+| Kind | Where it goes | Looks best as |
+|---|---|---|
+| Headshot | People → Photo | square; shown at 128×128 |
+| Homepage rotating photo | Site → Team photos | landscape; shown at 600×400 |
+| Research card image | Research Projects → Card: image | landscape |
+
+If a headshot is cropped badly, open the person and adjust **Photo framing** →
+focus and zoom, then check the People page.
+
+The build **fails on a missing image** rather than publishing a broken one, so a
+half-finished upload stops the deploy instead of shipping.
 
 ---
 

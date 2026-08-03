@@ -60,6 +60,7 @@ function boldAuthors(authors, roster) {
 
 function load() {
   const site = readJson(join(DATA, "site.json"));
+  const homepage = readJson(join(DATA, "homepage.json"));
   const people = readDir("people").sort(
     (a, b) => ["faculty", "phd", "masters", "alumni"].indexOf(a.group) - ["faculty", "phd", "masters", "alumni"].indexOf(b.group) || (a.order ?? 99) - (b.order ?? 99)
   );
@@ -112,12 +113,16 @@ function load() {
     for (const s of p.sections ?? []) need(typeof s.body === "string", p.file, `section "${s.title}" needs a body`);
   }
 
+  need(Array.isArray(homepage.carousel) && homepage.carousel.length, "homepage.json", "needs at least one carousel photo");
+  for (const c of homepage.carousel ?? [])
+    need(existsSync(join("public", c.src.replace(/^\//, ""))), "homepage.json", `photo not found: ${c.src}`);
+
   if (errors.length) {
     console.error(`\n${errors.length} error(s):`);
     for (const e of errors) console.error("  " + e);
     process.exit(1);
   }
-  return { site, people, news, publications, projects };
+  return { site, homepage, people, news, publications, projects };
 }
 
 /* ---------------------------------------------------------------- render */

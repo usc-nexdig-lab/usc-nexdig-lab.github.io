@@ -22,7 +22,7 @@ const linkList = (links = []) =>
 
 /* ------------------------------------------------------------------ home */
 
-export const home = ({ site, news }) => `
+export const home = ({ homepage, news }) => `
         <div class="home">
           <div class="home__logo"><img src="/assets/logo.svg" alt="NEXDIG Logo" /></div>
 
@@ -64,9 +64,9 @@ ${news
 
             <div class="home__col">
               <div>
-                <div class="carousel" data-carousel='${attr(JSON.stringify(site.carousel))}'>
-                  <img class="carousel__img" src="${url(site.carousel[0].src)}" alt="${attr(site.carousel[0].caption)}" />
-                  <div class="carousel__caption">${esc(site.carousel[0].caption)}</div>
+                <div class="carousel" data-carousel='${attr(JSON.stringify(homepage.carousel))}'>
+                  <img class="carousel__img" src="${url(homepage.carousel[0].src)}" alt="${attr(homepage.carousel[0].caption)}" />
+                  <div class="carousel__caption">${esc(homepage.carousel[0].caption)}</div>
                   <button class="carousel__btn carousel__btn--prev" aria-label="Previous Image">&#9664;</button>
                   <button class="carousel__btn carousel__btn--next" aria-label="Next Image">&#9654;</button>
                 </div>
