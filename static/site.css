@@ -395,12 +395,13 @@ body.page-opportunities [data-nav="opportunities"]::after {
 .btn--sm { padding: 0.45rem 0.9rem; font-size: 0.8125rem; }
 
 /* --- hero: text left, lead photo right, so imagery anchors the top --- */
+/* The hero spans the full column. Only the running prose is narrowed -- capping
+   the whole block left the headline stranded in the left two-thirds. */
 .hero {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   gap: 0.85rem;
-  max-width: 46rem;
 }
 
 .hero__logo { height: 46px; width: auto; margin-bottom: 0.35rem; }
@@ -422,7 +423,7 @@ body.page-opportunities [data-nav="opportunities"]::after {
   text-wrap: balance;
 }
 
-.hero__intro { color: var(--gray-600); line-height: 1.7; max-width: 34rem; }
+.hero__intro { color: var(--gray-600); line-height: 1.7; max-width: 46rem; }
 .hero__intro p + p { margin-top: 0.8rem; }
 .hero__intro a { color: var(--usc-red); text-decoration: underline; }
 
@@ -554,11 +555,106 @@ body.page-opportunities [data-nav="opportunities"]::after {
    the frame rather than overwriting the inline transform. */
 .gallery__item:hover .gallery__frame { transform: scale(1.03); }
 
-.gallery__item figcaption {
+/* --- lightbox ---------------------------------------------------------- */
+.gallery__item {
+  display: block;
+  width: 100%;
+  padding: 0;
+  text-align: left;
+  cursor: zoom-in;
+  font: inherit;
+  color: inherit;
+}
+
+.gallery__caption {
+  display: block;
   padding: 0.65rem 0.85rem 0.75rem;
   font-size: 0.8125rem;
   line-height: 1.4;
   color: var(--gray-600);
+}
+
+body.has-lightbox { overflow: hidden; }
+
+.lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: clamp(1rem, 4vw, 3rem);
+  background-color: #0b0b0ceb;
+}
+
+.lightbox[hidden] { display: none; }
+
+.lightbox__figure {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.85rem;
+  min-width: 0;
+}
+
+/* Uncropped, unlike the grid tile -- seeing the whole photo is the point. */
+.lightbox__img {
+  max-width: min(92vw, 1400px);
+  max-height: 78vh;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+  border-radius: 0.5rem;
+  box-shadow: 0 24px 60px #00000080;
+}
+
+.lightbox__caption {
+  color: #ffffffcc;
+  font-size: 0.875rem;
+  text-align: center;
+  max-width: 60ch;
+}
+
+.lightbox__nav,
+.lightbox__close {
+  flex: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 9999px;
+  border: 1px solid #ffffff33;
+  background-color: #ffffff14;
+  color: #fff;
+  transition: background-color 0.15s, border-color 0.15s;
+}
+
+.lightbox__nav:hover,
+.lightbox__close:hover { background-color: #ffffff2e; border-color: #ffffff66; }
+
+.lightbox__nav {
+  width: 3rem;
+  height: 3rem;
+  font-size: 2rem;
+  line-height: 1;
+  padding-bottom: 0.25rem;
+}
+
+.lightbox__close {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  width: 2.5rem;
+  height: 2.5rem;
+  font-size: 1.75rem;
+  line-height: 1;
+  padding-bottom: 0.15rem;
+}
+
+@media (max-width: 640px) {
+  .lightbox__nav { width: 2.5rem; height: 2.5rem; font-size: 1.6rem; }
+  .lightbox__img { max-height: 66vh; }
 }
 
 /* --- call to action --- */

@@ -114,12 +114,16 @@ ${
               <div class="gallery">
 ${h.photos
   .map(
-    (ph) => `                <figure class="gallery__item">
-                  <div class="gallery__frame">
+    (ph, i) => `                <button class="gallery__item" type="button"
+                        data-lightbox="${attr(i)}"
+                        data-src="${url(ph.src)}"
+                        data-caption="${attr(ph.caption ?? "")}"
+                        aria-label="${attr(ph.caption ? `Enlarge: ${ph.caption}` : "Enlarge photo")}">
+                  <span class="gallery__frame">
                     <img src="${url(ph.src)}" alt="${attr(ph.caption ?? "")}" loading="lazy" style="${cropStyle(ph.crop)}" />
-                  </div>
-${ph.caption ? `                  <figcaption>${esc(ph.caption)}</figcaption>` : ""}
-                </figure>`
+                  </span>
+${ph.caption ? `                  <span class="gallery__caption">${esc(ph.caption)}</span>` : ""}
+                </button>`
   )
   .join("\n")}
               </div>
