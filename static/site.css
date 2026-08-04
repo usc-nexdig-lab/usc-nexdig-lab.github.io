@@ -824,7 +824,7 @@ body.page-opportunities [data-nav="opportunities"]::after {
 /* --------------------------------------------------------------- 8. research */
 
 .research__section {
-  margin-bottom: 3rem;
+  margin-bottom: 2.25rem;
 }
 
 /* Three across, matching the cards on the homepage. A row of tall cards reads
@@ -860,11 +860,12 @@ body.page-opportunities [data-nav="opportunities"]::after {
   color: var(--usc-red);
 }
 
-/* Fixed 16:10 window with object-cover, the same frame the homepage cards use,
-   so one cropped upload suits both. object-contain letterboxed the portrait
-   covers in this repo into narrow slivers. */
+/* A 2:1 letterbox rather than 16:10: on a card this wide the taller frame made
+   each one about 350px, and two sections of them never fitted on a screen. The
+   crop tool still offers 16:10, which this crops a little further top and
+   bottom -- fine for a cover, and the subject stays centred. */
 .rrow__media {
-  aspect-ratio: 16 / 10;
+  aspect-ratio: 2 / 1;
   overflow: hidden;
   background-color: var(--gray-100);
 }
@@ -888,15 +889,15 @@ body.page-opportunities [data-nav="opportunities"]::after {
   /* Grows so the meta line sits on the baseline of every card in the row,
      however long the hooks above it are. */
   flex: 1;
-  padding: 1.15rem 1.25rem 1.25rem;
+  padding: 0.9rem 1.05rem 1rem;
 }
 
 /* Pushed to the bottom of the card, below whatever the hook and venue take. */
 .rrow__meta { margin-top: auto; }
 
 .rrow__title {
-  font-size: 1.125rem;
-  line-height: 1.75rem;
+  font-size: 1.0625rem;
+  line-height: 1.45;
   font-weight: 600;
   transition: color 0.2s;
 }
