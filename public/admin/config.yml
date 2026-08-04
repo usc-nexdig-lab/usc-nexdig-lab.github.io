@@ -98,8 +98,9 @@ collections:
         multiple: true
         required: false
         hint: >-
-          Listing a project here makes this paper appear on that project's page
-          and counts toward its paper count on the Research page.
+          Which lab projects this paper belongs to. Kept as a record of the link;
+          it no longer changes what any page shows — a project's Citations and
+          its paper count are both typed on the project itself.
 
   # --------------------------------------------------------------------- people
   - name: people
@@ -112,7 +113,7 @@ collections:
     identifier_field: name
     summary: '{{name}} — {{group}}'
     sortable_fields: [group, order, name]
-    media_folder: ../../public/people_photos
+    media_folder: /public/people_photos
     public_folder: /people_photos
     fields:
       - { name: name, label: Full name, widget: string }
@@ -123,6 +124,7 @@ collections:
           - { label: Faculty, value: faculty }
           - { label: PhD Student, value: phd }
           - { label: Master Student, value: masters }
+          - { label: Undergraduate Student, value: undergrad }
           - { label: Alumni, value: alumni }
         hint: 'To graduate someone, change this to Alumni and update the blurb.'
       - { name: order, label: Order within group, widget: number, value_type: int, default: 99 }
@@ -134,8 +136,19 @@ collections:
         label: Photo
         widget: image
         required: false
-        hint: 'Square headshots look best. Leave empty for a placeholder icon.'
-      - { name: website, label: Website, widget: string, required: false, pattern: ['^https?://', 'Must start with http:// or https://'] }
+        comment: >-
+          ✂️ **Crop this to a square before uploading —
+          [open the crop tool](/admin/crop/?shape=1).** Every headshot is shown at
+          128×128 in the same square frame, and an uncropped photo is cut straight
+          through its middle.
+        hint: 'Leave empty for a placeholder icon.'
+      - name: website
+        label: Website
+        widget: string
+        required: false
+        # ^$ so an empty optional field is not reported as a bad URL. Without it
+        # the pattern fails on the empty value and the entry cannot be saved.
+        pattern: ['^$|^https?://', 'Must start with http:// or https://']
       - name: aliases
         label: Name aliases
         widget: list
@@ -144,18 +157,6 @@ collections:
         hint: >-
           Other spellings used in publication author lists, e.g. "I. Sabek".
           Used only to bold this person on the Publications page.
-      - name: crop
-        label: Photo framing
-        widget: object
-        required: false
-        collapsed: true
-        fields:
-          - name: position
-            label: Focus
-            widget: select
-            default: center
-            options: [center, top, bottom, left, right]
-          - { name: zoom, label: Zoom, widget: number, value_type: float, default: 1, min: 0.5, max: 3, step: 0.01 }
 
   # ----------------------------------------------------------------------- news
   - name: news
@@ -171,11 +172,16 @@ collections:
       - { name: date, label: Date, widget: datetime, date_format: 'YYYY-MM-DD', time_format: false, picker_utc: true }
       - name: text
         label: Text
-        widget: text
+        widget: markdown
+        modes: [rich_text, raw]
+        minimal: true
+        buttons: [bold, italic, link]
+        editor_components: []
         hint: >-
-          One or two sentences. Links use [text](https://example.com); **bold**
-          and *italic* also work. Headings and lists are intentionally not
-          supported here — news items are one-liners.
+          One or two sentences. Use the toolbar for bold, italic and links, or
+          the "raw" tab to type Markdown directly. Headings, lists and images
+          are deliberately not offered — a news item is a one-liner, and the
+          news list renders it on a single line.
 
   # ------------------------------------------------------------------- projects
   - name: projects
@@ -188,7 +194,7 @@ collections:
     identifier_field: cardTitle
     summary: '{{cardTitle}}'
     sortable_fields: [order, status]
-    media_folder: ../../public/projects_photos
+    media_folder: /public/projects_photos
     public_folder: /projects_photos
     fields:
       - name: id
@@ -197,28 +203,48 @@ collections:
         pattern: ['^[a-zA-Z][a-zA-Z0-9_]*$', 'Letters, numbers and underscores only; must start with a letter']
         hint: >-
           Becomes nexdig.usc.edu/project/<slug> permanently. Never change it on an
-          existing project — outside links and papers may point at it.
+          existing project — outside links and papers may point at it. The only
+          field that must be filled in: it names the file.
       - name: status
         label: Status
         widget: select
+        required: false
         default: current
         options:
           - { label: Current research, value: current }
           - { label: Past research, value: past }
-      - { name: order, label: Order on Research page, widget: number, value_type: int, default: 99 }
+        hint: >-
+          Which section of the Research page the project appears under, current
+          or Past Research. Nothing else: it is not shown as a label on the page
+          itself. Left empty, the project counts as current.
+      - { name: order, label: Order on Research page, widget: number, value_type: int, required: false, default: 99, hint: 'Lower numbers come first. Left empty, it sorts last.' }
       - name: hook
         label: One-line hook
         widget: text
+        required: false
         hint: >-
           The single sentence a visitor should read if they read nothing else.
           Plain language, no jargon -- say what problem this solves. Shown large
           on the project page and under the title on the Research page.
-      - name: tags
-        label: Topic tags
-        widget: list
+          Left empty, the card falls back to the card summary.
+      - name: venue
+        label: Venue
+        widget: string
         required: false
-        field: { name: tag, label: Tag, widget: string }
-        hint: 'Two to four lowercase keywords, e.g. "quantum computing".'
+        hint: >-
+          Where this work was published, exactly as you want it shown, e.g.
+          "VLDB 2025". One line, and the only label on the project. Leave empty
+          to show none.
+      - name: papers
+        label: Number of papers
+        widget: number
+        value_type: int
+        required: false
+        min: 0
+        hint: >-
+          Shown under the project on the Research page, e.g. "3 papers". Type the
+          number yourself — nothing is counted for you, so it says what you mean
+          it to say. Leave empty (or 0) and no count is shown.
       - name: highlights
         label: Key results
         label_singular: Result
@@ -229,21 +255,63 @@ collections:
           Up to three headline numbers, shown as a strip near the top. Use real
           published figures only. Leave empty if there are none yet.
         fields:
-          - { name: value, label: Value, widget: string, hint: 'e.g. "4×", "40%", "VLDB 2025"' }
-          - { name: label, label: Label, widget: string, hint: 'e.g. "speedup over PostgreSQL"' }
-      - { name: cardTitle, label: 'Card: title', widget: string, hint: 'Shown on the Research page.' }
-      - { name: cardSummary, label: 'Card: summary', widget: text }
-      - { name: cardImage, label: 'Card: image', widget: image }
-      - { name: title, label: 'Page: title', widget: string, hint: 'Shown on the project page itself; may differ from the card title.' }
+          - { name: value, label: Value, widget: string, required: false, hint: 'e.g. "4×", "40%", "VLDB 2025"' }
+          - { name: label, label: Label, widget: string, required: false, hint: 'e.g. "speedup over PostgreSQL"' }
+      - { name: cardTitle, label: 'Card: title', widget: string, required: false, hint: 'Shown on the Research page. Left empty, the page title is used.' }
+      - { name: cardSummary, label: 'Card: summary', widget: text, required: false }
+      - name: cardImage
+        label: 'Card: image'
+        widget: image
+        required: false
+        comment: >-
+          ✂️ **Crop this to 16:10 before uploading —
+          [open the crop tool](/admin/crop/?shape=1.6).** The card shows it in a
+          fixed landscape frame, and an uncropped image is cut to its middle.
+        hint: 'Left empty, the card is text only.'
+      - { name: title, label: 'Page: title', widget: string, required: false, hint: 'Shown on the project page itself; may differ from the card title. Left empty, the card title is used.' }
       - { name: subtitle, label: 'Page: subtitle', widget: string, required: false }
-      - name: links
-        label: Links
-        label_singular: Link
+      - name: artifacts
+        label: Artifacts
+        label_singular: Artifact
         widget: list
         required: false
+        summary: '{{label}}'
+        hint: >-
+          Anything a visitor can open: the paper, the code, a demo, slides, a
+          dataset. Each becomes a button near the top of the project page, in
+          this order — drag to reorder. A label containing "paper", "pdf",
+          "arXiv" or "proceedings" is filled in red as the main button;
+          everything else is outlined. An artifact with no link is skipped.
         fields:
-          - { name: label, label: Label, widget: string }
-          - { name: url, label: URL, widget: string, pattern: ['^https?://', 'Must start with http:// or https://'] }
+          - { name: label, label: Label, widget: string, required: false, hint: 'e.g. Paper, Code, Demo, Slides, Dataset. Defaults to "Link".' }
+          - name: url
+            label: URL
+            widget: string
+            required: false
+            # ^$ so an empty optional field is not reported as a bad URL.
+            pattern: ['^$|^https?://', 'Must start with http:// or https://']
+      - name: citations
+        label: Citations
+        label_singular: Citation
+        widget: list
+        required: false
+        summary: '{{title}}'
+        hint: >-
+          How to cite this work. Add one per paper — as many as you like, shown
+          in the order listed. Each is a title and one block visitors can copy
+          with a button. Nothing here comes from the Publications collection:
+          linking a paper there still counts toward the paper count on the
+          Research page, but the citations are yours to write.
+        fields:
+          - { name: title, label: Title, widget: string, required: false, hint: 'The paper title, as you want it shown above the citation.' }
+          - name: bibtex
+            label: Citation to copy
+            widget: text
+            required: false
+            hint: >-
+              Usually BibTeX, pasted straight from the ACM DL, DBLP or arXiv — no
+              escaping needed. A plain reference works too; whatever you put here
+              is what the copy button hands over.
       - name: members
         label: Members
         label_singular: Member
@@ -259,11 +327,15 @@ collections:
         label: Sections
         label_singular: Section
         widget: list
+        required: false
+        summary: '{{title}}'
+        hint: 'The body of the project page. A section with neither heading nor text is skipped.'
         fields:
-          - { name: title, label: Heading, widget: string }
+          - { name: title, label: Heading, widget: string, required: false }
           - name: body
             label: Body
             widget: markdown
+            required: false
             modes: [rich_text, raw]
             minimal: false
             buttons: [bold, italic, strikethrough, code, link, heading-two, heading-three, quote, bulleted-list, numbered-list]
@@ -291,36 +363,43 @@ collections:
               What you found. Put real numbers in **bold** — and add the
               headline ones to "Key results" above so they show at the top
               of the page.
-          - { name: image, label: Figure, widget: image, required: false, hint: 'Optional diagram or chart shown under this section. You can also place images inline in the body.' }
+          - name: image
+            label: Figure
+            widget: image
+            required: false
+            hint: >-
+              Optional diagram or chart shown under this section. Unlike photos
+              elsewhere this one is shown at its own shape and is never cropped,
+              so it needs no cropping first — [the crop tool](/admin/crop/) is
+              there if you want to trim it anyway. You can also place images
+              inline in the body.
           - { name: caption, label: Figure caption, widget: string, required: false }
 
-  # ----------------------------------------------------------------- site config
-  # media_folder must sit at the collection or FILE level -- Decap/Sveltia do not
-  # honour it on an individual field -- and it resolves relative to the data file's
-  # directory, so data/homepage.json + ../public/team_photos => public/team_photos.
-  - name: settings
-    label: Site
+  # ------------------------------------------------------------------- homepage
+  # Its own collection rather than a file inside "Site": it is the page edited
+  # most often, and it was one click too deep.
+  - name: homepage
+    label: Homepage
     files:
       - name: homepage
         label: Homepage
         file: data/homepage.json
         format: json
-        media_folder: ../public/team_photos
+        media_folder: /public/team_photos
         public_folder: /team_photos
         fields:
-          - { name: tagline, label: Tagline, widget: string, hint: 'Small uppercase line above the headline.' }
-          - name: mission
-            label: Headline
-            widget: text
+          - name: tagline
+            label: Tagline
+            widget: string
             hint: >-
-              The large sentence at the top of the homepage. One line, plain
-              language — what the lab does and why it matters.
+              Small uppercase line under the logo. It is also the homepage's
+              page title, so say what the lab is.
           - name: intro
             label: Introduction
             widget: markdown
             modes: [rich_text, raw]
             buttons: [bold, italic, link]
-            hint: 'One or two short paragraphs under the headline.'
+            hint: 'One or two short paragraphs under the tagline.'
           - { name: photosHeading, label: 'Gallery: section heading', widget: string, default: Lab Appearance }
           - name: photos
             label: Photos
@@ -328,10 +407,18 @@ collections:
             widget: list
             summary: '{{caption}}'
             hint: >-
-              The gallery further down the homepage. All of them are shown at
-              once — no slideshow, nothing hidden. Drag to reorder.
+              The gallery further down the homepage. One photo is shown at a
+              time and visitors move through them with the arrows, so lead with
+              the best one. Drag to reorder. Add as many as you like.
             fields:
-              - { name: src, label: Photo, widget: image }
+              - name: src
+                label: Photo
+                widget: image
+                comment: >-
+                  ✂️ **Crop this to 3:2 before uploading —
+                  [open the crop tool](/admin/crop/?shape=1.5).** The gallery shows
+                  every photo in the same 3:2 frame, and an uncropped photo is cut
+                  straight through its middle.
               - { name: caption, label: Caption, widget: string, required: false }
               - name: crop
                 label: Framing
@@ -339,8 +426,9 @@ collections:
                 required: false
                 collapsed: true
                 hint: >-
-                  Every photo is shown in the same 3:2 frame. If the crop cuts
-                  off something important, change the focus.
+                  Every photo is cropped to the same 3:2 frame. This nudges which
+                  part survives, but it can only pick from what you uploaded —
+                  crop the photo first and you will rarely need it.
                 fields:
                   - name: position
                     label: Focus
@@ -357,6 +445,18 @@ collections:
               - { name: label, label: Button label, widget: string }
               - { name: href, label: Button link, widget: string }
 
+  # ----------------------------------------------------------------- site config
+  # media_folder must sit at the collection or FILE level -- Decap/Sveltia do not
+  # honour it on an individual field.
+  #
+  # It is written from the repository root, with a leading slash. A path relative
+  # to the entry ("../public/team_photos") points at the same folder and uploads
+  # land in the right place, but Sveltia then stores the value WITHOUT the leading
+  # slash ("team_photos/x.webp"), cannot match that back to an asset, and shows a
+  # generic file icon instead of a thumbnail when the entry is reopened.
+  - name: settings
+    label: Site
+    files:
       - name: site
         label: Navigation & footer
         file: data/site.json

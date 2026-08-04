@@ -1,0 +1,294 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex" />
+    <title>Crop a photo — NEXDIG Lab</title>
+    <style>
+      /* Deliberately self-contained: no build step, no dependencies, and no
+         reliance on the site stylesheet, so this keeps working whatever the
+         site does next. */
+      :root {
+        --red: #990000;
+        --gray-200: #e5e7eb;
+        --gray-300: #d1d5db;
+        --gray-500: #6b7280;
+        --gray-700: #374151;
+        --gray-900: #111827;
+      }
+      * { box-sizing: border-box; }
+      body {
+        margin: 0;
+        padding: 2rem 1.25rem 4rem;
+        font: 15px/1.55 ui-sans-serif, system-ui, sans-serif;
+        color: var(--gray-900);
+        background-color: #fff;
+      }
+      .wrap { max-width: 52rem; margin-inline: auto; }
+      h1 { font-size: 1.6rem; margin: 0 0 0.35rem; }
+      .lede { color: var(--gray-500); margin: 0 0 1.75rem; }
+      .lede a { color: var(--red); }
+
+      .row { display: flex; flex-wrap: wrap; gap: 1.5rem; align-items: flex-start; }
+      .panel { flex: 1 1 22rem; min-width: 0; }
+
+      /* Drop zone doubles as the crop stage once an image is loaded. */
+      .stage {
+        position: relative;
+        width: 100%;
+        max-width: 26rem;
+        aspect-ratio: var(--ratio, 1);
+        overflow: hidden;
+        border: 1px solid var(--gray-300);
+        border-radius: 0.6rem;
+        background-color: #f6f7f8;
+        touch-action: none;
+        cursor: grab;
+      }
+      .stage.is-empty { display: flex; align-items: center; justify-content: center; cursor: default; }
+      .stage.is-dragging { cursor: grabbing; }
+      .stage.is-over { border-color: var(--red); background-color: #99000008; }
+      .stage canvas { display: block; width: 100%; height: 100%; }
+      .stage__hint { color: var(--gray-500); font-size: 0.875rem; text-align: center; padding: 1.5rem; }
+
+      label { display: block; font-weight: 600; font-size: 0.8125rem; margin: 1.1rem 0 0.35rem; }
+      .hint { color: var(--gray-500); font-size: 0.8125rem; margin: 0.35rem 0 0; }
+      input[type="range"] { width: 100%; }
+      select, input[type="file"] { width: 100%; padding: 0.5rem; border: 1px solid var(--gray-300); border-radius: 0.4rem; background: #fff; font: inherit; }
+
+      .btns { display: flex; flex-wrap: wrap; gap: 0.6rem; margin-top: 1.5rem; }
+      button {
+        font: inherit;
+        font-weight: 600;
+        padding: 0.65rem 1.2rem;
+        border-radius: 0.5rem;
+        border: 1px solid var(--gray-300);
+        background: #fff;
+        color: var(--gray-700);
+        cursor: pointer;
+      }
+      button.primary { background-color: var(--red); border-color: var(--red); color: #fff; }
+      button:disabled { opacity: 0.45; cursor: not-allowed; }
+
+      .meta { margin-top: 1rem; font-size: 0.8125rem; color: var(--gray-500); }
+      .meta strong { color: var(--gray-900); }
+      .steps { margin: 2.5rem 0 0; padding: 1rem 1.25rem; background-color: #f9fafb; border-left: 3px solid var(--gray-300); font-size: 0.875rem; color: var(--gray-700); }
+      .steps ol { margin: 0.5rem 0 0; padding-left: 1.2rem; }
+      .steps li + li { margin-top: 0.35rem; }
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+      <h1>Crop a photo</h1>
+      <p class="lede">
+        Frame a photo before uploading it in the <a href="/admin/">content editor</a>. The site
+        crops every photo to a fixed shape on its own; do it here instead when the automatic
+        crop would cut off something that matters, like a face at the edge of a group shot.
+      </p>
+
+      <div class="row">
+        <div class="panel">
+          <div class="stage is-empty" id="stage">
+            <p class="stage__hint" id="hint">Drop a photo here, or choose one below.</p>
+          </div>
+          <p class="meta" id="meta"></p>
+        </div>
+
+        <div class="panel">
+          <label for="file">Photo</label>
+          <input type="file" id="file" accept="image/*" />
+
+          <label for="shape">Shape</label>
+          <select id="shape">
+            <option value="1">Square — headshots on the People page</option>
+            <option value="1.5">3:2 — the homepage photo gallery</option>
+            <option value="1.6">16:10 — research project cards</option>
+          </select>
+
+          <label for="zoom">Zoom</label>
+          <input type="range" id="zoom" min="1" max="4" step="0.01" value="1" disabled />
+          <p class="hint">Drag the photo to move it. Scroll over it to zoom.</p>
+
+          <div class="btns">
+            <button class="primary" id="save" disabled>Download cropped photo</button>
+            <button id="reset" disabled>Reset</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="steps">
+        <strong>Then:</strong>
+        <ol>
+          <li>Open the entry in the <a href="/admin/">content editor</a>.</li>
+          <li>Choose the photo field and upload the file you just downloaded.</li>
+          <li>Save. The upload is re-encoded to WebP by the editor either way.</li>
+        </ol>
+      </div>
+    </div>
+
+    <script>
+      const stage = document.getElementById("stage");
+      const hintEl = document.getElementById("hint");
+      const metaEl = document.getElementById("meta");
+      const fileEl = document.getElementById("file");
+      const shapeEl = document.getElementById("shape");
+      const zoomEl = document.getElementById("zoom");
+      const saveEl = document.getElementById("save");
+      const resetEl = document.getElementById("reset");
+
+      /* The longest edge of the exported image. Everything on the site is shown
+         far smaller than this; larger only costs bytes. */
+      const EXPORT_MAX = 900;
+
+      const canvas = document.createElement("canvas");
+      const ctx = canvas.getContext("2d");
+
+      let img = null;
+      let name = "photo";
+      let ratio = 1;      // width / height of the crop
+      let zoom = 1;
+      let offset = { x: 0, y: 0 };  // centre of the crop, in image pixels
+
+      /* Zoom 1 means "the crop is filled by the image", whichever edge is the
+         limiting one, so a portrait and a landscape photo behave the same way. */
+      const cropInImage = () => {
+        // Size of the crop rectangle measured in source-image pixels.
+        const imgRatio = img.width / img.height;
+        let w, h;
+        if (imgRatio > ratio) { h = img.height; w = h * ratio; } // image wider than crop
+        else { w = img.width; h = w / ratio; }
+        return { w: w / zoom, h: h / zoom };
+      };
+
+      const clampOffset = () => {
+        const { w, h } = cropInImage();
+        offset.x = Math.min(Math.max(offset.x, w / 2), img.width - w / 2);
+        offset.y = Math.min(Math.max(offset.y, h / 2), img.height - h / 2);
+      };
+
+      function draw() {
+        if (!img) return;
+        const { w, h } = cropInImage();
+        clampOffset();
+
+        const outW = ratio >= 1 ? EXPORT_MAX : Math.round(EXPORT_MAX * ratio);
+        const outH = ratio >= 1 ? Math.round(EXPORT_MAX / ratio) : EXPORT_MAX;
+        canvas.width = outW;
+        canvas.height = outH;
+        ctx.clearRect(0, 0, outW, outH);
+        ctx.drawImage(img, offset.x - w / 2, offset.y - h / 2, w, h, 0, 0, outW, outH);
+
+        metaEl.innerHTML =
+          `Source <strong>${img.width}&times;${img.height}</strong> &middot; ` +
+          `export <strong>${outW}&times;${outH}</strong>` +
+          (Math.abs(img.width / img.height - ratio) < 0.02 ? " &middot; already this shape" : "");
+      }
+
+      function load(src, label) {
+        const next = new Image();
+        next.crossOrigin = "anonymous";
+        next.onload = () => {
+          img = next;
+          name = (label || "photo").replace(/\.[a-z0-9]+$/i, "");
+          zoom = 1;
+          zoomEl.value = 1;
+          offset = { x: img.width / 2, y: img.height / 2 };
+          stage.classList.remove("is-empty");
+          hintEl.remove();
+          if (!canvas.parentNode) stage.appendChild(canvas);
+          for (const el of [zoomEl, saveEl, resetEl]) el.disabled = false;
+          draw();
+        };
+        next.onerror = () => {
+          metaEl.textContent = "That file could not be read as an image.";
+        };
+        next.src = src;
+      }
+
+      const loadFile = (file) => {
+        if (!file || !file.type.startsWith("image/")) return;
+        const reader = new FileReader();
+        reader.onload = () => load(reader.result, file.name);
+        reader.readAsDataURL(file);
+      };
+
+      fileEl.addEventListener("change", (e) => loadFile(e.target.files[0]));
+
+      for (const type of ["dragenter", "dragover"])
+        stage.addEventListener(type, (e) => { e.preventDefault(); stage.classList.add("is-over"); });
+      for (const type of ["dragleave", "drop"])
+        stage.addEventListener(type, (e) => { e.preventDefault(); stage.classList.remove("is-over"); });
+      stage.addEventListener("drop", (e) => loadFile(e.dataTransfer.files[0]));
+
+      shapeEl.addEventListener("change", () => {
+        ratio = Number(shapeEl.value);
+        stage.style.setProperty("--ratio", ratio);
+        zoom = 1;
+        zoomEl.value = 1;
+        if (img) { offset = { x: img.width / 2, y: img.height / 2 }; draw(); }
+      });
+
+      zoomEl.addEventListener("input", () => { zoom = Number(zoomEl.value); draw(); });
+
+      resetEl.addEventListener("click", () => {
+        zoom = 1;
+        zoomEl.value = 1;
+        if (img) { offset = { x: img.width / 2, y: img.height / 2 }; draw(); }
+      });
+
+      /* Drag to pan. Movement is converted from screen pixels to image pixels so
+         the photo tracks the pointer exactly, at any zoom. */
+      let dragging = null;
+      stage.addEventListener("pointerdown", (e) => {
+        if (!img) return;
+        dragging = { x: e.clientX, y: e.clientY };
+        stage.setPointerCapture(e.pointerId);
+        stage.classList.add("is-dragging");
+      });
+      stage.addEventListener("pointermove", (e) => {
+        if (!dragging || !img) return;
+        const { w, h } = cropInImage();
+        const rect = stage.getBoundingClientRect();
+        offset.x -= (e.clientX - dragging.x) * (w / rect.width);
+        offset.y -= (e.clientY - dragging.y) * (h / rect.height);
+        dragging = { x: e.clientX, y: e.clientY };
+        draw();
+      });
+      for (const type of ["pointerup", "pointercancel"])
+        stage.addEventListener(type, () => { dragging = null; stage.classList.remove("is-dragging"); });
+
+      stage.addEventListener("wheel", (e) => {
+        if (!img) return;
+        e.preventDefault();
+        zoom = Math.min(Math.max(zoom * (e.deltaY < 0 ? 1.08 : 1 / 1.08), 1), 4);
+        zoomEl.value = zoom;
+        draw();
+      }, { passive: false });
+
+      saveEl.addEventListener("click", () => {
+        canvas.toBlob(
+          (blob) => {
+            const a = document.createElement("a");
+            a.href = URL.createObjectURL(blob);
+            a.download = `${name}-cropped.webp`;
+            a.click();
+            setTimeout(() => URL.revokeObjectURL(a.href), 5000);
+          },
+          "image/webp",
+          0.88
+        );
+      });
+
+      /* ?src=/people_photos/foo.webp&shape=1 — how the content editor links here
+         with the photo already loaded. Same-origin only. */
+      const params = new URLSearchParams(location.search);
+      const src = params.get("src");
+      if (params.get("shape")) {
+        shapeEl.value = params.get("shape");
+        shapeEl.dispatchEvent(new Event("change"));
+      }
+      if (src && src.startsWith("/")) load(src, src.split("/").pop());
+    </script>
+  </body>
+</html>

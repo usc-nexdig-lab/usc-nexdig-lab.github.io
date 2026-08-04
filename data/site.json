@@ -27,6 +27,12 @@
       "icon": "pubs"
     },
     {
+      "label": "NEWS",
+      "href": "/news/",
+      "key": "news",
+      "icon": "news"
+    },
+    {
       "label": "OPPORTUNITIES",
       "href": "/opportunities/",
       "key": "opportunities",

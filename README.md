@@ -2,6 +2,7 @@
 
 - **Live site:** https://nexdig.usc.edu
 - **Edit the site:** https://nexdig.usc.edu/admin
+- **Crop a photo:** https://nexdig.usc.edu/admin/crop/ — [always do this before uploading](#always-crop-before-uploading)
 
 ---
 
@@ -29,13 +30,13 @@ Ibrahim or Shelly to add you (see [Who can edit](#who-can-edit)).
 |---|---|
 | **Title** | The paper title. No quotes, no trailing period. |
 | **Authors** | One name per row, **in publication order**. Type plain names — lab members are bolded automatically. Keep a trailing `*` for equal contribution (`Hanwen Liu*`). |
-| **Venue** | Full name **without the year**, with the short form in brackets: `International Conference on Very Large Data Bases (VLDB)`. The bracketed part becomes the venue chip on the Research page. |
+| **Venue** | Full name **without the year**, with the short form in brackets: `International Conference on Very Large Data Bases (VLDB)`. The bracketed part is the short name shown under "Recent papers" on the homepage. It does **not** set the venue label on a research project — that is typed on the project itself. |
 | **Year** | e.g. `2026` |
 | **Publication month** | `YYYY-MM`. Only used to order papers within a year. |
 | **Links** | `Paper`, `Code`, `Slides` … Each needs a label and a URL. |
 | **Note** | Optional, e.g. `* Equal contribution` |
-| **BibTeX** | Paste straight from the ACM DL, DBLP or arXiv. No escaping needed. |
-| **Related research projects** | Pick from the list. **This is what makes the paper appear on that project's page** and count toward its paper total. |
+| **BibTeX** | Paste straight from the ACM DL, DBLP or arXiv. No escaping needed. Shown on the Publications page; a project's Citation section is written on the project itself. |
+| **Related research projects** | Which projects the paper belongs to. Kept as a record only — it no longer changes any page. A project's Citations and its paper count are typed on the project itself. |
 
 **If a lab member isn't bolded:** their name here must exactly match their
 **People** entry, or one of that entry's **Name aliases**. Add the spelling used
@@ -48,9 +49,11 @@ on the paper (e.g. `I. Sabek`) to their aliases.
 | Field | What to put |
 |---|---|
 | **Date** | The date of the announcement. Items sort newest-first automatically — you never reorder anything. |
-| **Text** | One or two sentences. Links are `[text](https://example.com)`. `**bold**` and `*italic*` work. |
+| **Text** | One or two sentences. A small formatting toolbar gives you bold, italic and links; the **raw** tab takes Markdown directly. |
 
-The four most recent appear on the homepage.
+The four most recent appear on the homepage; **all** of them, newest first, are
+on the [News page](https://nexdig.usc.edu/news/), linked from the homepage and
+the menu. Nothing you post falls off the site.
 
 ## Add someone to the team
 
@@ -59,13 +62,12 @@ The four most recent appear on the homepage.
 | Field | What to put |
 |---|---|
 | **Full name** | As they want it shown. |
-| **Group** | Faculty / PhD Student / Master Student / Alumni |
+| **Group** | Faculty / PhD Student / Master Student / Undergraduate Student / Alumni. The People page shows one section per group, in that order, and hides a group with nobody in it. |
 | **Order within group** | Lower numbers first. |
 | **Blurb** | Current members: `Fall 2024 - Now`. Alumni: `Next: Software Engineer at Google`. |
-| **Photo** | Click the field and upload — it fills in the filename for you. Square headshots look best; shown at 128×128. |
+| **Photo** | [**Crop it to a square first**](#always-crop-before-uploading), then upload. Shown at 128×128 in the same square frame as everyone else; an uncropped photo is cut to its middle, ear and all. |
 | **Website** | Personal page, LinkedIn, Google Scholar. Optional. |
 | **Name aliases** | Other spellings used in paper author lists, e.g. `I. Sabek`. Only affects bolding on the Publications page. |
-| **Photo framing** | Only if the crop looks wrong — set focus (top/center/…) and zoom, then check the People page. |
 
 ### When someone graduates
 
@@ -83,16 +85,30 @@ announcements.
 | Field | What to put |
 |---|---|
 | **URL slug** | Becomes `nexdig.usc.edu/project/<slug>` **permanently**. Lowercase, no spaces. **Never change it on an existing project** — papers and CVs may link to it. |
-| **Status** | Current or Past research. |
+| **Status** | Current or Past research. Left empty, it counts as current. |
 | **Order on Research page** | Lower numbers first. |
 | **One-line hook** | The single sentence someone should read if they read nothing else. Plain language — what problem does this solve? Shown large on the project page and under the title on Research. |
-| **Topic tags** | Two to four lowercase keywords, e.g. `quantum computing`. |
+| **Venue** | Where the work was published, exactly as you want it shown, e.g. `VLDB 2025`. The only label on the project, and it is yours to type — nothing is inferred from the linked papers. |
+| **Number of papers** | Shown under the project on the Research page, e.g. `3 papers`. Type it yourself — nothing is counted for you. Empty or `0` shows no count. |
 | **Key results** | Up to three headline numbers, shown as a strip near the top — e.g. `4×` / `speedup over PostgreSQL`. **Use real published figures only.** Leave empty if there aren't any yet. |
 | **Card: title**, **Card: summary**, **Card: image** | What shows on the Research page. Landscape images work best. |
 | **Page: title**, **Page: subtitle** | Shown on the project page itself; the title may differ from the card title. |
-| **Links** | `Paper`, `Code` … The paper button renders solid red, the rest outlined. |
+| **Artifacts** | Anything a visitor can open: `Paper`, `Code`, `Demo`, `Slides`, a dataset. Each becomes a large button near the top of the page, in the order listed. A label containing *paper*, *pdf*, *arXiv* or *proceedings* renders solid red; the rest are outlined. |
+| **Citations** | How to cite the work. Add one per paper, as many as you like: a **Title** and one block visitors copy with a button — BibTeX, or a plain reference if you have no BibTeX yet. Nothing is pulled in from Publications. |
 | **Members** | Picked from the People list, so photos can never go stale. |
 | **Sections** | See below. |
+
+**URL slug is the only field you must fill in.** Everything else can be left
+empty and added later: a project saves with nothing but a slug, and the site
+renders whatever is there. A missing card image gives a text-only card, a
+missing page title falls back to the card title and then to the slug, and a
+half-filled artifact or key result is dropped rather than shown empty. What each
+gap becomes is decided in one place, [`lib/project.mjs`](lib/project.mjs).
+
+The **Preview** pane beside the form is the real project page: it runs the site's
+own template and stylesheet, so what you see is what ships. Team is the one
+exception — it is assembled at build time from the People collection, so the
+preview says so instead of showing it.
 
 ### Writing a section
 
@@ -120,15 +136,14 @@ the text rather than inline.
 
 ## Change the homepage
 
-**Site → Homepage**
+**Homepage** (its own item in the sidebar)
 
 | Field | What it controls |
 |---|---|
-| **Tagline** | The small red uppercase line above the headline. |
-| **Headline** | The big sentence at the top. One line — what the lab does and why it matters. |
+| **Tagline** | The small red uppercase line under the logo. It is also the homepage's page title, so say what the lab is. |
 | **Introduction** | The paragraphs under it. Markdown. |
-| **Gallery: section heading** | The heading over the photo grid — currently *Lab Appearance*. |
-| **Photos** | The photo gallery lower down. **All** of them are shown at once — no slideshow, nothing hidden. Drag to reorder. |
+| **Gallery: section heading** | The heading over the photo carousel — currently *Lab Appearance*. |
+| **Photos** | The carousel lower down. One photo at a time; visitors move through them with the arrows, so lead with the best one. Drag to reorder, add as many as you like. |
 | **Framing** (on each photo) | Every photo is shown in the same 3:2 frame whatever its original shape. If the crop cuts off something important, change the focus (top / center / bottom / left / right) and zoom. |
 | **Join us box** | The red band at the bottom: heading, text, button label and link. |
 
@@ -139,14 +154,17 @@ change the **Key** field on a nav item; it's what highlights the current page.
 
 ## Adding photos, generally
 
-Always use the upload field — never type a path.
+Always use the upload field — never type a path. And
+[**crop the photo first**](#always-crop-before-uploading), whatever it is for.
+Every upload field in the CMS carries that reminder above it, with a link
+straight to the crop tool set to the right shape.
 
 | Kind | Where | Best shape |
 |---|---|---|
 | Headshot | People → Photo | square (shown at 128×128) |
-| Gallery photo | Site → Homepage → Photos | landscape |
-| Research card image | Research Projects → Card: image | landscape |
-| Section figure | Research Projects → Sections → Figure | any |
+| Gallery photo | Homepage → Photos | 3:2 landscape |
+| Research card image | Research Projects → Card: image | 16:10 landscape |
+| Section figure | Research Projects → Sections → Figure | any — never cropped |
 
 ### You don't need to resize anything
 
@@ -161,10 +179,13 @@ Two safety nets behind that:
 - The build **warns on any image over 800 KB**, naming the file, in case the
   automatic resizing is ever misconfigured.
 
-### Every photo is cropped to a fixed shape
+### Always crop before uploading
 
-You never have to crop anything before uploading. Each place a photo appears has
-a fixed frame, and your upload is fitted to it automatically:
+**Crop every photo in [/admin/crop/](https://nexdig.usc.edu/admin/crop/) before
+you upload it.** Not only when something looks wrong — every time.
+
+Every place a photo appears on the site has a fixed frame, and an uncropped
+upload is fitted to it by cutting to the middle of the picture:
 
 | Where | Frame |
 |---|---|
@@ -172,17 +193,38 @@ a fixed frame, and your upload is fitted to it automatically:
 | Homepage gallery | 3:2 landscape |
 | Research card images | 16:10 landscape |
 
-Upload whatever you have — portrait, landscape, phone snapshot. If the crop cuts
-off something important, use the **Framing** control on that photo to change the
-focus and zoom. The file itself is never altered, so you can adjust it as often
-as you like.
+The middle of the picture is rarely the part that matters. It is how you end up
+with a group photo missing the person on the end, or a headshot cropped through
+someone's ear. Cropping first takes about thirty seconds and you choose what
+survives instead of leaving it to the frame.
 
-### If a headshot is cropped badly
+**How**
 
-Don't re-crop and re-upload. Open the person and adjust
-**Photo framing** → focus (top / center / bottom / left / right) and zoom, then
-check the People page. The photo itself is never modified, so you can adjust it
-as many times as you like.
+1. Open the [crop tool](https://nexdig.usc.edu/admin/crop/) and drop a photo in,
+   or press **Browse**.
+2. Pick the **shape** for where the photo is going: square for headshots, 3:2 for
+   the homepage gallery, 16:10 for research card images.
+3. Drag the photo to move it; scroll over it or use the **Zoom** slider.
+4. **Download cropped photo** — a WebP about 900px on its longest side.
+5. Upload *that* file in the CMS.
+
+It never touches your original: you get a new file on your computer, and nothing
+in the repo changes until you upload it.
+
+You do not have to go looking for the tool. Open a person in the CMS and the
+**preview pane** measures the photo: if it isn't square it says so — *"This photo
+is 1600×877, and headshots are shown in a square frame — the sides will be
+cropped off"* — with a link that opens the crop tool with that photo already
+loaded.
+
+**Headshots have no framing control at all.** Every one is shown in the same
+square, because a row of portraits only reads as a row when nothing about the
+framing varies between them. The crop tool is the only way to decide what fills
+that square, which is why it is not optional.
+
+Gallery and project photos do still have a **Framing** control on the entry, for
+nudging focus and zoom after the fact. Treat it as a repair, not a substitute for
+cropping first: it can only pick a region of whatever you uploaded.
 
 ## If something goes wrong
 
@@ -280,6 +322,14 @@ There is **no `npm install`** — clone to preview is a few seconds.
 
 To preview the CMS itself, open http://localhost:8000/admin/ in Chrome and use
 Sveltia's local-repository option.
+
+That option writes entries and uploaded photos **straight into the working
+tree** — it never commits, and an uploaded photo would otherwise sit untracked
+until someone noticed. So `--serve` runs `git add` on `data/` and the three
+photo folders after every rebuild, and prints what it staged. It only stages;
+the commit is still yours to make and word. The deployed CMS at `/admin/` is
+different: it talks to GitHub, so saving an entry there commits the entry and
+its photo for you and the deploy workflow takes it from there.
 
 ## Checks
 

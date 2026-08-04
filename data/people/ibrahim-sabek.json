@@ -1,11 +1,11 @@
 {
   "name": "Ibrahim Sabek",
-  "aliases": [
-    "I. Sabek"
-  ],
   "group": "faculty",
   "order": 1,
   "blurb": "Assistant Professor, Thomas Lord Department of Computer Science.",
-  "photo": "/people_photos/ibrahimsabek-photo.jpg",
-  "website": "http://viterbi-web.usc.edu/~sabek/"
+  "photo": "/people_photos/images-cropped.webp",
+  "website": "http://viterbi-web.usc.edu/~sabek/",
+  "aliases": [
+    "I. Sabek"
+  ]
 }

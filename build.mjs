@@ -11,6 +11,10 @@
 import { readFileSync, readdirSync, writeFileSync, mkdirSync, rmSync, renameSync, copyFileSync, existsSync, statSync, watch } from "node:fs";
 import { join, dirname, extname } from "node:path";
 import { createServer } from "node:http";
+import { spawnSync } from "node:child_process";
+
+import { normalizeProject } from "./lib/project.mjs";
+import { GROUP_KEYS } from "./lib/people.mjs";
 
 const OUT = "_site";
 /* Written to during a build, then swapped into place. Two builds running at once
@@ -62,11 +66,20 @@ function boldAuthors(authors, roster) {
     .join(", ");
 }
 
+/* The folders a media path may name. Anything else is left untouched. */
+const MEDIA_DIRS = ["people_photos", "projects_photos", "team_photos"];
+
+const siteMediaPath = (value) => {
+  const s = String(value ?? "").trim();
+  if (!s || s.startsWith("/") || /^https?:\/\//i.test(s)) return s || value;
+  return MEDIA_DIRS.some((d) => s.startsWith(`${d}/`)) ? `/${s}` : s;
+};
+
 function load() {
   const site = readJson(join(DATA, "site.json"));
   const homepage = readJson(join(DATA, "homepage.json"));
   const people = readDir("people").sort(
-    (a, b) => ["faculty", "phd", "masters", "alumni"].indexOf(a.group) - ["faculty", "phd", "masters", "alumni"].indexOf(b.group) || (a.order ?? 99) - (b.order ?? 99)
+    (a, b) => GROUP_KEYS.indexOf(a.group) - GROUP_KEYS.indexOf(b.group) || (a.order ?? 99) - (b.order ?? 99)
   );
   const news = readDir("news")
     .sort((a, b) => b.date.localeCompare(a.date))
@@ -85,10 +98,24 @@ function load() {
   }
   const byName = new Map(people.map((p) => [p.name, p]));
 
+  /* Media paths arrive in two shapes and both have to work. Entries written by
+     hand start at the site root, "/team_photos/group.jpg"; the CMS writes the
+     path relative to the repository, "team_photos/group.jpg". Give the second
+     one its leading slash back, otherwise url() refuses to emit it and the
+     first photo anyone uploads breaks the build. */
+  for (const c of homepage.photos ?? []) c.src = siteMediaPath(c.src);
+  for (const p of projects) {
+    p.cardImage = siteMediaPath(p.cardImage);
+    for (const s of p.sections ?? []) s.image = siteMediaPath(s.image);
+  }
+
   /* validation + derivation */
   for (const p of people) {
     need(p.name, p.file, "missing name");
-    need(["faculty", "phd", "masters", "alumni"].includes(p.group), p.file, `bad group ${JSON.stringify(p.group)}`);
+    need(GROUP_KEYS.includes(p.group), p.file, `bad group ${JSON.stringify(p.group)} -- expected one of ${GROUP_KEYS.join(", ")}`);
+    /* A headshot is stored as a bare filename -- the template supplies the
+       folder -- so here the folder is stripped rather than added. */
+    if (p.photo) p.photo = String(p.photo).split("/").pop();
     if (p.photo) need(existsSync(join("public/people_photos", p.photo)), p.file, `photo not found: ${p.photo}`);
   }
   for (const n of news) need(/^\d{4}-\d{2}-\d{2}$/.test(n.date), n.file, `date must be YYYY-MM-DD, got ${n.date}`);
@@ -104,16 +131,13 @@ function load() {
         console.warn(`  warn  ${p.file}: "${a}" shares a surname with a lab member but did not match -- typo?`);
     }
   }
-  /* Short venue name for the research-page meta line: the text inside the last
-     parentheses, e.g. "...Very Large Data Bases (Demo@VLDB)" -> "Demo@VLDB". */
+  /* Short venue name for the "Recent papers" line: the text inside the last
+     parentheses, e.g. "...Very Large Data Bases (Demo@VLDB)" -> "Demo@VLDB".
+     A project's Citation section no longer derives anything from a publication
+     -- its citations are typed on the project itself. */
   for (const p of publications) {
     const m = String(p.venue ?? "").match(/\(([^)]+)\)\s*$/);
     p.venueShort = m ? m[1] : p.venue;
-    // Plain-text citation, e.g. "A. One, B. Two. Title. Venue, 2025."
-    // Trailing equal-contribution markers are dropped -- they mean nothing
-    // outside the paper's own author list.
-    const authors = (p.authors ?? []).map((a) => a.replace(/[*†‡]+$/, "").trim());
-    p.citation = `${authors.join(", ")}. ${p.title}. ${p.venue}, ${p.year}.`;
   }
 
   const knownProjects = new Set(projects.map((p) => p.id));
@@ -121,28 +145,23 @@ function load() {
     for (const id of pub.projects ?? [])
       need(knownProjects.has(id), pub.file, `references unknown project "${id}"`);
 
-  for (const p of projects) {
+  /* Every project field except the slug is optional in the CMS: an editor can
+     save a project with nothing but an id and fill it in later. normalizeProject
+     decides what the gaps become, and the CMS preview pane calls the very same
+     function in the browser, so the preview cannot drift from the page. */
+  for (const [i, p] of projects.entries()) {
     need(p.id === p.slug, p.file, `id "${p.id}" must equal the filename "${p.slug}"`);
-    need(p.cardImage, p.file, "missing cardImage");
-    need(p.hook, p.file, "missing hook (the one-sentence plain-language summary)");
-    // Publications already sort newest-first, so this list inherits that order.
-    p.resolvedPublications = publications.filter((pub) => (pub.projects ?? []).includes(p.id));
-    // Distinct venues, newest first: "VLDB 2025", "Demo@VLDB 2025", ...
-    const seen = new Set();
-    p.venues = p.resolvedPublications
-      .map((pub) => `${pub.venueShort} ${pub.year}`)
-      .filter((v) => !seen.has(v) && seen.add(v));
-    for (const h of p.highlights ?? [])
-      need(h.value && h.label, p.file, "each highlight needs both a value and a label");
+    Object.assign(p, normalizeProject(p));
+    projects[i] = p;
+    if (!p.cardImage) console.warn(`  warn  ${p.file}: no cardImage -- the card is shown as text only`);
     p.resolvedMembers = (p.members ?? []).map((name) => {
       const m = byName.get(name);
       if (!m) errors.push(`${p.file}: member "${name}" is not in data/people/`);
       return m;
     }).filter(Boolean);
-    for (const s of p.sections ?? []) need(typeof s.body === "string", p.file, `section "${s.title}" needs a body`);
   }
 
-  for (const f of ["tagline", "mission", "intro", "cta"])
+  for (const f of ["tagline", "intro", "cta"])
     need(homepage[f], "homepage.json", `missing "${f}"`);
   need(Array.isArray(homepage.photos) && homepage.photos.length, "homepage.json", "needs at least one photo");
   for (const c of homepage.photos ?? [])
@@ -219,6 +238,7 @@ async function build() {
   page("people/index.html", "people", "People — NEXDIG Lab", "Faculty, students and alumni of the NEXDIG Lab at USC.", P.people(data));
   page("research/index.html", "research", "Research — NEXDIG Lab", "Research projects on learned query optimization, quantum databases, secure data systems and LLM agents.", P.research(data));
   page("publications/index.html", "publications", "Publications — NEXDIG Lab", "Papers published by the NEXDIG Lab at USC.", P.publications(data));
+  page("news/index.html", "news", "News — NEXDIG Lab", "News and announcements from the NEXDIG Lab at USC.", P.news(data));
   page("opportunities/index.html", "opportunities", "Opportunities — NEXDIG Lab", "Join the NEXDIG Lab at USC.", P.opportunities(data));
   page("404.html", "none", "Page not found — NEXDIG Lab", "Page not found.", P.notFound());
 
@@ -234,6 +254,12 @@ async function build() {
     if (readdirSync("public", { withFileTypes: true }).find((e) => e.name === item)?.isDirectory()) copyDir(src, dest);
     else copyFileSync(src, dest);
   }
+  /* The CMS preview pane renders a project with the site's own templates, in
+     the browser, so it needs them served. Copying preserves the directory
+     layout because pages.mjs imports "../lib/html.mjs" by relative path. */
+  copyDir("templates", join(TMP, "admin/renderer/templates"));
+  copyDir("lib", join(TMP, "admin/renderer/lib"));
+
   writeFileSync(join(TMP, "CNAME"), "nexdig.usc.edu\n");
   writeFileSync(join(TMP, ".nojekyll"), "");
 
@@ -241,7 +267,7 @@ async function build() {
   rmSync(OUT, { recursive: true, force: true });
   renameSync(TMP, OUT);
 
-  const pages = 6 + data.projects.length;
+  const pages = 7 + data.projects.length;
   console.log(`built ${pages} pages -> ${OUT}/  (${data.publications.length} publications, ${data.people.length} people, ${data.news.length} news, ${data.projects.length} projects)`);
 }
 
@@ -249,14 +275,43 @@ async function build() {
 
 const MIME = { ".html": "text/html", ".css": "text/css", ".js": "text/javascript", ".svg": "image/svg+xml", ".json": "application/json", ".jpg": "image/jpeg", ".jpeg": "image/jpeg", ".png": "image/png", ".webp": "image/webp", ".yml": "text/yaml", ".ico": "image/x-icon" };
 
+/* Sveltia's local-repository workflow writes straight into the working tree and
+   never touches git, so a photo uploaded in the CMS sits there untracked and is
+   easy to miss when committing. Stage whatever the CMS writes, so nothing has
+   to be remembered by hand.
+
+   Staging only, never committing: what goes into a commit, and under what
+   message, stays a decision a person makes. */
+let lastStaged = "";
+
+function stageCmsWrites() {
+  const paths = [DATA, ...MEDIA_DIRS.map((d) => join("public", d))].filter((p) => existsSync(p));
+  // No git, or not a checkout: the dev server carries on regardless.
+  if (spawnSync("git", ["rev-parse", "--git-dir"], { stdio: "ignore" }).status !== 0) return;
+  spawnSync("git", ["add", "--", ...paths], { stdio: "ignore" });
+
+  const out = spawnSync("git", ["diff", "--cached", "--name-only", "--", ...paths], { encoding: "utf8" }).stdout ?? "";
+  const files = out.trim().split("\n").filter(Boolean);
+  const key = files.join("|");
+  if (files.length && key !== lastStaged)
+    console.log(`  staged ${files.length} file(s) from data/ and the photo folders -- commit when ready`);
+  lastStaged = key;
+}
+
 async function serve() {
   await build();
+  stageCmsWrites();
   let timer;
-  for (const dir of [DATA, STATIC, "templates", "lib"])
+  // public/ is watched too: an upload lands there, and without it the new photo
+  // would not reach _site until some other file happened to change.
+  for (const dir of [DATA, STATIC, "templates", "lib", "public"])
     if (existsSync(dir))
       watch(dir, { recursive: true }, () => {
         clearTimeout(timer);
-        timer = setTimeout(() => build().catch((e) => console.error(e.message)), 100);
+        timer = setTimeout(
+          () => build().then(stageCmsWrites).catch((e) => console.error(e.message)),
+          100
+        );
       });
 
   const server = createServer((req, res) => {

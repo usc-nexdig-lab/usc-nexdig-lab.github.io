@@ -10,5 +10,226 @@
     <!-- Pinned deliberately: an unpinned CDN script could change what this admin
          page does without any commit to this repo. Bump the version on purpose. -->
     <script src="https://unpkg.com/@sveltia/cms@0.178.0/dist/sveltia-cms.js"></script>
+
+    <!-- The crop note is the one instruction an editor has to read BEFORE acting,
+         so it is a callout rather than fine print. Sveltia renders a field's
+         `comment` as .comment-wrapper > p.comment in the light DOM, above the
+         input; :has() keeps this treatment to the crop notes alone, so ordinary
+         comments elsewhere stay plain. The .svelte-* hash classes beside them are
+         deliberately not used -- those change between CMS versions. -->
+    <style>
+      .comment-wrapper:has(a[href^="/admin/crop"]) {
+        margin: 4px 0 12px;
+        padding: 10px 12px;
+        border-left: 3px solid #990000;
+        border-radius: 4px;
+        background-color: rgba(153, 0, 0, 0.06);
+      }
+      .comment-wrapper:has(a[href^="/admin/crop"]) p.comment {
+        color: #1f2937;
+        font-size: 13px;
+        line-height: 1.5;
+      }
+      .comment-wrapper a[href^="/admin/crop"] {
+        color: #990000;
+        font-weight: 700;
+        text-decoration: underline;
+        text-underline-offset: 2px;
+      }
+      .comment-wrapper a[href^="/admin/crop"]:hover { background-color: rgba(153, 0, 0, 0.1); }
+    </style>
+
+    <!-- Project preview: the real page, not a list of fields.
+         =================================================================
+         The pane renders a project by calling the site's own template, served
+         from /admin/renderer/, with the site's own stylesheet. There is no
+         second copy of the markup to keep in step: change the project page in
+         templates/pages.mjs and this preview changes with it.
+
+         Registering a preview stylesheet also makes Sveltia render the pane in
+         an iframe, which is what keeps site.css off the CMS's own interface. -->
+    <script type="module">
+      const RENDERER = "/admin/renderer";
+
+      /* The pane shows the project body only -- no site header or footer -- and
+         needs its own padding, being a panel rather than a page. */
+      const PANE_CSS = `
+        body { margin: 0; background-color: #fff; }
+        .page { padding: 26px 26px 60px; }
+        .preview-note {
+          margin: 2.5rem 0 0;
+          padding: 0.85rem 1rem;
+          border-left: 3px solid #d1d5db;
+          background-color: #f9fafb;
+          color: #4b5563;
+          font-size: 0.8125rem;
+          line-height: 1.5;
+        }
+        /* The one note that is asking for something, rather than explaining. */
+        .preview-note--act {
+          border-left-color: #990000;
+          background-color: #99000008;
+          color: #374151;
+        }
+        .preview-note--act a { color: #990000; font-weight: 600; }
+      `;
+
+      /* Sveltia defines CMS, h and createClass on window when its bundle runs.
+         A module script is deferred, so they are normally there already; poll
+         briefly rather than assume it. */
+      const ready = async () => {
+        for (let i = 0; i < 100; i += 1) {
+          if (window.CMS && window.h && window.createClass) return true;
+          await new Promise((r) => setTimeout(r, 50));
+        }
+        return false;
+      };
+
+      if (!(await ready())) {
+        console.error("[preview] Sveltia CMS did not load; nothing to register the preview on.");
+      } else {
+        try {
+          const [{ project: renderProject, person: renderPerson }, { normalizeProject }] = await Promise.all([
+            import(`${RENDERER}/templates/pages.mjs`),
+            import(`${RENDERER}/lib/project.mjs`),
+          ]);
+
+          CMS.registerPreviewStyle("/site.css");
+          CMS.registerPreviewStyle(PANE_CSS, { raw: true });
+
+          /* An image chosen in the editor but not yet saved exists only as a
+             blob: URL in the draft, and lib/html.mjs refuses to emit a URL with
+             a scheme the site never uses. So every media value is swapped for a
+             plain placeholder path before rendering and swapped back after --
+             the templates stay strict, and the preview still shows the photo
+             the moment it is picked. */
+          const mediaSwapper = (getAsset) => {
+            const swaps = [];
+            return {
+              path(value) {
+                if (typeof value !== "string" || !value) return value;
+                const live = /^(blob|data):/.test(value) ? value : getAsset?.(value)?.url;
+                if (!live || live === value) return value;
+                const key = `/__preview-media-${swaps.length}`;
+                swaps.push([key, live]);
+                return key;
+              },
+              restore: (html) => swaps.reduce((out, [key, live]) => out.split(key).join(live), html),
+            };
+          };
+
+          const ProjectPreview = createClass({
+            render() {
+              const { entry, getAsset } = this.props;
+              let html;
+
+              try {
+                const data = entry?.getIn?.(["data"])?.toJS?.() ?? entry?.get?.("data") ?? {};
+                const media = mediaSwapper(getAsset);
+                const draft = {
+                  ...data,
+                  cardImage: media.path(data.cardImage),
+                  sections: (data.sections ?? []).map((sec) => (sec ? { ...sec, image: media.path(sec.image) } : sec)),
+                };
+                html = media.restore(renderProject({ project: normalizeProject(draft) }));
+
+                /* Team is the one section assembled at build time out of another
+                   collection, so there is nothing here to render it from. Say
+                   so, rather than let its absence read as a mistake. */
+                html += `<p class="preview-note">Team is added when the site builds, from the
+                  People collection, so it is not shown here. Everything else is the real page.</p>`;
+
+                this.lastGood = html;
+              } catch (error) {
+                /* A URL half-typed in the editor ("githu") is refused by the
+                   site's URL guard mid-keystroke. Hold the last good render
+                   instead of flashing an error on every keystroke. */
+                console.warn("[preview]", error);
+                html = this.lastGood ?? "";
+              }
+
+              return h("main", { className: "page", dangerouslySetInnerHTML: { __html: html } });
+            },
+          });
+
+          CMS.registerPreviewTemplate("projects", ProjectPreview);
+
+          /* People: the headshot as it will appear, plus the one thing the CMS
+             cannot do for an editor. Every photo is shown in the same square
+             frame, so a photo that is not square loses its sides -- which is
+             invisible until the page is published and someone's ear is missing.
+             Measure the image and say so, with a link to the crop tool. */
+          const SQUARE_TOLERANCE = 0.02;
+
+          const PersonPreview = createClass({
+            getInitialState() {
+              return { oversize: null };
+            },
+
+            /* Guarded by the src it last measured, so the setState that follows
+               a load cannot loop back into another measurement. */
+            measure(src) {
+              if (!src || src === this.measured) return;
+              this.measured = src;
+              const probe = new Image();
+              // setState is guarded: if this shim turns out not to carry React
+              // state, the card still renders and only the notice is lost.
+              const set = (oversize) => this.setState?.({ oversize });
+              probe.onload = () => {
+                const { naturalWidth: w, naturalHeight: h } = probe;
+                const off = Math.abs(w - h) / Math.max(w, h);
+                set(off < SQUARE_TOLERANCE ? null : { w, h });
+              };
+              probe.onerror = () => set(null);
+              probe.src = src;
+            },
+
+            render() {
+              const { entry, getAsset } = this.props;
+              let html;
+
+              try {
+                const data = entry?.getIn?.(["data"])?.toJS?.() ?? entry?.get?.("data") ?? {};
+                const raw = String(data.photo ?? "");
+                const unsaved = /^(blob|data):/.test(raw);
+                // The template wants a bare filename; the CMS writes a path,
+                // or a blob: URL while the choice is still unsaved.
+                const file = unsaved ? "" : raw.split("/").pop();
+                const stored = file ? `/people_photos/${file}` : "";
+                const src = unsaved ? raw : getAsset?.(raw)?.url || stored;
+
+                this.measure(src);
+
+                const shown = file || "__preview-photo";
+                html = `<div class="people"><div class="people__list">${renderPerson({ ...data, photo: raw ? shown : "" })}</div></div>`;
+                if (src && src !== `/people_photos/${shown}`) html = html.split(`/people_photos/${shown}`).join(src);
+
+                const { oversize } = this.state ?? {};
+                if (oversize) {
+                  // The crop tool loads a photo by path; a blob URL it cannot.
+                  const link = stored && !unsaved ? `/admin/crop/?src=${encodeURIComponent(stored)}&shape=1` : "/admin/crop/";
+                  html += `<p class="preview-note preview-note--act">This photo is
+                    ${oversize.w}&times;${oversize.h}, and headshots are shown in a square frame —
+                    ${oversize.w > oversize.h ? "the sides" : "the top and bottom"} will be cropped off.
+                    <a href="${link}" target="_blank" rel="noopener">Crop it to a square first →</a></p>`;
+                }
+
+                this.lastGood = html;
+              } catch (error) {
+                console.warn("[preview]", error);
+                html = this.lastGood ?? "";
+              }
+
+              return h("main", { className: "page", dangerouslySetInnerHTML: { __html: html } });
+            },
+          });
+
+          CMS.registerPreviewTemplate("people", PersonPreview);
+        } catch (error) {
+          // Sveltia falls back to its own field-by-field preview.
+          console.error("[preview] custom project preview not registered:", error);
+        }
+      }
+    </script>
   </body>
 </html>
