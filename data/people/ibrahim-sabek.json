@@ -6,10 +6,6 @@
   "group": "faculty",
   "order": 1,
   "blurb": "Assistant Professor, Thomas Lord Department of Computer Science.",
-  "photo": "ibrahimsabek-photo.jpg",
-  "website": "http://viterbi-web.usc.edu/~sabek/",
-  "crop": {
-    "position": "top",
-    "zoom": 1
-  }
+  "photo": "/people_photos/ibrahimsabek-photo.jpg",
+  "website": "http://viterbi-web.usc.edu/~sabek/"
 }

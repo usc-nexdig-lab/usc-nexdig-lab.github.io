@@ -3,19 +3,18 @@
   "status": "current",
   "order": 1,
   "hook": "You have the data — but what does it actually tell you? LLM agents that explore a database and report back.",
-  "tags": [
-    "LLM agents",
-    "data analysis",
-    "natural language querying"
-  ],
+  "venue": "GeoGenAgent@SIGSPATIAL 2025",
   "highlights": [],
   "cardTitle": "Data to Insights",
   "cardSummary": "Building LLM-based agent systems that transform raw data into actionable insights efficiently and reliably.",
   "cardImage": "/projects_photos/transfrom-data-actionable-insights.jpg",
   "title": "Data to Insights",
-  "links": [],
+  "subtitle": "",
+  "artifacts": [],
+  "citations": [],
   "members": [
-    "Shaolin Xie"
+    "Shaolin Xie",
+    "Zixi Wang"
   ],
   "sections": [
     {

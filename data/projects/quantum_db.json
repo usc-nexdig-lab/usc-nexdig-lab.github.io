@@ -3,18 +3,14 @@
   "status": "current",
   "order": 2,
   "hook": "Can quantum hardware search the space of query plans better than classical optimizers?",
-  "tags": [
-    "quantum computing",
-    "query optimization",
-    "join ordering"
-  ],
+  "venue": "Demo@VLDB 2025",
   "highlights": [],
   "cardTitle": "Quantum Database Systems",
   "cardSummary": "Advancing the integration of quantum computing into data management for next-generation intelligent systems.",
   "cardImage": "/projects_photos/quantum-project-cover.jpeg",
   "title": "Quantum Database Systems",
   "subtitle": "Integrating quantum computing into data management",
-  "links": [
+  "artifacts": [
     {
       "label": "Q2O Demo (VLDB'25)",
       "url": "https://www.vldb.org/pvldb/vol18/p5439-liu.pdf"
@@ -22,6 +18,16 @@
     {
       "label": "Bushy Join Trees (Q-Data@SIGMOD'25)",
       "url": "https://dl.acm.org/doi/pdf/10.1145/3736393.3736695"
+    }
+  ],
+  "citations": [
+    {
+      "title": "A Demonstration of Q2O: Quantum-Augmented Query Optimizer",
+      "bibtex": "@article{liu2025q2odemo,\nauthor = {Liu, Hanwen and Spedalieri, Federico and Sabek, Ibrahim},\ntitle = {A Demonstration of Q2O: Quantum-Augmented Query Optimizer},\nyear = {2025},\nissue_date = {August 2025},\npublisher = {VLDB Endowment},\nvolume = {18},\nnumber = {12},\nissn = {2150-8097},\nurl = {https://doi.org/10.14778/3750601.3750691},\ndoi = {10.14778/3750601.3750691},\njournal = {Proc. VLDB Endow.},\nmonth = aug,\npages = {5439–5443},\nnumpages = {5}\n}"
+    },
+    {
+      "title": "Hybrid Quantum-Classical Optimization for Bushy Join Trees",
+      "bibtex": "@inproceedings{liu2025hybridquantum,\nauthor = {Liu, Hanwen and Kumar, Abhishek and Spedalieri, Federico and Sabek, Ibrahim},\ntitle = {Hybrid Quantum-Classical Optimization for Bushy Join Trees},\nyear = {2025},\nisbn = {9798400719448},\npublisher = {Association for Computing Machinery},\naddress = {New York, NY, USA},\nurl = {https://doi.org/10.1145/3736393.3736695},\ndoi = {10.1145/3736393.3736695},\nbooktitle = {Proceedings of the 2nd Workshop on Quantum Computing and Quantum-Inspired Technology for Data-Intensive Systems and Applications},\npages = {20–24},\nnumpages = {5},\nkeywords = {Join Order, Query Optimization, Quantum Computing},\nlocation = {\n},\nseries = {Q-Data '25}\n}"
     }
   ],
   "members": [

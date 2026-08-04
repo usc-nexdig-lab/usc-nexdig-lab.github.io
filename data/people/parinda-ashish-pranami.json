@@ -4,10 +4,6 @@
   "group": "alumni",
   "order": 2,
   "blurb": "Next: Software Engineer at Google",
-  "photo": "Parinda-image.jpg",
-  "website": "https://www.linkedin.com/in/parindapranami/",
-  "crop": {
-    "position": "top",
-    "zoom": 1.2
-  }
+  "photo": "/people_photos/Parinda-image.jpg",
+  "website": "https://www.linkedin.com/in/parindapranami/"
 }

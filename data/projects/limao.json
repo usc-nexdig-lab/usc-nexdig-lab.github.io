@@ -1,36 +1,25 @@
 {
   "id": "limao",
-  "status": "current",
+  "status": "past",
   "order": 4,
   "hook": "Learned query optimizers forget what they already knew whenever the workload shifts. LIMAO keeps that knowledge.",
-  "tags": [
-    "learned query optimization",
-    "continual learning",
-    "catastrophic forgetting"
-  ],
-  "highlights": [
-    {
-      "value": "4×",
-      "label": "speedup over PostgreSQL"
-    },
-    {
-      "value": "40%",
-      "label": "better query execution time"
-    },
-    {
-      "value": "VLDB 2025",
-      "label": "published at"
-    }
-  ],
-  "cardTitle": "Knowledge-preserving Learned Query Optimizers",
+  "venue": "VLDB 2025",
+  "highlights": [],
+  "cardTitle": "Lifelong-learning RL Query Optimizers",
   "cardSummary": "We design continual learning mechanisms for query optimizers to preserve knowledge across evolving workloads.",
   "cardImage": "/assets/logo.svg",
   "title": "LIMAO: A Framework for Lifelong Modular Learned Query Optimization",
   "subtitle": "Addressing catastrophic forgetting in dynamic workloads",
-  "links": [
+  "artifacts": [
     {
       "label": "Paper",
       "url": "https://arxiv.org/abs/2507.00188"
+    }
+  ],
+  "citations": [
+    {
+      "title": "LIMAO: A Framework for Lifelong Modular Learned Query Optimization",
+      "bibtex": "@article{zhang2025limao,\nauthor = {Zhang, Qihan and Xie, Shaolin and Sabek, Ibrahim},\ntitle = {LIMAO: A Framework for Lifelong Modular Learned Query Optimization},\nyear = {2025},\nissue_date = {July 2025},\npublisher = {VLDB Endowment},\nvolume = {18},\nnumber = {11},\nissn = {2150-8097},\nurl = {https://doi.org/10.14778/3749646.3749712},\ndoi = {10.14778/3749646.3749712},\njournal = {Proc. VLDB Endow.},\nmonth = sep,\npages = {4546–4559},\nnumpages = {14}\n}"
     }
   ],
   "members": [
@@ -40,7 +29,8 @@
   "sections": [
     {
       "title": "Description",
-      "body": "In traditional database systems, query optimizers play an important role in ensuring efficient query execution. Recently, learned query optimizers (LQOs) have shown promising improvements over traditional ones. However, most existing LQOs assume a static query environment (or limited dynamic environments), which limits their ability to handle real-world scenarios where queries and workloads change dynamically. This limitation leads to performance degradation over time, as frequent retraining can cause the model to forget previously learned knowledge, a problem known as catastrophic forgetting. In this research, we propose a novel approach to address this issue."
+      "body": "In traditional database systems, query optimizers play an important role in ensuring efficient query execution. Recently, learned query optimizers (LQOs) have shown promising improvements over traditional ones. However, most existing LQOs assume a static query environment (or limited dynamic environments), which limits their ability to handle real-world scenarios where queries and workloads change dynamically. This limitation leads to performance degradation over time, as frequent retraining can cause the model to forget previously learned knowledge, a problem known as catastrophic forgetting. In this research, we propose a novel approach to address this issue.",
+      "caption": ""
     }
   ]
 }

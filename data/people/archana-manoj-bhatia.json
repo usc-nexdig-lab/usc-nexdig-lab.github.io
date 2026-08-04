@@ -4,10 +4,6 @@
   "group": "masters",
   "order": 1,
   "blurb": "Spring 2025 - Now",
-  "photo": "archana-picture.png",
-  "website": "https://www.linkedin.com/in/archanab7/",
-  "crop": {
-    "position": "center",
-    "zoom": 1
-  }
+  "photo": "/people_photos/archana-picture.png",
+  "website": "https://www.linkedin.com/in/archanab7/"
 }

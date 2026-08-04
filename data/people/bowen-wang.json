@@ -4,10 +4,6 @@
   "group": "alumni",
   "order": 3,
   "blurb": "Next: Software Engineer at Amazon",
-  "photo": "bowen-photo.jpg",
-  "website": "https://www.linkedin.com/in/kyriewang",
-  "crop": {
-    "position": "center",
-    "zoom": 1.7
-  }
+  "photo": "/people_photos/bowen-photo.jpg",
+  "website": "https://www.linkedin.com/in/kyriewang"
 }
