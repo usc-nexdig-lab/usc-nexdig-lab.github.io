@@ -4,6 +4,7 @@
   "order": 1,
   "hook": "You have the data — but what does it actually tell you? LLM agents that explore a database and report back.",
   "venue": "",
+  "papers": null,
   "highlights": [],
   "cardTitle": "Data to Insights",
   "cardSummary": "Building LLM-based agent systems that transform raw data into actionable insights efficiently and reliably.",
