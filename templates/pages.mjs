@@ -136,7 +136,9 @@ ${carousel(h.photos)}
     : ""
 }
 
-          <section class="band band--cta">
+${
+  h.cta?.show
+    ? `          <section class="band band--cta">
             <div class="container cta">
               <div>
                 <h2 class="cta__heading">${esc(h.cta.heading)}</h2>
@@ -144,7 +146,9 @@ ${carousel(h.photos)}
               </div>
               <a class="btn btn--light" href="${url(h.cta.href)}">${esc(h.cta.label)}</a>
             </div>
-          </section>
+          </section>`
+    : ""
+}
 
         </div>`;
 };

@@ -15,6 +15,9 @@ import { spawnSync } from "node:child_process";
 
 import { normalizeProject } from "./lib/project.mjs";
 import { GROUP_KEYS } from "./lib/people.mjs";
+import { authorRoster, normalizePublication } from "./lib/publication.mjs";
+import { normalizeNews, byDateDesc } from "./lib/news.mjs";
+import { normalizeHomepage } from "./lib/homepage.mjs";
 
 const OUT = "_site";
 /* Written to during a build, then swapped into place. Two builds running at once
@@ -27,7 +30,6 @@ const STATIC = "static";
    app also serves them. Phase 7 moves them to static/ and this list goes away. */
 const PUBLIC_PASSTHROUGH = ["people_photos", "projects_photos", "team_photos", "assets", "admin", "nexdig_logo_small.jpg", "robots.txt", "manifest.json"];
 
-const MONTHS = ["January","February","March","April","May","June","July","August","September","October","November","December"];
 
 /* ------------------------------------------------------------------- load */
 
@@ -54,18 +56,6 @@ const need = (cond, file, msg) => { if (!cond) errors.push(`${file}: ${msg}`); }
 
 /* ---------------------------------------------------------------- derive */
 
-/** Bold lab members in an author list, matched against the People roster. */
-function boldAuthors(authors, roster) {
-  const norm = (s) => s.toLowerCase().replace(/[*†‡]+$/, "").trim();
-  return authors
-    .map((a) => {
-      const isMember = roster.has(norm(a));
-      const safe = a.replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
-      return isMember ? `<b>${safe}</b>` : safe;
-    })
-    .join(", ");
-}
-
 /* The folders a media path may name. Anything else is left untouched. */
 const MEDIA_DIRS = ["people_photos", "projects_photos", "team_photos"];
 
@@ -77,25 +67,15 @@ const siteMediaPath = (value) => {
 
 function load() {
   const site = readJson(join(DATA, "site.json"));
-  const homepage = readJson(join(DATA, "homepage.json"));
+  const homepage = normalizeHomepage(readJson(join(DATA, "homepage.json")));
   const people = readDir("people").sort(
     (a, b) => GROUP_KEYS.indexOf(a.group) - GROUP_KEYS.indexOf(b.group) || (a.order ?? 99) - (b.order ?? 99)
   );
-  const news = readDir("news")
-    .sort((a, b) => b.date.localeCompare(a.date))
-    .map((n) => {
-      const [y, m, d] = n.date.split("-").map(Number);
-      return { ...n, displayDate: `${MONTHS[m - 1]} ${d}, ${y}` };
-    });
+  const news = readDir("news").sort(byDateDesc).map(normalizeNews);
   const publications = readDir("publications").sort((a, b) => String(b.date).localeCompare(String(a.date)));
   const projects = readDir("projects").sort((a, b) => (a.order ?? 99) - (b.order ?? 99));
 
-  /* roster for author bolding: names + aliases */
-  const roster = new Set();
-  for (const p of people) {
-    roster.add(p.name.toLowerCase().trim());
-    for (const a of p.aliases ?? []) roster.add(a.toLowerCase().trim());
-  }
+  const roster = authorRoster(people);
   const byName = new Map(people.map((p) => [p.name, p]));
 
   /* Media paths arrive in two shapes and both have to work. Entries written by
@@ -122,7 +102,7 @@ function load() {
   for (const p of publications) {
     need(p.title, p.file, "missing title");
     need(Array.isArray(p.authors) && p.authors.length, p.file, "missing authors");
-    p.authorsHtml = boldAuthors(p.authors ?? [], roster);
+    Object.assign(p, normalizePublication(p, roster));
     // Warn on a near-miss surname: catches the typo that silently un-bolds someone.
     for (const a of p.authors ?? []) {
       const last = a.toLowerCase().replace(/[*†‡]+$/, "").trim().split(/\s+/).pop();
@@ -135,10 +115,6 @@ function load() {
      parentheses, e.g. "...Very Large Data Bases (Demo@VLDB)" -> "Demo@VLDB".
      A project's Citation section no longer derives anything from a publication
      -- its citations are typed on the project itself. */
-  for (const p of publications) {
-    const m = String(p.venue ?? "").match(/\(([^)]+)\)\s*$/);
-    p.venueShort = m ? m[1] : p.venue;
-  }
 
   const knownProjects = new Set(projects.map((p) => p.id));
   for (const pub of publications)
@@ -161,7 +137,7 @@ function load() {
     }).filter(Boolean);
   }
 
-  for (const f of ["tagline", "intro", "cta"])
+  for (const f of ["tagline", "intro"])
     need(homepage[f], "homepage.json", `missing "${f}"`);
   need(Array.isArray(homepage.photos) && homepage.photos.length, "homepage.json", "needs at least one photo");
   for (const c of homepage.photos ?? [])

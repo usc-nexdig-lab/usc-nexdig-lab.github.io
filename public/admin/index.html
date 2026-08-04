@@ -89,10 +89,43 @@
         console.error("[preview] Sveltia CMS did not load; nothing to register the preview on.");
       } else {
         try {
-          const [{ project: renderProject, person: renderPerson }, { normalizeProject }] = await Promise.all([
+          const [
+            { project: renderProject, person: renderPerson, publications: renderPublications, news: renderNews, home: renderHome },
+            { normalizeProject },
+            { normalizePublication },
+            { normalizeNews },
+            { normalizeHomepage },
+          ] = await Promise.all([
             import(`${RENDERER}/templates/pages.mjs`),
             import(`${RENDERER}/lib/project.mjs`),
+            import(`${RENDERER}/lib/publication.mjs`),
+            import(`${RENDERER}/lib/news.mjs`),
+            import(`${RENDERER}/lib/homepage.mjs`),
           ]);
+
+          /* Shared by the previews below: pull the draft out of whichever shape
+             the CMS hands over, and hold the last good render so a URL caught
+             half-typed does not flash an error on every keystroke. */
+          const draftOf = (entry) =>
+            entry?.getIn?.(["data"])?.toJS?.() ?? entry?.get?.("data") ?? {};
+
+          const previewOf = (build) =>
+            createClass({
+              render() {
+                let html;
+                try {
+                  html = build(draftOf(this.props.entry), this.props);
+                  this.lastGood = html;
+                } catch (error) {
+                  console.warn("[preview]", error);
+                  html = this.lastGood ?? "";
+                }
+                return h("main", { className: "page", dangerouslySetInnerHTML: { __html: html } });
+              },
+            });
+
+          const NOTE = (text, act) =>
+            `<p class="preview-note${act ? " preview-note--act" : ""}">${text}</p>`;
 
           CMS.registerPreviewStyle("/site.css");
           CMS.registerPreviewStyle(PANE_CSS, { raw: true });
@@ -225,6 +258,93 @@
           });
 
           CMS.registerPreviewTemplate("people", PersonPreview);
+
+          /* ---------------------------------------------------------------
+             The remaining collections. Each renders through the site's own
+             template, so none of them can drift from the published page.
+
+             Where a page is assembled from more than one collection -- the
+             homepage pulls in news and papers -- the preview renders what this
+             entry controls and says plainly what it is leaving out, rather
+             than showing a gap that reads as a bug. */
+
+          /* A publication is one row of the Publications page. Lab members are
+             bolded against the roster, which the preview cannot see, so the
+             note explains why nothing is bold here. */
+          CMS.registerPreviewTemplate(
+            "publications",
+            previewOf((data) =>
+              renderPublications({ publications: [normalizePublication(data, new Set())] }) +
+              NOTE(`Lab members are bolded automatically when the site builds, by matching
+                these names against the People collection — that is why none are bold here.`)
+            )
+          );
+
+          CMS.registerPreviewTemplate(
+            "news",
+            previewOf((data) =>
+              renderNews({ news: [normalizeNews(data)] }) +
+              NOTE(`The four most recent items also appear on the homepage.`)
+            )
+          );
+
+          /* The homepage template needs the other collections; the draft only
+             carries this file. Pass empty lists so the hero, gallery and
+             join-us band render for real, and name what is missing. */
+          CMS.registerPreviewTemplate(
+            "homepage",
+            previewOf((data, { getAsset }) => {
+              const swaps = [];
+              const livePath = (value) => {
+                if (typeof value !== "string" || !value) return value;
+                const live = /^(blob|data):/.test(value) ? value : getAsset?.(value)?.url;
+                if (!live || live === value) return value;
+                const key = `/__preview-media-${swaps.length}`;
+                swaps.push([key, live]);
+                return key;
+              };
+              const draft = normalizeHomepage({
+                ...data,
+                photos: (data.photos ?? [])
+                  .filter((ph) => ph && ph.src)
+                  .map((ph) => ({ ...ph, src: livePath(ph.src) })),
+              });
+              const html = renderHome({ homepage: draft, news: [], publications: [] });
+              return (
+                swaps.reduce((out, [key, live]) => out.split(key).join(live), html) +
+                NOTE(`News and Recent papers are filled in when the site builds, from the
+                  News and Publications collections, so they are empty here. Everything
+                  else is the real page.`)
+              );
+            })
+          );
+
+          /* Navigation and footer appear on every page rather than on one, so
+             there is no page to render. Show the menu in order and the footer
+             line, which is all this file controls. */
+          CMS.registerPreviewTemplate(
+            "settings",
+            previewOf((data) => {
+              const esc = (v) =>
+                String(v ?? "").replace(/[&<>"']/g, (c) =>
+                  ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c]
+                );
+              const items = (data.nav ?? [])
+                .filter((n) => n && n.label)
+                .map(
+                  (n) => `<li class="tag">${esc(n.label)}<span style="opacity:.55"> · ${esc(n.href)}</span></li>`
+                )
+                .join("");
+              return (
+                `<h2 class="section-heading">Menu</h2>
+                 <ul class="tags" style="margin-top:.75rem">${items || "<li class=\"tag\">No menu items</li>"}</ul>
+                 <h2 class="section-heading" style="margin-top:2rem">Footer</h2>
+                 <p style="margin-top:.5rem">${esc(data.footer)}</p>` +
+                NOTE(`These appear on every page, so there is no single page to preview.
+                  Changing them affects the whole site.`)
+              );
+            })
+          );
         } catch (error) {
           // Sveltia falls back to its own field-by-field preview.
           console.error("[preview] custom project preview not registered:", error);
